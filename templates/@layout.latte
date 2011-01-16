@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="robots" content="{$robots}" n:ifset="$robots">
+
+	<title>{include #title}</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/assets/css/screen.css">
+	{block #head}{/block}
+</head>
+
+<body>
+
+	{include #content}
+
+	<div id="footer">
+		PHP {=PHP_VERSION}<br>
+		{=Framework::NAME} {=Framework::VERSION} ({=Framework::REVISION})<br>
+		<img src="{$basePath}/assets/images/nette-powered.gif" alt="Powered by Nette Framework">
+	</div>
+
+</body>
+</html>
