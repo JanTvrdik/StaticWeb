@@ -1,0 +1,500 @@
+2011-01-13 (ad9cf6a): Mail::generateMessage() returns correct result
+2011-01-13 (50061cc): Application: calls $presenter->forward() if is instance of Presenter
+2011-01-13 (e5d7f45): typos
+2011-01-12 (87eb666): Revert "NetteLoader: creates aliases for all Nette classes: Nette\Object -> NObject (experimental)"
+2011-01-12 (f9935b7): added header Content-Type to error templates
+2011-01-10 (b422c2c): Nette\Database\Drivers\PdoSqlite2Driver: Fix columns order in normalizeRow()
+2011-01-10 (5b27844): Debug bluescreen, bar: do not treat Alt+Esc as Esc
+2011-01-10 (9f535f9): Database: added ISupplementalDriver::normalizeRow() to fix delimited keys in SQLite 2 result set
+2011-01-07 (c1c9de0): year 2010 -> 2011 (this is absolutely useless commit, but I like it)
+2011-01-04 (b8dac97): Nette\Database\Selector: Don't ask for references to NULL (thanks to dakota, backported from NotORM)
+2011-01-04 (7fe5488): String::random() is used internally in framework
+2011-01-04 (53685ee): String::random() uses more entropy
+2011-01-03 (65c7704): typos
+2011-01-03 (d670a85): Respect join in aggregation (thx to dakota, Jakub Vrana, backported from NotORM)
+2011-01-03 (eaf3f84): Don't write to TableSelection (backported from NotORM)
+2010-12-31 (b017d8d): typos
+2010-12-31 (a1807df): FileJournal: Better solution of inconsistencies
+2010-12-31 (2e7b597): FileJournal: Shared lock when reading journal header
+2010-12-31 (f45ab04): FileJournal: code cleanup
+2010-12-30 (7b7c792): LatteMacros: macroForeach takes last "as" keyword
+2010-12-30 (39c225a): FileStorage and Debug::enable uses realpath()
+2010-12-30 (9514992): TableRow::__get() supports overtaking future
+2010-12-30 (c1f5491): Nette\Database\Selector\TableSelection: select(), where(), order(), group(), count(), min(), max(), sum() uses delimite()
+2010-12-30 (3a38482): Nette\Database\Selector\TableSelection: __toString() renamed to getSql()
+2010-12-30 (6adcf4d): Nette\Database\Selector: code refactoring
+2010-12-30 (659a5a9): Nette\Database\Connection: fixed detection of need to preprocess
+2010-12-30 (756735c): Fixed: PDO::__call() is not called (PHP <= 5.2.6) or converts $name to lower case in PHP 5.2.x
+2010-12-30 (993cb13): Revert "Fixed: PDO::__call() converts $name to lower case in PHP < 5.3"
+2010-12-30 (03be461): Nette\Database\Selector: use delimite() where possible
+2010-12-29 (07fb240): Objects ICacheJournal are passed to FileStorage and MemcachedStorage constructors.
+2010-12-29 (d2dd220): added FileJournal developed by Jakub Onderka (http://acci.cz)
+2010-12-29 (f0860cb): removed SqliteJournal
+2010-12-28 (2f6a655): String: random()
+2010-12-27 (b58db7f): Nette\Database\Selector: do not use WHERE values to detect joins
+2010-12-22 (3e763b5): typos
+2010-12-21 (9e52d77): Fixed: PDO::__call() converts $name to lower case in PHP < 5.3
+2010-12-21 (f6716f8): missing parameter [Closes #167]
+2010-12-21 (2da47d3): PresenterComponent: allowed isLinkCurrent() with parameter; attribute href is processed always before n:class
+2010-12-20 (5a45bb5): Reverted Nette\Database\Connection: get single row by primary key; recommended syntax is $conn->table(..)->get($id)
+2010-12-19 (0e08aff): Nette\Database\Selector: avoid double usage of offset
+2010-12-16 (1b49a36): typo
+2010-12-16 (81ddab1): Nette\Database\Connection: get single row by primary key
+2010-12-16 (f195947): missing @ in Tools::enterCriticalSection()
+2010-12-16 (ae2a199): added Nette\Database\Selector (based on the great library NotORM http://www.notorm.com written by Jakub Vrana)
+2010-12-16 (581e149): Nette\Database\Connection: typos
+2010-12-16 (5b23f7a): Cache: added derive()
+2010-12-15 (af1e97e): Debug bar: better units for memory & time tabs
+2010-12-15 (458cb59): Nette\Database: fixes
+2010-12-15 (cda9c39): added database debug panel
+2010-12-15 (01025a3): Nette\Database: added Connection::$onQuery and Statement::$time
+2010-12-15 (143c8a4): Nette\Database\Connection queryArgs() refactoring
+2010-12-15 (4bacd23): Nette\Database\Statement: improved dump()
+2010-12-15 (dbce870): Nette\Database: added preprocessor; PDO is absolutely fucking library so this is needed
+2010-12-15 (2ce70c6): Nette\Database - added basic PDO layer
+2010-12-14 (c407691): TestHelpers: fixed $file for saveCoverage
+2010-12-13 (5e8d6eb): Session: wrong value passed to session.gc_maxlifetime & session.cookie_lifetime
+2010-12-13 (f747516): RoutingDebugger: router class namespace was hidden into title
+2010-12-12 (a7ec97c): MultiRouter: fixed bug in module-aware multirouter
+2010-12-07 (e49896a): typos
+2010-12-07 (4a89864): fix: since PHP 5.3.2 is file unlocking has to be done manually. [Closes #163]
+2010-12-07 (2254804): Cache: added method call(), caches results of function/method calls
+2010-12-06 (4b90e35): FileTemplate::setCacheStorage and getCacheStorage changed to non-static methods (BC break)
+2010-12-06 (f78fd96): Forms: added default error messages
+2010-12-06 (2e3e850): RobotLoader: better detection for moved classes
+2010-12-06 (e66f18f): TemplateHelpers: added dataStream
+2010-12-06 (015de0f): added Tools::detectMimeTypeFromString()
+2010-12-01 (bfb65e0): TemplateHelpers::escapeCss do not escape space
+2010-12-01 (d42764c): added MapIterator
+2010-12-01 (79069ff): added JsonResponse::getContentType()
+2010-12-01 (0d18314): LatteMacros: fixed multi-line macros
+2010-11-23 (b76bea6): NetteLoader: creates aliases for all Nette classes: Nette\Object -> NObject (experimental)
+2010-11-23 (4ae7a41): All classes and interfaces are in its own file now
+2010-11-23 (b17cf01): MultiRouter: allows specify module
+2010-11-23 (838abc3): HttpRequestFactory: script path detection improved
+2010-11-22 (7cf0e94): Route: supported default values in mask <param=value>
+2010-11-22 (f87adf9): Route: constructor accepts second parameter as string; new Route('...', 'Presenter:action')
+2010-11-22 (a49682d): SimpleRouter: argument validity check in constructor
+2010-11-22 (6f70969): Presenter: fixed reference URI passing to IRouter in createRequest()
+2010-11-22 (14e07b1): typos
+2010-11-22 (db25eef): Fixed problem with DateTime53::setTimestamp()
+2010-11-22 (aeb7d2a): CachingHelper: fixed bug in 09888a72 [Closes #156]
+2010-11-22 (89657b7): HttpRequestFactory: accepts underscores in hostnames
+2010-11-15 (e1a3fa8): Configurator: changed FileJournal working file/dir
+2010-11-15 (2cb88b7): TemplateFilters::relativeLinks filter fixed
+2010-11-15 (e974d27): typos, code passes JSLint
+2010-11-12 (924faec): Presenter::isLinkCurrent moved to PresenterComponent
+2010-11-12 (c73a45e): fixed mising semicolons in client-side/forms/netteForms.js
+2010-11-12 (5669f46): fixed mising semicolons in client-side/NetteQ/netteQ.js
+2010-11-12 (335c7cb): typo
+2010-11-12 (e767ff3): Method detecting if link is current in presenter
+2010-11-12 (5bdf5b0): Presenter: template file extension .latte is preferred over .phtml
+2010-11-12 (43f1089): typos
+2010-11-11 (b88dfec): Configurator::createApplication accepts class name in $options['class']
+2010-11-11 (78ab391): LatteMacros: supports {layout $cond ? 'a.phtml' : 'b.phtml'}
+2010-11-11 (7c66b85): LatteMacros: snippet rendering is triggered only for 'invalid' control
+2010-11-11 (9d5fa49): LatteMacros: support for nested snippets
+2010-11-11 (531fdb7): Context: missing setOptions() throws exception [Closes #115]
+2010-11-11 (87a7911): Configurator: missing "factory" in service throws exception
+2010-11-11 (c28afe4): Presenter: fixed setFile disables layout extending [Closes #119]
+2010-11-11 (6223d57): NeonParser: better error message
+2010-11-11 (7500363): Configurator: added service Nette\Mail\IMailer
+2010-11-11 (25580ae): ConventionalRenderer renamed to DefaultFormRenderer (BC break)
+2010-11-11 (be31d72): Context, Configurator: implemented service copying, fixed Nette\Caching\ICacheJournal access
+2010-11-11 (d47dff0): LatteMacros: added {/ifCurrent}
+2010-11-11 (8f1bebb): LatteMacros: macro overlapping is illegal now (possible BC break)
+2010-11-11 (5e8dd44): Templates: tiny refactoring
+2010-11-10 (3f38448): added new templates tests, typos
+2010-11-10 (3b64702): HttpRequest: default encoding is UTF-8
+2010-11-10 (4fadec9): HttpRequest divided into HttpRequest & its factory HttpRequestFactory (possible BC break)
+2010-11-10 (09888a7): Caching: keys are automatically serialized and hashed
+2010-11-10 (81ed829): LatteMacros: improved tokenizer and tests
+2010-11-10 (12fbcfb): LatteFilter: added UTF-8 validity check; Latte requires that templates are encoded in UTF-8 (possible BC break)
+2010-11-10 (b3ea6f4): typos
+2010-11-09 (0ba8aac): LatteMacros: (non-namespaced) constants are not quoted [Closes #151]
+2010-11-09 (12c4e85): typos
+2010-11-09 (ffc20b5): Templates: added TemplateException & LatteException
+2010-11-09 (a7f0f8d): LatteFilter: changed way macro-comments are parsed
+2010-11-09 (b2f16e6): Debug: rendering helpers moved to new class DebugHelpers
+2010-11-09 (eb8d30a): Debug bluescreen, bar: small refactoring
+2010-11-09 (b27b304): Debug bluescreen: toggling via unobtrusive JavaScript
+2010-11-09 (45c4669): ParameterReflection: added getClassName()
+2010-11-08 (f2712f5): Debug bluescreen: fixed rendering of highlighted line
+2010-11-08 (492491f): Debug bluescreen: removed document.write()
+2010-11-08 (82b616c): removed Framework::promo() - please use your own HTML code and do not hotlink images from files.nette.org. Thank you for Nette Framework support!
+2010-11-07 (f51f4d9): introduced new configuration option Nette\Framework::$iAmUsingBadHost
+2010-11-07 (c542460): Control: template parameter $baseUri is really base-URI, not base-path (BC break!)
+2010-11-07 (a51f6cb): CachingHelper: supported conditional cache via {cache ... if => TRUE}
+2010-11-07 (efe5485): Cache: added alias EXPIRATION for constant EXPIRE
+2010-11-07 (cb84825): Debug bar: added HTML titles
+2010-11-07 (f3c031f): Debug bar: removed base64 encoding (too slow in IE6)
+2010-11-04 (43d3f82): typos
+2010-11-04 (7f97d43): interface IRouter changed; IRouter::constructUri() second parameter is Nette\Web\Uri (BC break!)
+2010-11-04 (ce0ec85): Uri: relativeUri value has been changed - it is really URI now
+2010-11-04 (d7a6700): Uri: added getBasePath(), getBaseUri(), getRelativeUri()
+2010-11-04 (5d592fb): Uri: path is reseted to '/'
+2010-11-04 (1681ffb): HttpRequest: added filter for host name
+2010-11-04 (690d430): HttpRequest: script path detection simplified
+2010-11-04 (92faad4): SimpleRouter is more restrictive and doesn't ignore pathInfo
+2010-11-04 (180ffba): Debug: enable() if the first parameter is IP addresswes whitelist, 127.0.0.1 and ::1 are added automatically
+2010-11-03 (e408334): phpDoc one line summary
+2010-11-03 (943b4e4): String: replace() ignores errors thrown in callback
+2010-11-03 (e4074e2): Debug: catchError() returns ErrorException object instead of message
+2010-11-02 (c0ebc8f): Debug: tryError & catchError implementation simplified; doesn't rely on error_get_last()
+2010-11-02 (658b3a5): Debug: exceptions thrown in _exceptionHandler() are converted to die() to prevent "Fatal error: Exception thrown without a stack frame in Unknown on line 0"
+2010-11-02 (9a73953): Mail: multipart or message attachments are sent with Content-Transfer-Encoding 8bit (RFC 1521)
+2010-11-02 (9214fb2): Mail class refactoring
+2010-11-02 (1379985): directory temp/cache is created in mode 0777
+2010-11-01 (ac0e28a): Debug: respect original error level in catchError()
+2010-11-01 (733cfd5): Typo in comment
+2010-11-01 (cbb8a7c): typos
+2010-11-01 (3bc44bd): netteForms.js: fixed <input type=image> is not accessible via form.elements (again)
+2010-11-01 (0eb9aa0): Debug bar: repeated error messages are grouped
+2010-11-01 (3a2ca1d): RobotsLoader: cache expiration relies on Framework::REVISION constant
+2010-10-29 (39cb838): Environment, Debug: Detect development mode with local proxy
+2010-10-27 (3f959be): LatteMacros: formatArray() supports array expand via (expand)
+2010-10-27 (5420eb5): LatteMacros: parseMacro() returns depth in third element
+2010-10-27 (3d3ee48): LatteMacros: typos
+2010-10-27 (0adc402): tests: (string) changed to __toString(TRUE)
+2010-10-27 (51a1750): LatteMacros: supported n:attr-xxx="..." (probably temporary syntax)
+2010-10-27 (ca5869f): LatteMacros: fixed {=(string)$foo}
+2010-10-26 (e82b86c): LatteMacros: fixed {=[$foo ? bar]}
+2010-10-26 (89b2def): LatteMacros: fixed {=expression}
+2010-10-26 (b3dcac6): LatteMacros: refactoring; all static methods became non-static (BC break!)
+2010-10-25 (c745920): LatteMacros: fixed {default $foo = $bar->getFoo()} [Closes #145]
+2010-10-23 (43ac6c7): tests: improved Latte tests
+2010-10-23 (e76453f): LatteMacros: all macros parameters are reformatted using LatteMacros::format()
+2010-10-23 (539bdf9): LatteMacros: added macro n:href
+2010-10-23 (8238d45): LatteMacros: added macro n:class
+2010-10-23 (c55bd84): LatteMacros: T_SYMBOL may contains dash "-"
+2010-10-23 (5044ec8): LatteMacros: supports short ternary operators without ":"
+2010-10-23 (e016699): LatteMacros: added simplified array syntax [...]
+2010-10-23 (3600bb4): LatteMacros: added pre-parser
+2010-10-23 (edb522d): Tokenizer: implementation simplified
+2010-10-23 (f71e30f): LatteMacros: tokenizer unification
+2010-10-23 (fd43375): Latte: macro parsing moved to LatteMacros
+2010-10-22 (8715901): Forms: Form::PATTERN is unicode
+2010-10-22 (603daa4): String::truncate tries to not break numbers
+2010-10-22 (6b0bdc4): typos
+2010-10-21 (ed21d37): Merged with repository javascript
+2010-10-21 (2b00fca): NetteTest: purge fix
+2010-10-21 (15e0750): Environment, Debug: Detect production mode with proxy
+2010-10-21 (16ae260): Fix tests
+2010-10-21 (e347363): NetteTest: fixed helper routine purge()
+2010-10-21 (a246c34): tests: fixed Memcached default constructor values
+2010-10-21 (84247cf): FormControl: added method isFilled()
+2010-10-21 (6127c5a): Forms: added Form::PATTERN; Form::REGEXP is deprecated
+2010-10-21 (784fc90): Forms: <textarea> can have "maxlength" attribute in HTML5
+2010-10-21 (27b2beb): FormControl: added HTML5 attribute "required"
+2010-10-21 (2e7a584): Forms: removed notifyRule()
+2010-10-21 (e32eec6): FormControl: use setRequired/isRequired instead of getOptions('required') (BC break)
+2010-10-21 (b9fa176): FormControl: removed setRendered() and isRendered() (BC break)
+2010-10-21 (414c90e): Forms: removed exception for rule ':protection'
+2010-10-21 (7b61578): Forms: fixed PHP 5.2.0 compatibility
+2010-10-21 (c06ffa4): netteForms: fixed for statement in toggle
+2010-10-21 (ba32806): netteForms: disables HTML5 validation
+2010-10-21 (864ba98): netteForms: added ':pattern' validation
+2010-10-20 (6beb175): Html: fixed $el->accesskey(0, TRUE)
+2010-10-20 (b4108aa): Debug bluescreen: CSS fix
+2010-10-19 (216e14a): netteJs renamed to netteQ
+2010-10-19 (a267655): added netteForms.js
+2010-10-19 (2e854f0): added val()
+2010-10-19 (f7ea8c5): fixed missing e.target
+2010-10-19 (4b33250): improved show(), fixed prev()
+2010-10-19 (c3bb988): small refactoring & speedup
+2010-10-19 (3088731): NetteJs renamed to Nette.Q
+2010-10-19 (f735d31): added netteClass(), simple class builder; NetteJs created using netteClass()
+2010-10-19 (da373fd): replaced NetteJs.fn with NetteJs.implement
+2010-10-19 (8164fe0): fix
+2010-10-19 (1ae5a93): added closest(), prev() and next()
+2010-10-19 (61d3bba): fixed bugs, improved dragging
+2010-10-19 (50fd8f4): bugfix
+2010-10-19 (3f93f20): find() refactoring
+2010-10-19 (613c161): added method data()
+2010-10-19 (36e879a): added method css()
+2010-10-19 (401e323): small mods
+2010-10-19 (f0abb99): faster addClass(), removeClass() & hasClass()
+2010-10-19 (204c21a): offset() and position() works as getter & setter
+2010-10-19 (7383b07): dragging: prevents accidental click
+2010-10-19 (41a9ea4): bind: implements own handlers queue and function stopImmediatePropagation()
+2010-10-19 (c402f5b): dragging: added 'start', 'stop' and 'draggedClass' options
+2010-10-19 (af071b0): dragging: small refactoring
+2010-10-19 (3f0ea93): initial commit
+2010-10-19 (2367f5b): Image::crop & ImageMagick::crop behavior is the same
+2010-10-19 (817d386): Image::crop - width & height can be expressed in percents
+2010-10-19 (fdd7d3a): LatteMacros: fixed {layout auto}
+2010-10-18 (b22b1bb): Debug bluescreen: bigger font for error message
+2010-10-16 (e282ff0): LatteMacros: document /ifset
+2010-10-14 (4272e4b): LatteMacros: supports {layout auto}
+2010-10-14 (2c157b7): Debug: better approach to logging, errors during AJAX request are logged
+2010-10-14 (7c69319): LatteMacros: in AJAX only snippets and invalid controls are rendered
+2010-10-14 (50c43ab): LatteMacros: typos
+2010-10-14 (dcd8e7f): removed support for "old snippets" and "zavinace" (BC break)
+2010-10-14 (a8e74c1): Tools::enterCriticalSection() uses 'lockfile'
+2010-10-14 (9911588): RobotLoader: new decision mechanism for auto rebuild
+2010-10-14 (bb78bb7): Added possibility to set custom service Nette\Application\IPresenterLoader
+2010-10-13 (dd45b44): Application & Configurator: removed "default router" (BC break)
+2010-10-13 (22ce00a): added Application::$onResponse
+2010-10-13 (b0ae33b): tests: improved templates tests
+2010-10-13 (eabeeab): Debug bar: better resizing in Firefox; div replaced with span in anchors
+2010-10-13 (223f999): better exception messages
+2010-10-13 (c9cedb6): DateTime53 only for PHP 5.3
+2010-10-11 (923ad12): Debug: fixed tryError() with $scream = TRUE
+2010-10-11 (4fbed5f): HttpUploadedFile: getContents()
+2010-10-11 (cf125f6): Comment
+2010-10-11 (3dcdb1b): Debug: stricter encoding in editor link
+2010-10-11 (0992d11): Debug: link editor from errors
+2010-10-11 (fc4555d): Forms: report missing message by notice
+2010-10-11 (42ba9f7): TemplateHelpers: ability to specify default date format
+2010-10-10 (b5cebdf): Templates: removed usage of variable appDir [Closes #135]
+2010-10-10 (57f4ab9): Debug::log() improved, fixed in Application
+2010-10-10 (ce1d27c): examples, skeleton and tools moved to separate repositories, updated readme.txt
+2010-10-09 (d7a8cfe): typos
+2010-10-09 (90bc39d): Cookie: Ability to specify httponly
+2010-10-09 (f63af48): Comment
+2010-10-09 (c96da10): Cookie: Ability to specify httponly [closes #132]
+2010-10-09 (06405de): Comment
+2010-10-09 (0361e7f): Forms: Default message for addProtection()
+2010-10-09 (47861a3): Presenter: added sendResponse(); terminate() is no longer intended to send a PresenterResponse
+2010-10-09 (112f806): Debug bluescreen: fixed hiding by ESC in Chrome [Closes #134]
+2010-10-09 (0d03f34): Debug bluescreen: disables non-nette stylesheets
+2010-10-09 (8faa70d): Call original window.onload in JavaScript
+2010-10-09 (51a0dc1): Comments
+2010-10-08 (bf28179): phpDoc typos
+2010-10-08 (d0fc571): AnnotationsParser: space before @ is required; dash in name is accepted
+2010-10-08 (a0e1687): Mail::getMailer() and object $defaultMailer fixed [Closes #130]
+2010-10-08 (2103faf): requirements checker test for UTF-8 support in PCRE
+2010-10-07 (21802b6): FileTemplate: cache expiration relies on Framework::REVISION constant
+2010-10-07 (012da31): Debug::fireLog fixed arguments parsing order [Closes #127]
+2010-10-07 (f931fce): Configurator: Factories of default services will get settings from config
+2010-10-07 (4172792): typo in IIS web.configs
+2010-10-07 (589f93e): FileStorage: removed 'c-' from file & directory names
+2010-10-07 (ae74388): Caching: expiration 0 sec or '0' tag are handled correctly
+2010-10-07 (fea26f3): Debug bluescreen: added CSS reset pro 'font'
+2010-10-06 (52b1fd0): Whitespace
+2010-10-06 (0b520e4): Nette\Image: getFormatFromString()
+2010-10-06 (6e1b449): Debug Bar: whole Debug bar with CSS & JS is loaded using eval()
+2010-10-06 (645d7a8): Debug Bar: fixed loading on empty page
+2010-10-06 (795c10e): Debug Bar: fixed <script> execution
+2010-10-05 (4fa2c25): added Template::save()
+2010-10-03 (0b027b3): netteForms.js: fixed getAttribute('formnovalidate') test
+2010-10-03 (02f1b89): Debug bar: fixed of UTF-8 decoding base64 stream
+2010-10-03 (0b435aa): LatteFilter: fixed handling of n:attrs with empty or none value
+2010-10-03 (9bffafb): IAuthenticator implementations refactored to not use USERNAME & PASSWORD constants
+2010-09-30 (ecc11df): Revert "added RobotLoader::$rememberMissing; refactoring"
+2010-09-30 (14a64ef): removed NClosureFix
+2010-09-29 (0c64133): LatteMacros: added {first}, {last}, {sep}
+2010-09-29 (8251df2): renamed Template -> FileTemplate and BaseTemplate -> Template (BC break!)
+2010-09-29 (7d4b3ff): added Nette\Caching\MemoryStorage
+2010-09-29 (334c132): added MethodReflection::getPrototype()
+2010-09-29 (cfe291c): LatteFilter: {macro} name must match [a-z0-9.:]+
+2010-09-29 (8230744): LatteMacros: fixed {var $foo_bar = ...}
+2010-09-29 (8a3186b): typos
+2010-09-28 (6507b3f): Finder: RecursiveDirectoryIterator::FOLLOW_SYMLINKS is available since 5.3.1 [Closes #116]
+2010-09-28 (2cdb1bb): Debug::$editor implementation finalizes
+2010-09-25 (cbd1f65): Debug: Proof of concept $editorLink
+2010-09-24 (303b1cb): version changed to 2.0
+2010-09-24 (90baf15): Debug: support form FirePHP replaced with FireLogger (BC break!)
+2010-09-24 (755bea9): skeleton config update
+2010-09-24 (4f39bae): Debug::$strictMode is available only in development mode; is default in skeleton
+2010-09-24 (8328a00): Environment::createCacheStorage() automatically created directory "cache"
+2010-09-24 (9a0bba2): Identity: missing namespace
+2010-09-23 (25f47fe): added RobotLoader::$rememberMissing; refactoring
+2010-09-23 (7b04eea): Environment::createRobotLoader() tries if appDir & libsDir exists
+2010-09-23 (e49c1e8): Nette\Caching is no longer dependent on the Nette\Environment; cache is free!
+2010-09-23 (f87be13): Context: removed ability to have parent context
+2010-09-23 (d946ebb): Nette\ServiceLocator renamed to Nette\Context (BC break)
+2010-09-23 (9fda8cd): Nette\Application\Application is no longer dependent on the Nette\Environment; application is free!
+2010-09-23 (9a5912d): ServiceLocator: accepts Closure and Nette\Callback as factory
+2010-09-23 (b3ebc6b): Environment: removed all default variables (encoding, lang, tempDir), no magic more
+2010-09-23 (8b1a868): Unknown Environment::getVariable('var') without second parameter throws InvalidStateException [Closes #5]
+2010-09-23 (497a9a1): folder 'cache' is located inside folder 'temp'
+2010-09-23 (a531e89): default directory structure changed: folders 'log' & 'temp' moved to root
+2010-09-23 (e59ad84): Debug: $logFile changed to $logDirectory; enable() second parameter must be a directory! (BC break)
+2010-09-22 (b2770b5): hidden PHP 5.2 stuff in PHP 5.3 package
+2010-09-22 (5851a14): Finder: added RecursiveDirectoryIterator::FOLLOW_SYMLINKS and RecursiveDirectoryIteratorFixed to enter to symlinks
+2010-09-22 (a262cb9): Finder: getType() replaced with isDir(), isFile() to follow symlinks on some filesystems
+2010-09-22 (262b1ed): Finder: skips "dots" on UNIX filesystems
+2010-09-22 (f805dd4): Finder: filters size() and date() accepts composed predicates ("> 2 days ago", "< 100 KB")
+2010-09-22 (090c155): Finder: in() and from() can be called only once
+2010-09-22 (c5cd50f): Tools::enterCriticalSection implementation changed due strange flock behaviour on Windows
+2010-09-22 (636bb6c): Debug::fireLog() refactoring
+2010-09-22 (14130f4): Debug: bluescreen can be toggled using ESC
+2010-09-22 (c1215dd): typos
+2010-09-22 (5a676e5): Debug::$logFile is public (and can be set anytime to enable/disable logging); default value is not dependent on the Nette\Environment
+2010-09-22 (943d204): Debug::$email added; Debug::enable() third parameter must be string
+2010-09-21 (317d438): Tools::enterCriticalSection implementation changed; can be entered only once, parameter $key was removed
+2010-09-21 (7236d97): Environment::enterCriticalSection() -> Tools::enterCriticalSection()
+2010-09-21 (9872e33): Debug: handlers are registered only once [Closes #112]
+2010-09-21 (b4eb999): typos
+2010-09-20 (9ad3175): RobotLoader is no longer dependent on the Nette\Environment; robot is free.
+2010-09-20 (5720e3e): Environment::getRobotLoader() added
+2010-09-20 (a723be7): tests: improved RobotLoader tests
+2010-09-20 (9ce157e): RobotLoader: fixed "Disallow: /" in netterobots.txt
+2010-09-20 (d9b0692): RobotLoader::addClass() fixed typo + exception throwing in PHP 5.2
+2010-09-20 (98e7c59): DebugBar: memory_get_peak_usage() may be missing in PHP 5.2.0
+2010-09-20 (fb8f0a0): FileStorage: added @ before rmdir
+2010-09-20 (1b77df9): LatteFilter: deprecated methods triggers E_WARNING
+2010-09-20 (8dc92fd): updated skeleton & examples
+2010-09-20 (c3726b4): LatteMacros: {var} & {default} uses Nette\Tokenizer; preferred syntax is: {var $i = value, $b = 123, $c = 'string string'}
+2010-09-20 (8957fcc): LatteMacros::formatModifiers() uses Nette\Tokenizer
+2010-09-20 (199261a): LatteMacros::formatArray() accepts comments /* ... */
+2010-09-20 (db21322): LatteMacros::formatArray() uses Nette\Tokenizer
+2010-09-20 (904409e): NeonParser uses Nette\Tokenizer
+2010-09-20 (4b7ad8d): added Nette\Tokenizer
+2010-09-20 (7299e65): LatteFilter: methods formatModifiers(), fetchToken(), formatArray(), formatString() moved to LatteMacros (BC break!)
+2010-09-20 (8a3a83e): LatteFilter::formatArray() no longer replaces $var=>... to  "var"=>...
+2010-09-20 (8f08737): tests: added unit tests for LatteMacros::macroXXX()
+2010-09-19 (e364eb4): LatteMacros: internal methods renamed
+2010-09-19 (5fa7ac9): whitespace
+2010-09-19 (744c999): RobotLoader: netterobots.txt filters by filename
+2010-09-19 (7fae3f6): some callbacks replaced with closures/lambda
+2010-09-19 (d04cdc4): updated examples
+2010-09-19 (21b2180): Control: current user is passed to $template->user
+2010-09-19 (857023e): removed some deprecated stuff
+2010-09-19 (f1a1474): $template->component is removed
+2010-09-19 (aebe24c): Presenter: getUser() & getSession() is public
+2010-09-19 (03f24a9): skeleton: widget -> control
+2010-09-19 (4ac26cb): typo
+2010-09-17 (e215928): NetteTest: added code coverage viewer
+2010-09-17 (424d56e): Tests: initialize.php renamed -> bootstrap.php
+2010-09-17 (f8b2ffd): typos
+2010-09-17 (620b235): NetteTest: moved config.ini support
+2010-09-17 (64b5b90): example Finder.filters.php hinted for PHP 5.3
+2010-09-17 (0ca8931): added SmtpMailer
+2010-09-17 (fd5bd96): added interface Nette\IFreezable
+2010-09-17 (4de266d): Debug::processException is deprecated, use Debug::log($exception, Debug::ERROR)
+2010-09-16 (829a2b1): Tools: fixed ==
+2010-09-15 (2f40a77): RobotLoader::getIndexedClasses() returns class names in original notation
+2010-09-15 (ef35349): added NClosureFix: allows using PHP 5.3 like closures
+2010-09-15 (1e4faaa): examples: added new simple ones
+2010-09-15 (8a32e00): examples: common CSS style moved to style.css file
+2010-09-15 (6505ec3): FileStorage & RobotLoader uses Nette\Finder
+2010-09-15 (f379461): removed Tools::glob() (BC break; use Nette\Finder)
+2010-09-15 (5acaef3): added Nette\Finder
+2010-09-15 (9da7fa2): added Tools::compare()
+2010-09-15 (89b32a9): added @ before getimagesize()
+2010-09-14 (9a46b6d): added CallbackFilterIterator & RecursiveCallbackFilterIterator
+2010-09-14 (8e003bc): typos
+2010-09-14 (ee69bb1): fixed tests
+2010-09-14 (9d4f970): create_function replaced with closures
+2010-09-14 (16567a2): simplified phpDoc comments
+2010-09-14 (67271ba): typos
+2010-09-14 (b1b61d1): Mail::buildText() accepts <br/>
+2010-09-11 (c2aa2e7): typos
+2010-09-09 (b39ead5): typos
+2010-09-09 (360dc50): ServiceLocation: is FreezableObject descendant now
+2010-09-07 (e6ca36b): Tag <!--> ends comment in IE
+2010-09-07 (75ba291): FileStorage: automatic creation of subdirectories limited to one level
+2010-09-07 (9f610bf): Debug bar: encoded using base64 (experimental)
+2010-09-07 (45b6fed): Debug bar: fixed regexp for large strings
+2010-09-07 (1a3f209): Debug bar: compatible with XHTML
+2010-09-06 (8ae2c3f): RobotLoader: fixed parsing alternative namespace syntax [Closes #100]
+2010-09-02 (545cfbd): Debug::log better error message for FatalErrorException
+2010-09-02 (70f3e59): Debug bluescreen & bar: classes odd/alt replaced with CSS3 selector nth-child()
+2010-09-02 (affb388): netteForms.js: fixed <input type=image> is not accessible via form.elements
+2010-09-02 (9d84b29): Environment::enterCriticalSection checks if file was opened [Closes #92]
+2010-09-02 (92aec3e): SqliteJournal: SQLite3 disabled due PHP bug #51680 [Closes #72]
+2010-09-02 (ece7ceb): Debug bar: hiding fix for Opera [Closes #58]
+2010-09-02 (c59f46c): netteForms.js: "equal" rule uses == instead of === [Closes #94]
+2010-09-02 (7b0cc91): netteForms.js: skips elements that cannot be validated
+2010-09-02 (a6c8f97): Forms: enabled JavaScript validation for FileUpload
+2010-09-02 (c643e4d): updated tests
+2010-09-01 (bb65a3f): Application: fixed "relative" forwarding to error presenter
+2010-09-01 (41d469c): Debug bluescreen: color scheme reverted to previous one
+2010-09-01 (46d93bb): Debug bar: bitmap changed to CSS3, improved table colors; typos
+2010-09-01 (4e5dbe8): Debug bluescreen: CSS fixes (overflow:auto) and fixed odd rows
+2010-09-01 (19f4820): Bug fix in checking ImageMagick library in Requirements-Checker
+2010-08-30 (63cb4f5): FileJournal is now preferred over SQLiteJournal (for testing purposes)
+2010-08-30 (5da3362): FileJournal: empty-log Windows fix
+2010-08-28 (bffc892): Added FileJournal
+2010-08-28 (204d9da): NetteTest: removed alias T for class TestHelpers
+2010-08-28 (7b48241): NetteTest: initialization moved to initialize.php
+2010-08-28 (da8af6b): small fixes
+2010-08-27 (99ed32d): SelectBox: fixed 'useKeys' with enabled translator
+2010-08-27 (04e95e2): TextBase: better regexp for URL validation
+2010-08-27 (d0ef387): added String::toAscii()
+2010-08-27 (669f6ab): RobotLoader: detects moved files (thx Jan Tvrdík)
+2010-08-26 (7d7ade7): LatteMacros: rewritten macros {cache} ... {cache}
+2010-08-26 (7a3eda7): LatteMacros: small visual refactoring
+2010-08-26 (3b91c52): LatteMacros: added global storage $_l->g
+2010-08-26 (c681eca): LatteMacros: internal storage renamed $_cb -> $_l
+2010-08-26 (3f6006a): Tools::detectMimeType() constant FILEINFO_MIME_TYPE is missing in PHP 5.2
+2010-08-26 (5b8e855): Application: persistent parameters are transfer to error presenter [Closes #30]
+2010-08-26 (7955d16): example CD-collection small refactoring (removed Environment)
+2010-08-26 (b705a44): Session: doubled start() calling does not matter
+2010-08-26 (30b2350): HttpRequest::enableCompression() removed
+2010-08-26 (ce1148a): MemcachedStorage: E_NOTICE in memcache->connect() is converted to exception
+2010-08-26 (f9b5665): Mail: fixed bug in encoding headers with emails
+2010-08-26 (862a65c): Rules::formatMessage() fixed %... replacing order
+2010-08-26 (f4a7d97): small recoloring
+2010-08-26 (5db9db2): typos
+2010-08-26 (e8a58cf): NetteTest: re-implemented output logging
+2010-08-26 (2b2b376): tests: replaced --EXPECT-- with assertions in the remaining cases
+2010-08-26 (471f624): ApcStorage moved to Extras
+2010-08-26 (021a0e6): NetteTest: removed TestHelpers::getSection() & dump() (BC break)
+2010-08-26 (32aeb99): tests: replaced T::dump() with assertions in the remaining cases
+2010-08-26 (cc4b6c9): tests: added Assert::match
+2010-08-26 (cc58399): NetteTest: fixed test [Closes #90]
+2010-08-26 (d0f5cef): Fixed FormControl::setRequired (closes #95).
+2010-08-26 (b9ecfee): netteForms.js: added missing semicolons
+2010-08-26 (b45c3d4): tests: replaced T::dump() with assertions in most cases
+2010-08-26 (9bba4d8): Nette\Test: added Assert::exception & Assert::equal
+2010-08-26 (b5411bf): Nette\Test: regular expression errors are converted to exceptions
+2010-08-26 (d668166): skeleton: different error messages for HTTP error codes 4xx, 403, 404, 405, 410 and 500
+2010-08-26 (626df67): Debug: in production and HTML mode shows error message "We're sorry! The server encountered an internal error and was unable to complete your request"
+2010-08-26 (1e1f07d): Debug::processException deprecated; use Debug::log() instead
+2010-08-26 (2df4396): Debug::log() added ability to log exception
+2010-08-26 (2bcd8f9): Debug: typos
+2010-08-26 (d717181): Debug::log() sends e-mail notification by default (suffix 'monitor' -> 'email-sent')
+2010-08-26 (121adbe): Debug::log() logs source (URI / command line) too
+2010-08-26 (f1f6e8f): Application: new error messages for HTTP error codes 4xx, 403, 404, 405, 410 and 500
+2010-08-26 (38edf1f): Application: default HTTP error messages redesigned
+2010-08-26 (721f2c6): skeleton redesigned & typos
+2010-08-26 (cd676bb): examples redesigned
+2010-08-26 (6251609): requirements checker redesigned
+2010-08-26 (f3825c2): Debug: bluescreen redesigned
+2010-08-26 (49fe525): Skeleton moved to root
+2010-08-26 (a78291f): Image: fixed crop with negative arguments
+2010-08-26 (de7aa76): Forms: removed INamingContainer (replaced with FormContainer)
+2010-08-26 (feee982): Debug: bluescreen do not clean output
+2010-08-26 (cba9890): Html: fixed calling magic method without arguments
+2010-08-26 (b1c7276): typos
+2010-08-26 (b90e56d): form examples: changed button name submit1 -> submit
+2010-08-26 (4b716b1): FormControl: unsuitable form names are sanitized instead of thrown exceptions
+2010-08-26 (ef715b0): netteForms: simplified nette.validateRule
+2010-08-26 (34d1458): typos
+2010-08-26 (dc0172c): skeleton: extended of some useful bits
+2010-08-26 (3f53e4f): Forms: data- attributes changed to data-nette- [Closes #88]
+2010-08-12 (664f916): LatteMacros: added macros {l} {r}
+2010-08-11 (36b1803): Revert "String::webalize() better fix for glibc implementation"
+2010-08-11 (766fbec): FormControl: fixed data-rules attribute optimization [Closes #87]
+2010-08-11 (805310e): netteForms.js supports setValidationScope
+2010-08-11 (36a508c): Uri::isEqual() and canonicalization - order of URL parameters doesn't matter [Closes #68]
+2010-08-10 (4e638e9): Generalized IUser::login() interface - it doesn't hard-expect username and password, but any parameters according to selected authenticator. It is possible to define and call login() method without any parameter, if no one is required by particular authenticator.
+2010-08-10 (8191850): Forms: fixed RadioList client validation
+2010-08-10 (acaf058): DOCTYPE changed to HTML5
+2010-08-10 (2eb7180): added example forms/html5.php
+2010-08-10 (36308b7): added HTML5 support for range on <input> and maxlength on <textarea>
+2010-08-10 (210f625): added FormControl::setAttribute() & TextInput::setType()
+2010-08-09 (d32881c): Typo
+2010-08-09 (ebf8324): Forms: updated tests
+2010-08-09 (749ee37): Forms: optimized data-rules attribute content
+2010-08-09 (32a17a2): removed InstantClientScript; ConventionalRenderer::setClientScript() deprecated; (BC break)
+2010-08-09 (a82a2f2): SelectBox: fixes for Internet Explorer applied unobtrusive way (in InstantClientScript.phtml)
+2010-08-09 (556b3fa): InstantClientScript: validation moved to JavaScript template
+2010-08-09 (245dfb1): Forms: validation rules are provided via HTML attribute "data-rules"
+2010-08-08 (5e13bb0): Forms: typos
+2010-08-08 (ca7905b): Nette\Forms: Rules::validate() always breaks on failure (fix)
+2010-08-06 (bbe81e5): RobotLoader: added support for subdirectories in netterobots.txt
+2010-08-05 (a080128): typos, microfixes
+2010-08-05 (6f798bb): Json::decode() added $options parameter [Closes #78]
+2010-08-05 (1d641c1): Html: added support for data-xxx attributes
+2010-08-05 (010a14e): SmartCachingIterator: fixed isFirst(width) & isLast(width) for width < 2
+2010-08-05 (447baca): MultiRouter: is ArrayList descendant because SplQueue is not able to serialize.
+2010-08-04 (888a073): Nette\Image: better __call() behaviour.
+2010-08-04 (3a8f6b6): MemcachedStorage: fixed broken delete() [Closes #81]
+2010-07-29 (b9fb2e3): Typo in doc-comment
+2010-07-23 (a8c51dd): typos
+2010-07-23 (5ca7448): Debug: added $scream (disables the @ operator)
+2010-07-23 (8e2fbda): tests: Nette\Debug tests renamed and improved
