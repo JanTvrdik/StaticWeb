@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Application;
@@ -36,8 +36,8 @@ class JsonResponse extends Nette\Object implements IPresenterResponse
 	 */
 	public function __construct($payload, $contentType = NULL)
 	{
-		if (!is_array($payload) && !$payload instanceof \stdClass) {
-			throw new \InvalidArgumentException("Payload must be array or anonymous class, " . gettype($payload) . " given.");
+		if (!is_array($payload) && !is_object($payload)) {
+			throw new \InvalidArgumentException("Payload must be array or object class, " . gettype($payload) . " given.");
 		}
 		$this->payload = $payload;
 		$this->contentType = $contentType ? $contentType : 'application/json';
@@ -70,10 +70,10 @@ class JsonResponse extends Nette\Object implements IPresenterResponse
 	 * Sends response to output.
 	 * @return void
 	 */
-	public function send()
+	public function send(Nette\Web\IHttpRequest $httpRequest, Nette\Web\IHttpResponse $httpResponse)
 	{
-		Nette\Environment::getHttpResponse()->setContentType($this->contentType);
-		Nette\Environment::getHttpResponse()->setExpiration(FALSE);
+		$httpResponse->setContentType($this->contentType);
+		$httpResponse->setExpiration(FALSE);
 		echo Nette\Json::encode($this->payload);
 	}
 

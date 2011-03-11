@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Forms;
@@ -105,24 +105,23 @@ class FormContainer extends Nette\ComponentContainer implements \ArrayAccess
 
 	/**
 	 * Returns the values submitted by the form.
-	 * @return array
+	 * @return Nette\ArrayHash
 	 */
 	public function getValues()
 	{
-		$values = array();
-		$cursor = & $values;
+		$values = new Nette\ArrayHash;
+		$cursor = $values;
 		$iterator = $this->getComponents(TRUE);
 		foreach ($iterator as $name => $control) {
 			$sub = $iterator->getSubIterator();
 			if (!isset($sub->cursor)) {
-				$sub->cursor = & $cursor;
+				$sub->cursor = $cursor;
 			}
 			if ($control instanceof IFormControl && !$control->isDisabled() && !$control instanceof ISubmitterControl) {
-				$sub->cursor[$name] = $control->getValue();
+				$sub->cursor->$name = $control->getValue();
 			}
 			if ($control instanceof FormContainer) {
-				$cursor = & $sub->cursor[$name];
-				$cursor = array();
+				$cursor = $sub->cursor->$name = new Nette\ArrayHash;
 			}
 		}
 		return $values;

@@ -1,3 +1,90 @@
+2011-03-10 (7616569): netteForms.js: checks 'arg' type
+2011-03-09 (1246e8c): netteForms.js: fixed iterator for 'toggle'
+2011-03-08 (e2dc23f): FileJournal: fixed Undefined index bug (thx Pavel Štětina)
+2011-03-08 (5d844b3): added ISessionStorage
+2011-03-08 (9a90322): Debug: fixed tryError and @ (shut-up) operator
+2011-03-06 (0cd961d): [FileJorunal] Bugfix
+2011-03-03 (bd9fd93): Forms: fixed PATTERN in netteForms.js, RadioList & SelectBox rendering
+2011-03-01 (18b7f16): ArrayList became descendant of Nette\Object.
+2011-03-01 (6f30f73): Context::addService provides a fluent interface
+2011-03-01 (9bdb71e): typos
+2011-03-01 (aeae386): SafeStream is now registered automatically in loader.php
+2011-02-28 (2d5e45f): Mail: use hostname in Content-ID (RFC 2392)
+2011-02-28 (da76318): Debug: logging exception filename
+2011-02-24 (41b9c8a): Statement: fixed PHP bug #48724
+2011-02-24 (69a2c41): added DatabasePanel::$disabled
+2011-02-24 (c03a89f): Neon: syntax enhanced
+2011-02-24 (5ace8b9): Neon: added DateTime support
+2011-02-24 (7df21bf): Neon: added check for unacceptable key
+2011-02-24 (94abb54): Neon: fixed parse() exit point
+2011-02-24 (b796500): Neon: fixed JSON compatibility
+2011-02-24 (4e6bfa6): Neon: fixed invalid offset
+2011-02-24 (f8b6f0f): Neon: either tabs or spaces may be used as indenting chars, but not both
+2011-02-24 (56ac395): Neon: refactoring
+2011-02-24 (f754e07): Neon: control codes are forbidden
+2011-02-24 (ad53faa): Neon: added function for decoding strings
+2011-02-24 (f1ff493): DateTime53: added __set_state()
+2011-02-23 (2bfa916): Nette\Database: fetched data are automatically converted to appropriate types
+2011-02-23 (d3ef2ca): Html::addAttributes() added
+2011-02-23 (418c4bf): Debug: logging exact cli request
+2011-02-17 (3b038ac): SafeStream: fix
+2011-02-17 (18fe0ac): Context is passed to Presenter via PresenterFactory
+2011-02-17 (bb43d1b): typos
+2011-02-17 (0cbf054): FormContainer::getValue() returns Nette\ArrayHash object instead of array (possible BC break?)
+2011-02-17 (44c3bd0): Database: Row refactoring
+2011-02-17 (5e8d92b): Database: TableSelection::update & SqlPreprocessor::formatValue accepts Traversable
+2011-02-17 (1dc2a8e): added ArrayHash
+2011-02-17 (f455a87): JsonResponse::__construct accepts any objects
+2011-02-17 (6ec27c6): IPresenterFactory & IPresenterLoader merged together; PresenterLoader renamed to PresenterFactory (BC break!)
+2011-02-17 (10a98ca): added HTTP request & response parameters to IPresenterResponse::send() (BC break!)
+2011-02-17 (903a490): DownloadResponse: downloads resuming and large files support
+2011-02-17 (1497bc6): SafeStream: reimplemented to provide real atomicity
+2011-02-17 (c93309c): typos, removed 	/**#@+
+2011-02-14 (043a39c): netteForms.js: Use '' for empty value - null.length causes error
+2011-02-12 (99eb74e): typos
+2011-02-12 (f0b769e): Added a UTF-8 variant of ucfirst() PHP function.
+2011-02-12 (14f29af): typos
+2011-02-12 (fa5bfe7): Fixed wrong class name in PresenterFactory
+2011-02-12 (4990f97): Creation of presenters is now configurable via PresenterFactory. It allows to inject dependencies to presenters directly through their constructors.
+2011-02-11 (c14a25a): Application: refactoring
+2011-02-10 (e601d8b): ComponentContainer: method createComponentXyz() must return or create component
+2011-02-08 (7080532): Revert "fixed TextBase::validatePattern"
+2011-02-08 (c8ffcbd): Framework directory structure changed to reflect future namespace structure
+2011-02-07 (421651c): default configuration file changed from 'config.ini' to 'config.neon'
+2011-02-07 (0ba8c36): IConfigAdapter: removed $section from load() and save(); it is Config responsibility now
+2011-02-07 (ff2d50f): ConfigAdapterNeon tests
+2011-02-07 (61ec707): Added ConfigAdapterNeon
+2011-02-07 (65580c1): NeonParser renamed to Neon and has new API (BC break!)
+2011-02-06 (bb2b723): Callback::isStatic() added and used in FormControl::exportRules()
+2011-02-06 (cc29b18): netteForms.js: Support for user validation operations on the client side (via the name of the callback function).
+2011-02-06 (c3e2054): JS scripts are compatible with libraries that pollute the environment (MooTools, Prototype, …)
+2011-02-06 (492a319): {ifset} macro tests block existence ( {ifset #head}...{/ifset} )
+2011-02-03 (70363fd): fixed Fatal Error: Class 'Nette\DebugHelpers' not found
+2011-02-04 (579cad7): fixed TextBase::validatePattern
+2011-02-03 (cb20b1c): typos
+2011-02-03 (e533ea3): fixed tests and TestCase.php
+2011-02-03 (177cb87): MailMimePart::getEncodedHeader fixed silent bug in iconv_mime_encode
+2011-02-03 (1e0d8d3): LatteMacros: {foreach} parser improved - the as keyword is ignored in strings
+2011-02-03 (8e34ee5): removed file tests/Mail/files/žluťoučký.zip
+2011-02-03 (6d6fbd5): Image: alpha saving is enabled by default
+2011-02-03 (7399ef0): remove Nette\ImageMagick
+2011-02-03 (3cd1c64): Support of write-only properties by Nette\Object
+2011-02-03 (0a733f3): Image: removed $useImageMagick
+2011-02-03 (2187000): Image: calculateSize() returns dimensions >= 1
+2011-02-03 (7b16a94): RoutingDebugger: displays signal name
+2011-02-03 (811af47): typos
+2011-02-02 (43ccbe0): SmtpMailer: fixed missing 'host' item
+2011-02-03 (8a0d078): [FileJournal] private $nodeCache
+2011-02-03 (15da467): Fixed wrong MethodReflection call in ClassReflection::getConstructor()
+2011-02-03 (c97e6ae): TestCase: added support for CLI version of PHP
+2011-02-02 (80eea36): License changed to the New BSD License or the GNU General Public License (GPL) version 2 or 3.
+2011-02-01 (f11b78a): lockfile is created only on Windows platform
+2011-01-26 (fe0aaf3): Paginator: default itemCount is infinity
+2011-01-26 (82bed60): Debug bluescreen: custom panel moved above the source code
+2011-01-26 (2187972): Nette\Database\Statement::execute() appends $queryString to thrown PDOException
+2011-01-26 (9265831): Application: session autostarting moved after onStartup
+2011-01-26 (b630257): Context: fixed creating duplicated services in cloned context
+2011-01-22 (473752b): TestCase: changed temp file creation to work with open_basedir restriction
 2011-01-18 (56bb8cf): DatabasePanel: added link to source code
 2011-01-18 (be1d018): DatabasePanel: added $explain - displays EXPLAIN SQL
 2011-01-18 (1889f89): added Connection::fetchAll() & Statement::getConnection()
@@ -411,90 +498,3 @@
 2010-09-01 (41d469c): Debug bluescreen: color scheme reverted to previous one
 2010-09-01 (46d93bb): Debug bar: bitmap changed to CSS3, improved table colors; typos
 2010-09-01 (4e5dbe8): Debug bluescreen: CSS fixes (overflow:auto) and fixed odd rows
-2010-09-01 (19f4820): Bug fix in checking ImageMagick library in Requirements-Checker
-2010-08-30 (63cb4f5): FileJournal is now preferred over SQLiteJournal (for testing purposes)
-2010-08-30 (5da3362): FileJournal: empty-log Windows fix
-2010-08-28 (bffc892): Added FileJournal
-2010-08-28 (204d9da): NetteTest: removed alias T for class TestHelpers
-2010-08-28 (7b48241): NetteTest: initialization moved to initialize.php
-2010-08-28 (da8af6b): small fixes
-2010-08-27 (99ed32d): SelectBox: fixed 'useKeys' with enabled translator
-2010-08-27 (04e95e2): TextBase: better regexp for URL validation
-2010-08-27 (d0ef387): added String::toAscii()
-2010-08-27 (669f6ab): RobotLoader: detects moved files (thx Jan Tvrdík)
-2010-08-26 (7d7ade7): LatteMacros: rewritten macros {cache} ... {cache}
-2010-08-26 (7a3eda7): LatteMacros: small visual refactoring
-2010-08-26 (3b91c52): LatteMacros: added global storage $_l->g
-2010-08-26 (c681eca): LatteMacros: internal storage renamed $_cb -> $_l
-2010-08-26 (3f6006a): Tools::detectMimeType() constant FILEINFO_MIME_TYPE is missing in PHP 5.2
-2010-08-26 (5b8e855): Application: persistent parameters are transfer to error presenter [Closes #30]
-2010-08-26 (7955d16): example CD-collection small refactoring (removed Environment)
-2010-08-26 (b705a44): Session: doubled start() calling does not matter
-2010-08-26 (30b2350): HttpRequest::enableCompression() removed
-2010-08-26 (ce1148a): MemcachedStorage: E_NOTICE in memcache->connect() is converted to exception
-2010-08-26 (f9b5665): Mail: fixed bug in encoding headers with emails
-2010-08-26 (862a65c): Rules::formatMessage() fixed %... replacing order
-2010-08-26 (f4a7d97): small recoloring
-2010-08-26 (5db9db2): typos
-2010-08-26 (e8a58cf): NetteTest: re-implemented output logging
-2010-08-26 (2b2b376): tests: replaced --EXPECT-- with assertions in the remaining cases
-2010-08-26 (471f624): ApcStorage moved to Extras
-2010-08-26 (021a0e6): NetteTest: removed TestHelpers::getSection() & dump() (BC break)
-2010-08-26 (32aeb99): tests: replaced T::dump() with assertions in the remaining cases
-2010-08-26 (cc4b6c9): tests: added Assert::match
-2010-08-26 (cc58399): NetteTest: fixed test [Closes #90]
-2010-08-26 (d0f5cef): Fixed FormControl::setRequired (closes #95).
-2010-08-26 (b9ecfee): netteForms.js: added missing semicolons
-2010-08-26 (b45c3d4): tests: replaced T::dump() with assertions in most cases
-2010-08-26 (9bba4d8): Nette\Test: added Assert::exception & Assert::equal
-2010-08-26 (b5411bf): Nette\Test: regular expression errors are converted to exceptions
-2010-08-26 (d668166): skeleton: different error messages for HTTP error codes 4xx, 403, 404, 405, 410 and 500
-2010-08-26 (626df67): Debug: in production and HTML mode shows error message "We're sorry! The server encountered an internal error and was unable to complete your request"
-2010-08-26 (1e1f07d): Debug::processException deprecated; use Debug::log() instead
-2010-08-26 (2df4396): Debug::log() added ability to log exception
-2010-08-26 (2bcd8f9): Debug: typos
-2010-08-26 (d717181): Debug::log() sends e-mail notification by default (suffix 'monitor' -> 'email-sent')
-2010-08-26 (121adbe): Debug::log() logs source (URI / command line) too
-2010-08-26 (f1f6e8f): Application: new error messages for HTTP error codes 4xx, 403, 404, 405, 410 and 500
-2010-08-26 (38edf1f): Application: default HTTP error messages redesigned
-2010-08-26 (721f2c6): skeleton redesigned & typos
-2010-08-26 (cd676bb): examples redesigned
-2010-08-26 (6251609): requirements checker redesigned
-2010-08-26 (f3825c2): Debug: bluescreen redesigned
-2010-08-26 (49fe525): Skeleton moved to root
-2010-08-26 (a78291f): Image: fixed crop with negative arguments
-2010-08-26 (de7aa76): Forms: removed INamingContainer (replaced with FormContainer)
-2010-08-26 (feee982): Debug: bluescreen do not clean output
-2010-08-26 (cba9890): Html: fixed calling magic method without arguments
-2010-08-26 (b1c7276): typos
-2010-08-26 (b90e56d): form examples: changed button name submit1 -> submit
-2010-08-26 (4b716b1): FormControl: unsuitable form names are sanitized instead of thrown exceptions
-2010-08-26 (ef715b0): netteForms: simplified nette.validateRule
-2010-08-26 (34d1458): typos
-2010-08-26 (dc0172c): skeleton: extended of some useful bits
-2010-08-26 (3f53e4f): Forms: data- attributes changed to data-nette- [Closes #88]
-2010-08-12 (664f916): LatteMacros: added macros {l} {r}
-2010-08-11 (36b1803): Revert "String::webalize() better fix for glibc implementation"
-2010-08-11 (766fbec): FormControl: fixed data-rules attribute optimization [Closes #87]
-2010-08-11 (805310e): netteForms.js supports setValidationScope
-2010-08-11 (36a508c): Uri::isEqual() and canonicalization - order of URL parameters doesn't matter [Closes #68]
-2010-08-10 (4e638e9): Generalized IUser::login() interface - it doesn't hard-expect username and password, but any parameters according to selected authenticator. It is possible to define and call login() method without any parameter, if no one is required by particular authenticator.
-2010-08-10 (8191850): Forms: fixed RadioList client validation
-2010-08-10 (acaf058): DOCTYPE changed to HTML5
-2010-08-10 (2eb7180): added example forms/html5.php
-2010-08-10 (36308b7): added HTML5 support for range on <input> and maxlength on <textarea>
-2010-08-10 (210f625): added FormControl::setAttribute() & TextInput::setType()
-2010-08-09 (d32881c): Typo
-2010-08-09 (ebf8324): Forms: updated tests
-2010-08-09 (749ee37): Forms: optimized data-rules attribute content
-2010-08-09 (32a17a2): removed InstantClientScript; ConventionalRenderer::setClientScript() deprecated; (BC break)
-2010-08-09 (a82a2f2): SelectBox: fixes for Internet Explorer applied unobtrusive way (in InstantClientScript.phtml)
-2010-08-09 (556b3fa): InstantClientScript: validation moved to JavaScript template
-2010-08-09 (245dfb1): Forms: validation rules are provided via HTML attribute "data-rules"
-2010-08-08 (5e13bb0): Forms: typos
-2010-08-08 (ca7905b): Nette\Forms: Rules::validate() always breaks on failure (fix)
-2010-08-06 (bbe81e5): RobotLoader: added support for subdirectories in netterobots.txt
-2010-08-05 (a080128): typos, microfixes
-2010-08-05 (6f798bb): Json::decode() added $options parameter [Closes #78]
-2010-08-05 (1d641c1): Html: added support for data-xxx attributes
-2010-08-05 (010a14e): SmartCachingIterator: fixed isFirst(width) & isLast(width) for width < 2

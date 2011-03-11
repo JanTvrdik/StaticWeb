@@ -1,18 +1,19 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Database;
 
 use Nette,
 	Nette\ObjectMixin,
+	Nette\Database\Reflection\DatabaseReflection,
 	PDO;
 
 
@@ -29,6 +30,9 @@ class Statement extends \PDOStatement
 
 	/** @var float */
 	public $time;
+
+	/** @var array */
+	private $types;
 
 
 
@@ -64,7 +68,12 @@ class Statement extends \PDOStatement
 		}
 
 		$time = microtime(TRUE);
-		parent::execute();
+		try {
+			parent::execute();
+		} catch (\PDOException $e) {
+			$e->queryString = $this->queryString;
+			throw $e;
+		}
 		$this->time = microtime(TRUE) - $time;
 		$this->connection->__call('onQuery', array($this, $params)); // $this->connection->onQuery() in PHP 5.3
 
@@ -91,6 +100,33 @@ class Statement extends \PDOStatement
 	 */
 	public function normalizeRow($row)
 	{
+		if ($this->types === NULL) {
+			try {
+				$this->types = array();
+				foreach ($row as $key => $foo) {
+					$type = $this->getColumnMeta(count($this->types));
+					if (isset($type['native_type'])) {
+						$this->types[$key] = DatabaseReflection::detectType($type['native_type']);
+					}
+				}
+			} catch (\PDOException $e) {
+			}
+		}
+		foreach ($this->types as $key => $type) {
+			$value = $row[$key];
+			if ($value === NULL || $value === FALSE || $type === DatabaseReflection::FIELD_TEXT) {
+
+			} elseif ($type === DatabaseReflection::FIELD_INTEGER) {
+				$row[$key] = is_float($tmp = $value * 1) ? $value : $tmp;
+
+			} elseif ($type === DatabaseReflection::FIELD_FLOAT) {
+				$row[$key] = (string) ($tmp = (float) $value) === $value ? $tmp : $value;
+
+			} elseif ($type === DatabaseReflection::FIELD_BOOL) {
+				$row[$key] = ((bool) $value) && $value !== 'f' && $value !== 'F';
+			}
+		}
+
 		return $this->connection->getSupplementalDriver()->normalizeRow($row, $this);
 	}
 

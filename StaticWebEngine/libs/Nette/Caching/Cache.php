@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Caching;
@@ -22,18 +22,17 @@ use Nette;
  */
 class Cache extends Nette\Object implements \ArrayAccess
 {
-	/**#@+ dependency */
-	const PRIORITY = 'priority';
-	const EXPIRATION = 'expire';
-	const EXPIRE = 'expire';
-	const SLIDING = 'sliding';
-	const TAGS = 'tags';
-	const FILES = 'files';
-	const ITEMS = 'items';
-	const CONSTS = 'consts';
-	const CALLBACKS = 'callbacks';
-	const ALL = 'all';
-	/**#@-*/
+	/** dependency */
+	const PRIORITY = 'priority',
+		EXPIRATION = 'expire',
+		EXPIRE = 'expire',
+		SLIDING = 'sliding',
+		TAGS = 'tags',
+		FILES = 'files',
+		ITEMS = 'items',
+		CONSTS = 'consts',
+		CALLBACKS = 'callbacks',
+		ALL = 'all';
 
 	/** @internal */
 	const NAMESPACE_SEPARATOR = "\x00";

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Application;
@@ -55,7 +55,7 @@ class Application extends Nette\Object
 	/** @var Presenter */
 	private $presenter;
 
-	/** @var Nette\Context */
+	/** @var Nette\IContext */
 	private $context;
 
 
@@ -68,12 +68,6 @@ class Application extends Nette\Object
 	{
 		$httpRequest = $this->getHttpRequest();
 		$httpResponse = $this->getHttpResponse();
-
-		// autostarts session
-		$session = $this->getSession();
-		if (!$session->isStarted() && $session->exists()) {
-			$session->start();
-		}
 
 		// check HTTP method
 		if ($this->allowedMethods) {
@@ -98,6 +92,12 @@ class Application extends Nette\Object
 				if (!$request) {
 					$this->onStartup($this);
 
+					// autostarts session
+					$session = $this->getSession();
+					if (!$session->isStarted() && $session->exists()) {
+						$session->start();
+					}
+
 					// routing
 					$router = $this->getRouter();
 
@@ -119,17 +119,18 @@ class Application extends Nette\Object
 				$this->onRequest($this, $request);
 
 				// Instantiate presenter
-				$presenter = $request->getPresenterName();
+				$presenterName = $request->getPresenterName();
 				try {
-					$class = $this->getPresenterLoader()->getPresenterClass($presenter);
-					$request->setPresenterName($presenter);
+					$this->presenter = $this->getPresenterFactory()->createPresenter($presenterName);
 				} catch (InvalidPresenterException $e) {
 					throw new BadRequestException($e->getMessage(), 404, $e);
 				}
+
+				$this->getPresenterFactory()->getPresenterClass($presenterName);
+				$request->setPresenterName($presenterName);
 				$request->freeze();
 
 				// Execute presenter
-				$this->presenter = new $class;
 				$response = $this->presenter->run($request);
 				$this->onResponse($this, $response);
 
@@ -139,7 +140,7 @@ class Application extends Nette\Object
 					continue;
 
 				} elseif ($response instanceof IPresenterResponse) {
-					$response->send();
+					$response->send($httpRequest, $httpResponse);
 				}
 				break;
 
@@ -184,19 +185,7 @@ class Application extends Nette\Object
 						$code = 500;
 						Nette\Debug::log($e, Nette\Debug::ERROR);
 					}
-					echo "<!DOCTYPE html><meta http-equiv='Content-Type' content='text/html; charset=utf-8'><meta name=robots content=noindex><meta name=generator content='Nette Framework'>\n\n";
-					echo "<style>body{color:#333;background:white;width:500px;margin:100px auto}h1{font:bold 47px/1.5 sans-serif;margin:.6em 0}p{font:21px/1.5 Georgia,serif;margin:1.5em 0}small{font-size:70%;color:gray}</style>\n\n";
-					static $messages = array(
-						0 => array('Oops...', 'Your browser sent a request that this server could not understand or process.'),
-						403 => array('Access Denied', 'You do not have permission to view this page. Please try contact the web site administrator if you believe you should be able to view this page.'),
-						404 => array('Page Not Found', 'The page you requested could not be found. It is possible that the address is incorrect, or that the page no longer exists. Please use a search engine to find what you are looking for.'),
-						405 => array('Method Not Allowed', 'The requested method is not allowed for the URL.'),
-						410 => array('Page Not Found', 'The page you requested has been taken off the site. We apologize for the inconvenience.'),
-						500 => array('Server Error', 'We\'re sorry! The server encountered an internal error and was unable to complete your request. Please try again later.'),
-					);
-					$message = isset($messages[$code]) ? $messages[$code] : $messages[0];
-					echo "<title>$message[0]</title>\n\n<h1>$message[0]</h1>\n\n<p>$message[1]</p>\n\n";
-					if ($code) echo "<p><small>error $code</small></p>";
+					require __DIR__ . '/templates/error.phtml';
 					break;
 				}
 			}
@@ -234,7 +223,7 @@ class Application extends Nette\Object
 
 
 	/**
-	 * Gets the context.
+	 * Sets the context.
 	 * @return Application  provides a fluent interface
 	 */
 	public function setContext(Nette\IContext $context)
@@ -294,12 +283,12 @@ class Application extends Nette\Object
 
 
 	/**
-	 * Returns presenter loader.
-	 * @return IPresenterLoader
+	 * Returns presenter factory.
+	 * @return IPresenterFactory
 	 */
-	public function getPresenterLoader()
+	public function getPresenterFactory()
 	{
-		return $this->context->getService('Nette\\Application\\IPresenterLoader');
+		return $this->context->getService('Nette\\Application\\IPresenterFactory');
 	}
 
 

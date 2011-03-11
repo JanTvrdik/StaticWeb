@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Caching;
@@ -83,7 +83,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 	private $lastModTime = NULL;
 
 	/** @var array Cache and uncommited but changed nodes */
-	public $nodeCache = array();
+	private $nodeCache = array();
 
 	/** @var array */
 	private $nodeChanged = array();
@@ -139,7 +139,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 		}
 
 		if (!flock($this->handle, LOCK_SH)) {
-			throw new \InvalidStateException('Cannot acquite shared lock on journal.');
+			throw new \InvalidStateException('Cannot acquire shared lock on journal.');
 		}
 
 		$header = stream_get_contents($this->handle, 2 * self::INT32_SIZE, 0);
@@ -150,6 +150,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 
 		if ($fileMagic !== self::FILE_MAGIC) {
 			fclose($this->handle);
+			$this->handle = false;
 			throw new \InvalidStateException("Malformed journal file '$this->file'.");
 		}
 	}
@@ -165,6 +166,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 			$this->headerCommit();
 			flock($this->handle, LOCK_UN); // Since PHP 5.3.3 is manual unlock necesary
 			fclose($this->handle);
+			$this->handle = false;
 		}
 	}
 
@@ -208,6 +210,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 						}
 						$toDelete[self::ENTRIES][$keyHash][$link] = TRUE;
 						$this->cleanFromIndex($toDelete);
+						$entriesNode = $this->getNode($entriesNodeId); // Node was changed, get again
 						unset($dataNode[$link]);
 						$this->saveNode($link >> self::BITROT, $dataNode);
 					}
@@ -896,7 +899,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 			} else {
 				list(, $magic) = unpack('N', $binary);
 				if ($magic !== self::INDEX_MAGIC && $magic !== self::DATA_MAGIC) {
-					$nodesId[] = $from;
+					$nodesId[] = $id;
 				}
 			}
 
@@ -1094,7 +1097,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 			} while (empty($binary) || $binary === $packedNull);
 
 			if (!ftruncate($this->handle, self::HEADER_SIZE + self::NODE_SIZE * ($id + 1))) {
-				throw new \InvalidStateException("Cannot truncate journal file.");
+				throw new \InvalidStateException('Cannot truncate journal file.');
 			}
 		} else {
 			fseek($this->handle, self::HEADER_SIZE + self::NODE_SIZE * $id);
@@ -1114,7 +1117,7 @@ class FileJournal extends Nette\Object implements ICacheJournal
 	private function deleteAll()
 	{
 		if (!ftruncate($this->handle, self::HEADER_SIZE)) {
-			throw new \InvalidStateException("Cannot truncate journal file.");
+			throw new \InvalidStateException('Cannot truncate journal file.');
 		}
 	}
 
@@ -1126,15 +1129,18 @@ class FileJournal extends Nette\Object implements ICacheJournal
 	 */
 	private function lock()
 	{
-		if ($this->handle) {
-			if (!flock($this->handle, LOCK_EX)) {
-				throw new \InvalidStateException('Cannot acquite exclusive lock on journal.');
-			}
-			if ($this->lastModTime !== NULL) {
-				clearstatcache();
-				if ($this->lastModTime < @filemtime($this->file)) { // intentionally @
-					$this->nodeCache = $this->dataNodeFreeSpace = array();
-				}
+		if (!$this->handle) {
+			throw new \InvalidStateException('File journal file is not opened');
+		}
+
+		if (!flock($this->handle, LOCK_EX)) {
+			throw new \InvalidStateException('Cannot acquire exclusive lock on journal.');
+		}
+
+		if ($this->lastModTime !== NULL) {
+			clearstatcache();
+			if ($this->lastModTime < @filemtime($this->file)) { // intentionally @
+				$this->nodeCache = $this->dataNodeFreeSpace = array();
 			}
 		}
 	}

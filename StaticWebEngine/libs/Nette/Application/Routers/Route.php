@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Application;
@@ -30,25 +30,22 @@ class Route extends Nette\Object implements IRouter
 	/** flag */
 	const CASE_SENSITIVE = 256;
 
-	/**#@+ @internal uri type */
-	const HOST = 1;
-	const PATH = 2;
-	const RELATIVE = 3;
-	/**#@-*/
+	/** @internal uri type */
+	const HOST = 1,
+		PATH = 2,
+		RELATIVE = 3;
 
-	/**#@+ key used in {@link Route::$styles} or metadata {@link Route::__construct} */
+	/** key used in {@link Route::$styles} or metadata {@link Route::__construct} */
 	const VALUE = 'value';
 	const PATTERN = 'pattern';
 	const FILTER_IN = 'filterIn';
 	const FILTER_OUT = 'filterOut';
 	const FILTER_TABLE = 'filterTable';
-	/**#@-*/
 
-	/**#@+ @internal fixity types - how to handle default value? {@link Route::$metadata} */
-	const OPTIONAL = 0;
-	const PATH_OPTIONAL = 1;
-	const CONSTANT = 2;
-	/**#@-*/
+	/** @internal fixity types - how to handle default value? {@link Route::$metadata} */
+	const OPTIONAL = 0,
+		PATH_OPTIONAL = 1,
+		CONSTANT = 2;
 
 	/** @var bool */
 	public static $defaultFlags = 0;

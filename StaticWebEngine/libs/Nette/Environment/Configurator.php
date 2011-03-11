@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette;
@@ -24,7 +24,7 @@ use Nette,
 class Configurator extends Object
 {
 	/** @var string */
-	public $defaultConfigFile = '%appDir%/config.ini';
+	public $defaultConfigFile = '%appDir%/config.neon';
 
 	/** @var array */
 	public $defaultServices = array(
@@ -120,6 +120,9 @@ class Configurator extends Object
 				$file = $this->defaultConfigFile;
 			}
 			$file = Environment::expand($file);
+			if (!is_file($file)) {
+				$file = preg_replace('#\.neon$#', '.ini', $file); // backcompatibility
+			}
 			$config = Config::fromFile($file, $name);
 		}
 
@@ -281,9 +284,9 @@ class Configurator extends Object
 		$context = clone Environment::getContext();
 		$context->addService('Nette\\Application\\IRouter', 'Nette\Application\MultiRouter');
 
-		if (!$context->hasService('Nette\\Application\\IPresenterLoader')) {
-			$context->addService('Nette\\Application\\IPresenterLoader', function() {
-				return new Nette\Application\PresenterLoader(Environment::getVariable('appDir'));
+		if (!$context->hasService('Nette\\Application\\IPresenterFactory')) {
+			$context->addService('Nette\\Application\\IPresenterFactory', function() use ($context) {
+				return new Nette\Application\PresenterFactory(Environment::getVariable('appDir'), $context);
 			});
 		}
 

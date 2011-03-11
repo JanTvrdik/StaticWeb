@@ -1,1 +1,1 @@
-Nette Framework 2.0-dev (revision 56bb8cf released on 2011-01-18)
+Nette Framework 2.0-dev (revision 7616569 released on 2011-03-10)

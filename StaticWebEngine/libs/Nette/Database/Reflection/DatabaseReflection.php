@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Database\Reflection;
@@ -22,6 +22,13 @@ use Nette;
  */
 class DatabaseReflection extends Nette\Object
 {
+	const FIELD_TEXT = 'string',
+		FIELD_BINARY = 'bin',
+		FIELD_BOOL = 'bool',
+		FIELD_INTEGER = 'int',
+		FIELD_FLOAT = 'float',
+		FIELD_DATETIME = 'datetime';
+
 	/** @var string */
 	private $primary;
 
@@ -75,6 +82,36 @@ class DatabaseReflection extends Nette\Object
 	public function getReferencedTable($name, $table)
 	{
 		return sprintf($this->table, $name, $table);
+	}
+
+
+
+	/**
+	 * Heuristic type detection.
+	 * @param  string
+	 * @return string
+	 * @internal
+	 */
+	public static function detectType($type)
+	{
+		static $types, $patterns = array(
+			'BYTEA|BLOB|BIN' => self::FIELD_BINARY,
+			'TEXT|CHAR' => self::FIELD_TEXT,
+			'YEAR|BYTE|COUNTER|SERIAL|INT|LONG' => self::FIELD_INTEGER,
+			'CURRENCY|REAL|MONEY|FLOAT|DOUBLE|DECIMAL|NUMERIC|NUMBER' => self::FIELD_FLOAT,
+			'TIME|DATE' => self::FIELD_DATETIME,
+			'BOOL|BIT' => self::FIELD_BOOL,
+		);
+
+		if (!isset($types[$type])) {
+			$types[$type] = 'string';
+			foreach ($patterns as $s => $val) {
+				if (preg_match("#$s#i", $type)) {
+					return $types[$type] = $val;
+				}
+			}
+		}
+		return $types[$type];
 	}
 
 }

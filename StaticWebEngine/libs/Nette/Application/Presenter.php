@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Application;
@@ -31,17 +31,15 @@ use Nette,
  */
 abstract class Presenter extends Control implements IPresenter
 {
-	/**#@+ bad link handling {@link Presenter::$invalidLinkMode} */
-	const INVALID_LINK_SILENT = 1;
-	const INVALID_LINK_WARNING = 2;
-	const INVALID_LINK_EXCEPTION = 3;
-	/**#@-*/
+	/** bad link handling {@link Presenter::$invalidLinkMode} */
+	const INVALID_LINK_SILENT = 1,
+		INVALID_LINK_WARNING = 2,
+		INVALID_LINK_EXCEPTION = 3;
 
-	/**#@+ @internal special parameter key */
-	const SIGNAL_KEY = 'do';
-	const ACTION_KEY = 'action';
-	const FLASH_KEY = '_fid';
-	/**#@-*/
+	/** @internal special parameter key */
+	const SIGNAL_KEY = 'do',
+		ACTION_KEY = 'action',
+		FLASH_KEY = '_fid';
 
 	/** @var string */
 	public static $defaultAction = 'default';
@@ -102,6 +100,9 @@ abstract class Presenter extends Control implements IPresenter
 
 	/** @var array */
 	private $lastCreatedRequestFlag;
+
+	/** @var Nette\IContext */
+	private $context;
 
 
 
@@ -195,7 +196,7 @@ abstract class Presenter extends Control implements IPresenter
 			if ($this->isAjax()) try {
 				$hasPayload = (array) $this->payload; unset($hasPayload['state']);
 				if ($this->response instanceof RenderResponse && $this->isControlInvalid()) { // snippets - TODO
-					$this->response->send();
+					$this->response->send($this->getHttpRequest(), $this->getHttpResponse());
 					$this->sendPayload();
 
 				} elseif (!$this->response && $hasPayload) { // back compatibility for use terminate() instead of sendPayload()
@@ -733,9 +734,9 @@ abstract class Presenter extends Control implements IPresenter
 		// note: createRequest supposes that saveState(), run() & tryCall() behaviour is final
 
 		// cached services for better performance
-		static $presenterLoader, $router, $refUri;
-		if ($presenterLoader === NULL) {
-			$presenterLoader = $this->getApplication()->getPresenterLoader();
+		static $presenterFactory, $router, $refUri;
+		if ($presenterFactory === NULL) {
+			$presenterFactory = $this->getApplication()->getPresenterFactory();
 			$router = $this->getApplication()->getRouter();
 			$refUri = new Nette\Web\Uri($this->getHttpRequest()->getUri());
 			$refUri->setPath($this->getHttpRequest()->getUri()->getScriptPath());
@@ -812,7 +813,7 @@ abstract class Presenter extends Control implements IPresenter
 					$presenter = substr($presenter, 0, $b + 1) . substr($destination, 0, $a);
 				}
 			}
-			$presenterClass = $presenterLoader->getPresenterClass($presenter);
+			$presenterClass = $presenterFactory->getPresenterClass($presenter);
 		}
 
 		// PROCESS SIGNAL ARGUMENTS
@@ -1218,7 +1219,30 @@ abstract class Presenter extends Control implements IPresenter
 
 
 
-	/********************* backend ****************d*g**/
+	/********************* services ****************d*g**/
+
+
+
+	/**
+	 * Gets the context.
+	 * @return Presenter  provides a fluent interface
+	 */
+	public function setContext(Nette\IContext $context)
+	{
+		$this->context = $context;
+		return $this;
+	}
+
+
+
+	/**
+	 * Gets the context.
+	 * @return Nette\IContext
+	 */
+	final public function getContext()
+	{
+		return $this->context;
+	}
 
 
 
@@ -1227,7 +1251,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	protected function getHttpRequest()
 	{
-		return Environment::getHttpRequest();
+		return $this->context->getService('Nette\\Web\\IHttpRequest');
 	}
 
 
@@ -1237,7 +1261,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	protected function getHttpResponse()
 	{
-		return Environment::getHttpResponse();
+		return $this->context->getService('Nette\\Web\\IHttpResponse');
 	}
 
 
@@ -1247,7 +1271,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	protected function getHttpContext()
 	{
-		return Environment::getHttpContext();
+		return $this->context->getService('Nette\\Web\\HttpContext');
 	}
 
 
@@ -1257,7 +1281,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	public function getApplication()
 	{
-		return Environment::getApplication();
+		return $this->context->getService('Nette\\Application\\Application');
 	}
 
 
@@ -1267,7 +1291,8 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	public function getSession($namespace = NULL)
 	{
-		return Environment::getSession($namespace);
+		$handler = $this->context->getService('Nette\\Web\\Session');
+		return $namespace === NULL ? $handler : $handler->getNamespace($namespace);
 	}
 
 
@@ -1277,7 +1302,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	public function getUser()
 	{
-		return Environment::getUser();
+		return $this->context->getService('Nette\\Web\\IUser');
 	}
 
 }

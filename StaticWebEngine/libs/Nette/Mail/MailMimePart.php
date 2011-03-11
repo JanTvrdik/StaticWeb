@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Mail;
@@ -26,17 +26,15 @@ use Nette;
  */
 class MailMimePart extends Nette\Object
 {
-	/**#@+ encoding */
-	const ENCODING_BASE64 = 'base64';
-	const ENCODING_7BIT = '7bit';
-	const ENCODING_8BIT = '8bit';
-	const ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
-	/**#@-*/
+	/** encoding */
+	const ENCODING_BASE64 = 'base64',
+		ENCODING_7BIT = '7bit',
+		ENCODING_8BIT = '8bit',
+		ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
 
-	/**#@+ @internal */
+	/** @internal */
 	const EOL = "\r\n";
 	const LINE_LENGTH = 76;
-	/**#@-*/
 
 	/** @var array */
 	private $headers = array();
@@ -324,13 +322,19 @@ class MailMimePart extends Nette\Object
 	 */
 	private static function encodeHeader($s, & $offset = 0)
 	{
+		$o = '';
+		if ($offset >= 55) { // maximum for iconv_mime_encode
+			$o = self::EOL . "\t";
+			$offset = 1;
+		}
+
 		if (strspn($s, "!\"#$%&\'()*+,-./0123456789:;<>@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^`abcdefghijklmnopqrstuvwxyz{|}=? _\r\n\t") === strlen($s)
 			&& ($offset + strlen($s) <= self::LINE_LENGTH)) {
 			$offset += strlen($s);
-			return $s;
+			return $o . $s;
 		}
 
-		$o = str_replace("\n ", "\n\t", substr(iconv_mime_encode(str_repeat(' ', $offset), $s, array(
+		$o .= str_replace("\n ", "\n\t", substr(iconv_mime_encode(str_repeat(' ', $offset), $s, array(
 			'scheme' => 'B', // Q is broken
 			'input-charset' => 'UTF-8',
 			'output-charset' => 'UTF-8',

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Application;
@@ -31,6 +31,8 @@ class DownloadResponse extends Nette\Object implements IPresenterResponse
 	/** @var string */
 	private $name;
 
+	/** @var bool */
+	public $resuming = TRUE;
 
 
 	/**
@@ -88,11 +90,47 @@ class DownloadResponse extends Nette\Object implements IPresenterResponse
 	 * Sends response to output.
 	 * @return void
 	 */
-	public function send()
+	public function send(Nette\Web\IHttpRequest $httpRequest, Nette\Web\IHttpResponse $httpResponse)
 	{
-		Nette\Environment::getHttpResponse()->setContentType($this->contentType);
-		Nette\Environment::getHttpResponse()->setHeader('Content-Disposition', 'attachment; filename="' . $this->name . '"');
-		readfile($this->file);
+		$httpResponse->setContentType($this->contentType);
+		$httpResponse->setHeader('Content-Disposition', 'attachment; filename="' . $this->name . '"');
+
+		$filesize = $length = filesize($this->file);
+		$handle = fopen($this->file, 'r');
+
+		if ($this->resuming) {
+			$httpResponse->setHeader('Accept-Ranges', 'bytes');
+			$range = $httpRequest->getHeader('Range');
+			if ($range !== NULL) {
+				$range = substr($range, 6); // 6 == strlen('bytes=')
+				list($start, $end) = explode('-', $range);
+				if ($start == NULL) {
+					$start = 0;
+				}
+				if ($end == NULL) {
+					$end = $filesize - 1;
+				}
+
+				if ($start < 0 || $end <= $start || $end > $filesize -1) {
+					$httpResponse->setCode(416); // requested range not satisfiable
+					return;
+				}
+
+				$httpResponse->setCode(206);
+				$httpResponse->setHeader('Content-Range', 'bytes ' . $start . '-' . $end . '/' . $filesize);
+				$length = $end - $start + 1;
+				fseek($handle, $start);
+
+			} else {
+				$httpResponse->setHeader('Content-Range', 'bytes 0-' . ($filesize - 1) . '/' . $filesize);
+			}
+		}
+
+		$httpResponse->setHeader('Content-Length', $length);
+		while (!feof($handle)) {
+			echo fread($handle, 4e6);
+		}
+		fclose($handle);
 	}
 
 }

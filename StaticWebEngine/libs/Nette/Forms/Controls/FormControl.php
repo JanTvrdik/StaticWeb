@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Nette Framework.
+ * This file is part of the Nette Framework (http://nette.org)
  *
  * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
- * This source file is subject to the "Nette license", and/or
- * GPL license. For more information please see http://nette.org
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
  */
 
 namespace Nette\Forms;
@@ -533,14 +533,17 @@ abstract class FormControl extends Nette\Component implements IFormControl
 	{
 		$payload = array();
 		foreach ($rules as $rule) {
-			if (!is_string($rule->operation)) {
-				continue;
-
-			} elseif ($rule->type === Rule::VALIDATOR) {
-				$item = array('op' => ($rule->isNegative ? '~' : '') . $rule->operation, 'msg' => $rules->formatMessage($rule, FALSE));
+			if (!is_string($op = $rule->operation)) {
+				$op = callback($op);
+				if (!$op->isStatic()) {
+					continue;
+				}
+			}
+			if ($rule->type === Rule::VALIDATOR) {
+				$item = array('op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => $rules->formatMessage($rule, FALSE));
 
 			} elseif ($rule->type === Rule::CONDITION) {
-				$item = array('op' => ($rule->isNegative ? '~' : '') . $rule->operation, 'rules' => self::exportRules($rule->subRules), 'control' => $rule->control->getHtmlName());
+				$item = array('op' => ($rule->isNegative ? '~' : '') . $op, 'rules' => self::exportRules($rule->subRules), 'control' => $rule->control->getHtmlName());
 				if ($rule->subRules->getToggles()) {
 					$item['toggle'] = $rule->subRules->getToggles();
 				}
