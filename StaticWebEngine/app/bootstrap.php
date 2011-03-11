@@ -39,7 +39,7 @@ $application->catchExceptions = Debug::$productionMode;
 $context = $application->getContext();
 $context->addService('StaticWeb\\TemplateLocator', 'StaticWeb\\TemplateLocator');
 });
-$context->addService('Nette\\Application\\IPresenterFactory', function () use ($context) {
+$context->addService('Nette\\Application\\IPresenterFactory', function() use ($context) {
 	return new PresenterFactory(Env::getVariable('appDir'), $context);
 });
 $context->addService('Nette\\Application\\IRouter', function() use ($context) {
