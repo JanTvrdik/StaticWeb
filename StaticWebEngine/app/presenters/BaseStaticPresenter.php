@@ -198,10 +198,12 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 *
 	 * @author   Jan Tvrdík
 	 * @return   void
-	 * @throws   AbortException|BadRequestException
+	 * @throws   AbortException|BadRequestException|InvalidStateException
 	 */
 	public function sendTemplate()
 	{
+		if ($this->page === NULL) throw new \InvalidStateException("Can not send template, because {$this->reflection->name}::\$page is not set.");
+
 		try {
 			$file = $this->getTemplatePath();
 			$template = $this->createTemplate($file);
