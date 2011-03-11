@@ -238,12 +238,21 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 
 		// default filters
 		$template->onPrepareFilters[] = function($template) {
+			require_once APP_DIR . '/classes/ConfiguredTexy.php';
+			require_once APP_DIR . '/classes/TexyElementsFilter.php';
 			require_once APP_DIR . '/classes/LatteMacros.php';
-			$lfHandler = new LatteMacros();
-			$lfHandler->macros['@href'] = ' href="<?php echo %:escape%(%:macroPageLink%) ?>"';
-			$lf = new Nette\Templates\LatteFilter();
-			$lf->setHandler($lfHandler);
-			$template->registerFilter($lf);
+
+			$texyElementsFilter = new TexyElementsFilter();
+			$texyElementsFilter->texy = new ConfiguredTexy();
+			$texyElementsFilter->autoChangeSyntax = TRUE;
+
+			$latteHandler = new LatteMacros();
+			$latteHandler->macros['@href'] = ' href="<?php echo %:escape%(%:macroPageLink%) ?>"';
+			$latteFilter = new Nette\Templates\LatteFilter();
+			$latteFilter->setHandler($latteHandler);
+
+			$template->registerFilter($texyElementsFilter);
+			$template->registerFilter($latteFilter);
 		};
 
 		// default helpers
