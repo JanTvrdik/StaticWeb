@@ -111,9 +111,10 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	public function canonicalize()
 	{
 		if ($this->request->isMethod('get') || $this->request->isMethod('head')) {
-			$uri = $this->getApplication()->getRouter()->constructUrl(clone $this->request, $this->getHttpRequest()->getUri());
-			if ($uri !== NULL && !$this->getHttpRequest()->getUri()->isEqual($uri)) {
-				$this->sendResponse(new RedirectingResponse($uri, IHttpResponse::S301_MOVED_PERMANENTLY));
+			$currentUri = $this->getHttpRequest()->getUri();
+			$optimalUri = $this->getApplication()->getRouter()->constructUrl(clone $this->request, $currentUri);
+			if ($optimalUri !== NULL && !$currentUri->isEqual($optimalUri)) {
+				$this->sendResponse(new RedirectingResponse($optimalUri, IHttpResponse::S301_MOVED_PERMANENTLY));
 			}
 		}
 	}
