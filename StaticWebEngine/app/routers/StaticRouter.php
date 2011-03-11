@@ -34,6 +34,9 @@ class StaticRouter extends Nette\Object implements Nette\Application\IRouter
 	/** @var     string            default page for (sub)categories */
 	private $defaultPage;
 
+	/** @var     Nette\IContext */
+	private $context;
+
 
 
 	/**
@@ -62,18 +65,20 @@ class StaticRouter extends Nette\Object implements Nette\Application\IRouter
 	 */
 	public function match(IHttpRequest $httpRequest)
 	{
-		$path = $httpRequest->getUri()->getRelativeUri();
-
-		if ($path === '') {
-			$path = $this->homepage;
-		} elseif (substr($path, -1) === '/') {
-			$path .= $this->defaultPage;
+		$path = rtrim($httpRequest->getUri()->getRelativeUri(), '/');
+		$page = ($path === '' ? $this->homepage : $path);
+		$templateLocator = $this->getTemplateLocator();
+		if (!$templateLocator->existsPage($page)) {
+			$page .= '/' . $this->defaultPage;
+			if (!$templateLocator->existsPage($page)) {
+				return NULL;
+			}
 		}
 
 		return new PresenterRequest(
 			$this->presenter,
 			$httpRequest->getMethod(),
-			array('page' => $path),
+			array('page' => $page),
 			$httpRequest->getPost(),
 			$httpRequest->getFiles(),
 			array('secured' => $httpRequest->isSecured())
@@ -104,6 +109,46 @@ class StaticRouter extends Nette\Object implements Nette\Application\IRouter
 		}
 
 		return $refUri->getBaseUri() . $page;
+	}
+
+
+
+	/**
+	 * Returns current context.
+	 *
+	 * @author   Jan Tvrdík
+	 * @return   Nette\IContext
+	 */
+	final public function getContext()
+	{
+		return $this->context;
+	}
+
+
+
+	/**
+	 * Sets current context.
+	 *
+	 * @author   Jan Tvrdík
+	 * @param    Nette\IContext
+	 * @return   void
+	 */
+	public function setContext(Nette\IContext $context)
+	{
+		$this->context = $context;
+	}
+
+
+
+	/**
+	 * Returns template locator.
+	 *
+	 * @author   Jan Tvrdík
+	 * @return   TemplateLocator
+	 */
+	protected function getTemplateLocator()
+	{
+		return $this->getContext()->getService('StaticWeb\\TemplateLocator');
 	}
 
 }

@@ -220,12 +220,10 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 *
 	 * @author   Jan Tvrdík
 	 * @return   string
-	 * @throws   InvalidStateException
 	 */
 	protected function getTemplatePath()
 	{
-		if ($this->page === NULL) throw new InvalidStateException();
-		return TEMPLATES_DIR . '/' . $this->page . '.latte';
+		return $this->getTemplateLocator()->getTemplatePath($this->page);
 	}
 
 
@@ -235,18 +233,10 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 *
 	 * @author   Jan Tvrdík
 	 * @return   string|FALSE
-	 * @throws   InvalidStateException
 	 */
 	protected function getLayoutPath()
 	{
-		if ($this->page === NULL) throw new InvalidStateException();
-		$dir = $this->page;
-		do {
-			$dir = substr($dir, 0, strrpos($dir, '/'));
-			$path = TEMPLATES_DIR . '/' . ($dir ? $dir . '/' : '') . '@layout.latte';
-			if (is_file($path)) return $path;
-			elseif (empty($dir)) return FALSE;
-		} while (TRUE);
+		return $this->getTemplateLocator()->getLayoutPath($this->page);
 	}
 
 
@@ -273,6 +263,19 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	protected function getApplication()
 	{
 		return Env::getApplication();
+	}
+
+
+
+	/**
+	 * Returns TemplateLocator.
+	 *
+	 * @author   Jan Tvrdík
+	 * @return   TemplateLocator
+	 */
+	protected function getTemplateLocator()
+	{
+		return $this->getApplication()->getContext()->getService('StaticWeb\\TemplateLocator');
 	}
 
 }
