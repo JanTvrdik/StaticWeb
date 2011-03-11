@@ -21,13 +21,6 @@ use Nette\Web\Uri;
 /**
  * Router for static pages.
  *
- * URI                Page                Template
- * ----------------------------------------------------------
- * ""              => $homepage        => homepage.latte
- * "about"         => about            => about.latte
- * "about/"        => about/$default   => about/default.latte
- * "books/linux"   => books/linux      => books/linux.latte
- *
  * @author   Jan Tvrdík
  */
 class StaticRouter extends Nette\Object implements Nette\Application\IRouter
@@ -65,7 +58,7 @@ class StaticRouter extends Nette\Object implements Nette\Application\IRouter
 	 *
 	 * @author   Jan Tvrdík
 	 * @param    IHttpRequest
-	 * @return   PresenterRequest
+	 * @return   PresenterRequest|NULL
 	 */
 	public function match(IHttpRequest $httpRequest)
 	{
