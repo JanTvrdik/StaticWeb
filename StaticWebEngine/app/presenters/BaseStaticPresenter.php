@@ -67,6 +67,48 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 
 
 	/**
+	 * Generates link to a page.
+	 *
+	 * @todo     Do not use "StaticPage"!
+	 * @todo     Write syntax examples in phpDoc
+	 *
+	 * @author   Jan Tvrdík
+	 * @param    string
+	 * @return   string
+	 */
+	public function link($page)
+	{
+		if ($page[0] === '/') {
+			$page = substr($page, 1);
+		} else {
+			$pos = strrpos($this->page, '/');
+			$page = ($pos ? (substr($this->page, 0, $pos) . '/') : '') . $page;
+		}
+		$parts = explode('/', $page);
+		$page = '';
+		foreach ($parts as $part) {
+			if ($part === '.' ) {
+				continue;
+			} elseif ($part === '') {
+				throw new Nette\Application\InvalidLinkException("Invalid link: '$s'");
+			} elseif ($part === '..') {
+				$pos = strrpos($page, '/');
+				if ($pos === FALSE) throw new Nette\Application\InvalidLinkException("Invalid link: '$s'");
+				$page = substr($page, 0, $pos);
+			} else {
+				$page .= ($page ? '/' : '') . $part;
+			}
+		}
+
+		return $this->getApplication()->getRouter()->constructUrl(
+			new PresenterRequest('StaticPage', 'get', array('page' => $page)),
+			$this->getHttpRequest()->getUri()
+		);
+	}
+
+
+
+	/**
 	 * Processes given request and returns a response.
 	 *
 	 * @author   Jan Tvrdík, David Grudl
@@ -192,10 +234,16 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 		// default parameters
 		$template->baseUri = rtrim(Env::getVariable('baseUri', NULL), '/');
 		$template->basePath = preg_replace('#https?://[^/]+#A', '', $template->baseUri);
+		$template->presenter = $this;
 
 		// default filters
 		$template->onPrepareFilters[] = function($template) {
-			$template->registerFilter(new Nette\Templates\LatteFilter());
+			require_once APP_DIR . '/classes/LatteMacros.php';
+			$lfHandler = new LatteMacros();
+			$lfHandler->macros['@href'] = ' href="<?php echo %:escape%(%:macroPageLink%) ?>"';
+			$lf = new Nette\Templates\LatteFilter();
+			$lf->setHandler($lfHandler);
+			$template->registerFilter($lf);
 		};
 
 		// default helpers
