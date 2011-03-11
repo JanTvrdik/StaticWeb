@@ -25,6 +25,8 @@ require_once dirname(__FILE__) . '/BaseStaticPresenter.php';
  */
 final class StaticPagePresenter extends BaseStaticPresenter
 {
+	const PAGE_REGEXP = '#^[a-z0-9]([a-z0-9_.-]*[a-z0-9])?(/[a-z0-9]([a-z0-9_.-]*[a-z0-9])?)*$#i';
+
 	/**
 	 * Processes given request.
 	 *
@@ -40,7 +42,7 @@ final class StaticPagePresenter extends BaseStaticPresenter
 			throw new BadRequestException('Invalid request. Parameter \'page\' is required.');
 		}
 		$this->page = $params['page'];
-		if (!Nette\String::match($this->page, '#^[a-z0-9]([a-z0-9_.-]*[a-z0-9])?(/[a-z0-9]([a-z0-9_.-]*[a-z0-9])?)*$#i')) {
+		if (!Nette\String::match($this->page, self::PAGE_REGEXP)) {
 			throw new BadRequestException('Parameter \'page\' contains illegal characters.');
 		}
 		$this->sendTemplate();
