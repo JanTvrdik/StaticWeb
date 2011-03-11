@@ -1,0 +1,5 @@
+## temp
+StaticWebEngine/temp/*
+!StaticWebEngine/temp/cache/workaround.txt
+StaticWebEngine/log/*
+!StaticWebEngine/log/workaround.txt
