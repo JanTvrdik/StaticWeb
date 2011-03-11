@@ -38,6 +38,9 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	/** @var     IPresenterResponse */
 	private $response;
 
+	/** @var     Nette\IContext */
+	private $context;
+
 
 
 	/**
@@ -301,6 +304,33 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 
 
 	/**
+	 * Returns current context.
+	 *
+	 * @author   Jan Tvrdík
+	 * @return   Nette\IContext
+	 */
+	final public function getContext()
+	{
+		return $this->context;
+	}
+
+
+
+	/**
+	 * Sets current context.
+	 *
+	 * @author   Jan Tvrdík
+	 * @param    Nette\IContext
+	 * @return   void
+	 */
+	public function setContext(Nette\IContext $context)
+	{
+		$this->context = $context;
+	}
+
+
+
+	/**
 	 * Returns current HTTP request.
 	 *
 	 * @author   David Grudl
@@ -308,7 +338,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 */
 	protected function getHttpRequest()
 	{
-		return Env::getHttpRequest();
+		return $this->context->getService('Nette\\Web\\IHttpRequest');
 	}
 
 
@@ -321,7 +351,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 */
 	protected function getApplication()
 	{
-		return Env::getApplication();
+		return $this->context->getService('Nette\\Application\\Application');
 	}
 
 
@@ -334,7 +364,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 */
 	protected function getTemplateLocator()
 	{
-		return $this->getApplication()->getContext()->getService('StaticWeb\\TemplateLocator');
+		return $this->context->getService('StaticWeb\\TemplateLocator');
 	}
 
 }

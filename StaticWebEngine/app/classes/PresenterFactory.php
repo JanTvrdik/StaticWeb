@@ -11,19 +11,15 @@ namespace StaticWeb;
 
 use Nette;
 use Nette\Debug;
-use Nette\Environment as Env;
-use Nette\Application\PresenterRequest;
-use Nette\Web\IHttpRequest;
-use Nette\Web\Uri;
 
 
 
 /**
- * Presenter loader
+ * Presenter factory
  *
  * @author   Jan Tvrdík
  */
-class PresenterLoader extends Nette\Application\PresenterLoader
+class PresenterFactory extends Nette\Application\PresenterFactory
 {
 	/**
 	 * Formats presenter class name from its name.

@@ -20,7 +20,7 @@ use Nette\Web\Html;
 require LIBS_DIR . '/Nette/loader.php';
 require APP_DIR . '/routers/StaticRouter.php';
 require APP_DIR . '/classes/TemplateLocator.php';
-require APP_DIR . '/classes/PresenterLoader.php';
+require APP_DIR . '/classes/PresenterFactory.php';
 
 // Enable and setup Nette\Debug
 Debug::enable();
@@ -38,8 +38,9 @@ $application->catchExceptions = Debug::$productionMode;
 // Configure application context
 $context = $application->getContext();
 $context->addService('StaticWeb\\TemplateLocator', 'StaticWeb\\TemplateLocator');
-$context->addService('Nette\\Application\\IPresenterLoader', function () {
-	return new PresenterLoader(Env::getVariable('appDir'));
+});
+$context->addService('Nette\\Application\\IPresenterFactory', function () use ($context) {
+	return new PresenterFactory(Env::getVariable('appDir'), $context);
 });
 $context->addService('Nette\\Application\\IRouter', function() use ($context) {
 	$router = new StaticRouter('StaticPage', 'homepage', 'default');
