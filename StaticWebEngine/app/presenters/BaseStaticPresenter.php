@@ -54,6 +54,19 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 
 
 	/**
+	 * Returns current page.
+	 *
+	 * @author   Jan Tvrdík
+	 * @return   string
+	 */
+	final public function getPage()
+	{
+		return $this->page;
+	}
+
+
+
+	/**
 	 * Processes given request and returns a response.
 	 *
 	 * @author   Jan Tvrdík, David Grudl
