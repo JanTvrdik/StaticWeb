@@ -1,0 +1,230 @@
+Version 3.0-dev on 2011-02-02 (f3be183): texy.php is capitalized to Texy.php
+Version 3.0-dev on 2011-02-02 (9f98316): License changed to the New BSD License or the GNU General Public License (GPL) version 2 or 3.
+Version 3.0-dev on 2010-10-06 (b851f1f): removed NotSupportedException, MemberAccessException, InvalidStateException
+Version 3.0-dev on 2010-10-06 (faf0c35): PcreException renamed to TexyPcreException
+Version 3.0-dev on 2010-06-01 (63505ab): opened 3.0-dev
+Version 3.0-dev on 2010-05-26 (337be52): default output mode changed to HTML4 TRANSITIONAL (BC break!)
+Version 3.0-dev on 2010-05-26 (39e3701): Texy: removed $xhtml, $strictDTD (use setOutputMode), $removeSoftHyphens, $cleaner (BC break!)
+Version 3.0-dev on 2010-05-26 (263b9cf): TexyLinkModule: removed $imageOnClick & $popupOnClick (BC break!), added $imageClass
+Version 3.0-dev on 2010-05-26 (2d75a15): removed non-class constants TEXY_* (BC break!)
+Version 3.0-dev on 2010-05-26 (1714027): images: removed onmouseover and preloading support (BC break!)
+Version 3.0-dev on 2010-05-25 (f9c30c6): changed nettephp.com -> nette.org
+Version 3.0-dev on 2010-05-23 (3af8cc9): TexyTypographyModule: better quotes handling ('This girls's really nice.')
+Version 3.0-dev on 2010-05-21 (2f577a3): TexyLinkModule: fixed email highlighting in string "user:pass@domain"
+Version 3.0-dev on 2010-05-21 (126d646): added a limits for some regular expression quantifier (experimental)
+Version 3.0-dev on 2010-05-21 (86ff116): rewritten some regular expressions as possessive due backtrack limit (level 2)
+Version 3.0-dev on 2010-05-21 (6bdb522): rewritten some regular expressions as possessive due backtrack limit
+Version 3.0-dev on 2010-05-21 (544d8ff): TexyLongWordsModule: added SAFE_LIMIT
+Version 3.0-dev on 2010-05-21 (0cf0579): implemented PCRE error checking and PcreException
+Version 3.0-dev on 2010-05-20 (9418a75): opened 2.2-dev
+Version 3.0-dev on 2010-05-20 (9338a11): Released version 2.1
+Version 3.0-dev on 2010-05-20 (5edcaf0): TexyTypographyModule: removes unnecessary spaces
+Version 3.0-dev on 2010-05-20 (52188b6): TexyTypographyModule: added support for 1&nbsp;000&nbsp;Euro
+Version 3.0-dev on 2010-05-20 (99e2a98): TexyPhraseModule: fixed //emphasis// collision with URL
+Version 3.0-dev on 2010-05-20 (0227d0e): TexyPhraseModule: added support for x^2n x_2n
+Version 3.0-dev on 2010-05-20 (0e142d2): TexyListModule: fix - afterDefinitionList was invoked with wrong modifier (thx pekarna)
+Version 3.0-dev on 2010-05-20 (d66ab14): fixed images regexp (not allowed [* <>] etc)
+Version 3.0-dev on 2010-05-20 (c9e435f): added support for internationalized domains in email address
+Version 3.0-dev on 2010-05-20 (99b73cd): fixed problem with slow parsing of very long lines
+Version 3.0-dev on 2010-05-20 (94bbebf): updated phpDoc headers
+Version 3.0-dev on 2009-09-26 (8da0750): TexyTableModule: suppors [...|...] (temporary solution)
+Version 3.0-dev on 2009-09-17 (34834d6): released 2.0
+Version 3.0-dev on 2009-08-14 (98c0784): updated for GIT
+Version 3.0-dev on 2009-06-13 (54d5bdc): - deadened iconv & getimagesize
+Version 3.0-dev on 2009-05-19 (572ab08): - typos
+Version 3.0-dev on 2009-05-19 (1fa676d): - typos
+Version 3.0-dev on 2009-05-09 (08408ea): - renamed compact -> minified
+Version 3.0-dev on 2009-04-20 (18cac5a): - TexyHtmlOutputModule: fixed code formatting in PRE and TEXTAREA - TexyLinkModule: parse_url replaced with regular expression (parse_url damages UTF-8) - Texy: added callback type checking - updated TexyObject - fixed bugs in examples
+Version 3.0-dev on 2008-12-31 (6949b38): - year 2008 -> 2009
+Version 3.0-dev on 2008-12-25 (913c847): - added Texy::processLine()
+Version 3.0-dev on 2008-11-10 (9de1f8c): - Texy::processTypo() inserts &shy; in long words
+Version 3.0-dev on 2008-10-30 (36c3d32): - smarter *italic* handling
+Version 3.0-dev on 2008-10-22 (30a4a2b): - fixes in TexyUtf - fixed GIF images
+Version 3.0-dev on 2008-10-04 (ad5465c): +-
+Version 3.0-dev on 2008-10-02 (e5c911f): - fixed bug in TexyHeadingModule::$title - Fe^2+
+Version 3.0-dev on 2008-10-01 (e9ac26a): - TexyTableModule: extended table syntax
+Version 3.0-dev on 2008-09-05 (7f2c44b): - Object renamed to TexyObject
+Version 3.0-dev on 2008-08-28 (7e6478e): - suppressed error messages for is_file()
+Version 3.0-dev on 2008-08-22 (58be6c1): - HTML heading included in TOC - removed "parent" reference from TexyHtml
+Version 3.0-dev on 2008-07-22 (914aa5c): - public magic methods
+Version 3.0-dev on 2008-07-17 (560e623): modified SVN properties
+Version 3.0-dev on 2008-07-12 (01c7a41): - support for domain names with national characters - added $texy->removeSoftHyphens
+Version 3.0-dev on 2008-06-09 (bd2f995): new example syntax highlighting/demo-fshl-alt.php
+Version 3.0-dev on 2008-05-12 (eadc6ce): code formatting: 4 spaces -> tabs
+Version 3.0-dev on 2008-04-29 (2c4b863): fixed texy.compact.php
+Version 3.0-dev on 2008-04-20 (e7c2aa9): - class Texy moved from libs/Texy.php -> texy.php - added netterobots.txt - removed "www" from URL
+Version 3.0-dev on 2008-04-15 (8aaf615): - use $texy->setOutputMode(...) to switch between HTML/XHTML, strict/loose modes. Parameter is one of these constants: Texy::HTML4_TRANSITIONAL, Texy::HTML4_STRICT, Texy::XHTML1_TRANSITIONAL, Texy::XHTML1_STRICT - Texy::$strictDTD & $texy->htmlOutputModule->xhtml are deprecated
+Version 3.0-dev on 2008-04-03 (ee396c3): NObject -> Nette_Object
+Version 3.0-dev on 2008-03-06 (b4550d3): new constants `Texy::FILTER_ANCHOR` & `Texy::FILTER_IMAGE`
+Version 3.0-dev on 2008-02-15 (ff29660): changed email address to david@grudl.com etc...
+Version 3.0-dev on 2008-02-10 (a351e1d): multi-row table cell fix
+Version 3.0-dev on 2008-02-04 (495dd7b): - removed PHP 4 & PHP 5.0.x support as of GoPHP5.org
+Version 3.0-dev on 2008-02-01 (315832a): - added new Nette's exceptions, removed TexyException
+Version 3.0-dev on 2008-01-21 (f5c8151): 
+Version 3.0-dev on 2008-01-02 (7553c71): 2007 -> 2008
+Version 3.0-dev on 2007-12-11 (158bc9f): 
+Version 3.0-dev on 2007-12-11 (63a5aaa): 
+Version 3.0-dev on 2007-12-11 (a00c09a): 
+Version 3.0-dev on 2007-12-11 (5c6637c): * rewritten TexyTableModule: - support for blocks and multiline text - removes redundant row - appends empty cells on right side * TexyLinkModule: control URL shortening via $shorten * removed NClass * TexyBlockModule::outdent moved to Texy::outdent * TexyParagraphModule - line breaks one **or more** spaces on begin of line
+Version 3.0-dev on 2007-11-27 (8fd8a23): * checking for invalid value (NULL) returned from handlers * checking for invalid $tabWidth
+Version 3.0-dev on 2007-11-26 (5040ff5): NClass moved to separated file
+Version 3.0-dev on 2007-11-20 (391082e): * fixed dimensioning of images * support for maximal sizes [* image 10X20 *]
+Version 3.0-dev on 2007-11-15 (948e462): 
+Version 3.0-dev on 2007-11-12 (1febc00): changed phpDoc
+Version 3.0-dev on 2007-11-11 (0d883f8): added NClass (and NClass4)
+Version 3.0-dev on 2007-11-10 (6b06907): 
+Version 3.0-dev on 2007-11-10 (e6f2128): superscript m^-2 converts dash to minus
+Version 3.0-dev on 2007-11-10 (8b91d21): fixed constants definitions
+Version 3.0-dev on 2007-11-10 (fedfe7d): Implemented NObject, removed TexyBase
+Version 3.0-dev on 2007-10-31 (8f3aad1): * added TexyHorizLineModule::$classes
+Version 3.0-dev on 2007-10-30 (b56ddef): 
+Version 3.0-dev on 2007-10-30 (84c225d): 
+Version 3.0-dev on 2007-10-25 (6ffbadf): * TexyHtml::$children is private, implemented ArrayAccess * added TexyHtml::$parent
+Version 3.0-dev on 2007-10-21 (11e8e22): * TexyLinkModule -> added solveUrlEmail, changed textualURL * URL are protected, without &shy; * www.dgx.cz/trine -> latrine.dgx.cz * updated TexyHtml
+Version 3.0-dev on 2007-10-09 (d232bb8): * TexyHtml: renamed add() -> create, addChild() -> add() * added Texy::$nontextParagraph * Texy for PHP4 - emulated throw and Exception * email obfuscation changed (only &#64;) * better detection of emails a URLs in text (and thus TexyLineParser behavior changed) * some bugs fixed
+Version 3.0-dev on 2007-09-15 (b980301): - TexyHtml::$children is always array! - TexyHtmlOutputModule's $dtd, $prohibits, $optionalEnd moved to TexyHtml - $strictDTD & $mergeLines moved to class Texy - TexyModifier::$classes - used keys instead of values - removed TexyBlockParser::$level, added TexyBlockParser::$indented - parsers now work on element, parse() returns void - TexyHtmlModule::solve() returns element - TexyTableModule - modified odd&evenClass behaviour - some optimizations in TexyTypographyModule
+Version 3.0-dev on 2007-09-05 (1a0a0c8): - added $texy->alignClasses - fixed <tbody> & <thead> - added TexyHtml::validateAttrs()
+Version 3.0-dev on 2007-09-04 (1e1d002): - added $texy->headingModule->moreMeansHigher - support for elements `<thead>` & `<tbody>` - better splitting tables into head & body
+Version 3.0-dev on 2007-08-30 (3b29c59): * improved TexyHeadingModule & dynamic headers * renamed TexyQuoteModule -> TexyBlockQuoteModule * added around handler for horizline * moved Texy::$html -> TexyHtmlOutputModule::$xhtml * moved Texy::$strictDTD -> TexyHtmlOutputModule::$strictDTD
+Version 3.0-dev on 2007-08-29 (4dec885): added consts TexyBlockParser::TOP, SEPARATE, NORMAL, INDENT
+Version 3.0-dev on 2007-08-29 (ff72a86): * removed TexyHeadingElement, new TexyHeadingModule::$TOC generation * added TexyBlockParser::$level * thus removed TexyParagraphModule::$_mode
+Version 3.0-dev on 2007-08-28 (d5b3bb0): 
+Version 3.0-dev on 2007-08-28 (2474438): * removed $texy->ignoreEmptyStuff * renamed $texy->mergeLines -> $texy->paragraphModule->mergeLines
+Version 3.0-dev on 2007-08-27 (de36c6b): 
+Version 3.0-dev on 2007-08-27 (16606fa): * refactoring: added TexyBase, TexyException
+Version 3.0-dev on 2007-08-27 (f8d53b5): removed "if (!class_exists('Texy')) die()" check
+Version 3.0-dev on 2007-08-26 (1de9632): * fixed invokeAroundHandlers in TexyParagraphModule
+Version 3.0-dev on 2007-08-23 (8283ae0): 
+Version 3.0-dev on 2007-08-20 (707c25e): Added "Access to undeclared property" exception in PHP 4 version
+Version 3.0-dev on 2007-08-20 (1a52353): * fixed TexyFigureModule classes & modifiers * <html>, <head>, <body> added into TexyHtmlOutputModule baseDTD & optional tags
+Version 3.0-dev on 2007-08-15 (89b125b): * TexyHtmlCleaner -> TexyHtmlOutputModule, via $texy->htmlOutputModule
+Version 3.0-dev on 2007-08-14 (d110f9a): * TexyHtml::$replacedTags incorporated into TexyHtml::$inlineEl * removed "iframe" from replaced tags (iframe is block tag)
+Version 3.0-dev on 2007-08-14 (8b18195): * better ini_get checking
+Version 3.0-dev on 2007-08-13 (2afaf60): * zend.ze1_compatibility_mode check * fix in TexyQuoteModule
+Version 3.0-dev on 2007-08-12 (74d3e61): 
+Version 3.0-dev on 2007-08-12 (21ca7d6): * TexyModule refactoring: removed interfaces, TexyModule::begin() * replaced by handlers: beforeParse, beforeBlockParse * rewritten TexyBlockParser::parse()
+Version 3.0-dev on 2007-08-11 (e642966): * TexyParser - fixed creating empty TexyHtml objects
+Version 3.0-dev on 2007-08-11 (bb5a22f): * merged Texy::process & Texy::parse & Texy::toHtml * renamed Texy::_toText -> stringToText, Texy::_toHtml -> stringToHtml * added TexyHtml::toText() & TexyHtml::toHtml()
+Version 3.0-dev on 2007-08-10 (be1ee4b): * new handler system via TexyHandlerInvocation * added Texy::addHandler, removed Texy::$handler
+Version 3.0-dev on 2007-08-09 (b2872df): * vetsina metod/trid oznacena jako final
+Version 3.0-dev on 2007-08-06 (add7b57): removed: private methods prefixed by underscore
+Version 3.0-dev on 2007-08-06 (1870ebf): * private methods prefixed by underscore * interfaces postfixed with 'Interface' * TexyModule::$syntax is public
+Version 3.0-dev on 2007-08-01 (baf66fc): Support for en dash in Šlitr--Suchý
+Version 3.0-dev on 2007-07-31 (a86c95e): all examples runs under PHP 4
+Version 3.0-dev on 2007-07-31 (ae2248e): 
+Version 3.0-dev on 2007-07-20 (60d4ce1): license GPL 2 + 3
+Version 3.0-dev on 2007-07-16 (5a3b1f0): * odstraneno zalamovani uvnitr <script>
+Version 3.0-dev on 2007-07-15 (2a4c8ec): TexyTypographyModule: &nbsp; after two prepositions (a v tom...)
+Version 3.0-dev on 2007-07-14 (cdf34f1): TexyTypographyModule: added &nbsp; after 1234. (number + dot)
+Version 3.0-dev on 2007-06-29 (c7cb68a): 
+Version 3.0-dev on 2007-06-26 (af3861c): TexyTypographyModule - nbsp before dash
+Version 3.0-dev on 2007-06-26 (17bdcd1): static public -> public static
+Version 3.0-dev on 2007-06-25 (303f539): some variables renamed and phpDoc blocks changed
+Version 3.0-dev on 2007-06-24 (cfbb1c4): updated phpDoc blocks
+Version 3.0-dev on 2007-06-24 (d375a95): Changed "Access to undeclared property" exception message
+Version 3.0-dev on 2007-06-24 (585c965): removed TexyModifier class constants
+Version 3.0-dev on 2007-06-23 (05f0d1b): * added $texy->xhtml * static TexyHtmlCleaner::$dtd -> nonstatic * removed static TexyHtmlCleaner::$inline & $block TODO: solve Texy::$strictDTD
+Version 3.0-dev on 2007-06-20 (9b1f762): * typographyModule - nbsp před procentem
+Version 3.0-dev on 2007-06-19 (607f3ad): * changed file headers, license and readme
+Version 3.0-dev on 2007-06-12 (f59dd56): * TexyHtml big modification REVERTED back ($el['style'] -> $el->style)
+Version 3.0-dev on 2007-06-08 (c847400): * added Texy for PHP4 * renamed TexyModule::$default -> $syntax * fixed bug TexyPhraseModule::$linksAllowed * TexyScriptModule - added {{texy: nofollow }} * class TexyConfigurator moved to own file
+Version 3.0-dev on 2007-06-03 (57cca9c): * enhanced TexyHtml::add * added TexyHtml::href * added TexyHtmlCleaner::$removeOptional * TexyTypographyModule - fall back for nonexisting locale
+Version 3.0-dev on 2007-05-27 (e1043cb): * TexyHtmlCleaner - fixed non XHTML empty tags
+Version 3.0-dev on 2007-05-24 (edf27b3): * mbstring.func_overload fix * TexySectionModule moved to module repository
+Version 3.0-dev on 2007-05-23 (e0d0e1d): * added Texy::$tabWidth
+Version 3.0-dev on 2007-05-23 (2e00f01): * fixed HTML comments validity * interface ITexyPreProcess removed (added TexyBlockParser::$topLevel) * modified TexyHtml (children array can contains TexyHtml objects only)
+Version 3.0-dev on 2007-05-20 (0257d8a): * TexyHtmlFormatter -> TexyHtmlCleaner * TexyHtmlCleaner::$dtd now describes allowed content and allowed attributes (new!) for elements * fixed bug "attributes by modifier"
+Version 3.0-dev on 2007-05-15 (d50b89f): * removed constant TEXY, added Texy::VERSION
+Version 3.0-dev on 2007-05-11 (98bb09e): * TexyHtml: $childNodes -> $children, $XHTML -> $xhtml * TexyParser: $parentNode -> $parent
+Version 3.0-dev on 2007-05-09 (8eee5c2): * TexyHtml BIG MODIFICATION    $el->style -> $el['style'] etc.
+Version 3.0-dev on 2007-04-26 (3d882c9): * $texy->safeMode() & trustMode() --> TexyConfigurator::safeMode($texy) & trustMode($texy) * Texy::webalize - new parameter $charlist
+Version 3.0-dev on 2007-04-18 (fd912a1): * TexyBlockParser::genericBlock transformed info TexyParagraphModule * new handler 'paragraph' * added TexyParser::$patterns *
+Version 3.0-dev on 2007-04-13 (c433e34): * added TexySectionModule * merged TexyDefinitionListModule into TexyListModule
+Version 3.0-dev on 2007-04-11 (c739787): modified phpDoc headers
+Version 3.0-dev on 2007-04-11 (522de8a): * fixed $texy->mergeLines bug (in TexyBlockParser) * added $separator in TexyScriptModule
+Version 3.0-dev on 2007-04-04 (3dd92dc): * 'embed' is empty tag
+Version 3.0-dev on 2007-04-04 (d77ca5d): * TexyHtmlFormatter: added support for proprietary tags: marquee, embed, wbr, nobr, canvas * TexyHtmlFormatter: fixed bugs * TexyHtmlModule: $passComment is TRUE by default
+Version 3.0-dev on 2007-04-03 (72d3abb): * TexyListModule - changed list syntax (-without space, 1.with single space, ...) * TexyHtmlModule - bug fixed * TexyModifier - typography corrections for attribute title
+Version 3.0-dev on 2007-03-30 (28ee5fe): * TexyHtmlFormatter: <br> is now on the right side of lines
+Version 3.0-dev on 2007-03-30 (15de29d): * fixed ugly bug in regexp - \s matches \xAD, must use "u" modifier * TexyTypographyModule -> added regexp for remove inter-markup space
+Version 3.0-dev on 2007-03-30 (58cc1ff): * improved TexyHtmlFormatter (support for unknown tags, ...)
+Version 3.0-dev on 2007-03-30 (ec2496f): * TexyHtmlFormatter & TexyHtmlWellFormer merged to TexyHtmlFormatter * added Texy::$strictDTD * removed TexyHtml::$blockTags & TexyHtml::$inlineTags
+Version 3.0-dev on 2007-03-29 (8a86f17): * improved TexyHtmlWellFormer * added "style" usage for TexyFigureModule * removed some backcompatibility vars * new example Figure as Definition List
+Version 3.0-dev on 2007-03-28 (139b1c5): * TexyHtmlWellFormer rewritten - support for partial DTD validation!
+Version 3.0-dev on 2007-03-28 (fbc4ec7): * fixed some regexp (heading, horizline, blockmodule, typography) * changed behavior between /--pre & /--
+Version 3.0-dev on 2007-03-28 (4215b00): * added example/links * fixed Texy::webalize
+Version 3.0-dev on 2007-03-27 (9f9a77e): * email obfuscate improved: TexyHtml::startTag & TexyLinkModule::textualURL modified * Texy::checkURL: added second parameter * Texy::urlSchemeFilter -> urlSchemeFilters * Texy::absolutize -> Texy::prependRoot
+Version 3.0-dev on 2007-03-27 (7112013): - TexyHeadingModule dynamic headings behavior changed
+Version 3.0-dev on 2007-03-25 (91e6035): * TexyHtmlWellFormer tagStack bugfix
+Version 3.0-dev on 2007-03-24 (5f38dc0): new images to examples & support directory
+Version 3.0-dev on 2007-03-22 (338bb40): * TexyModule: added interfaces ITexyPreProcess, ITexyPreBlock, ITexyPostLine (former ITexyLineModule) * TexyModule::init() become begin() * added Texy::$ignoreEmptyStuff * TexyBlockParser: handles "empty stuff" according $ignoreEmptyStuff directive * Texy::isAbsolute -> Texy::isRelative, improved regexp * Texy::encode, decode -> escapeHtml, unescapeHtml * TexyWellForm -> wellFormer
+Version 3.0-dev on 2007-03-21 (a23d5ae): * TexyBlockParser: improved generic blocks, better support for modifiers * TexyBlockParser: ignores empty blocks * TexyScriptModule: new syntax "func: args, ars", improved, bug fixed * bugfix: "#xyz" is recognized as absolute link now
+Version 3.0-dev on 2007-03-19 (9829e95): - TexyHorizLineModule: removed syntax * * * * and - - - - - TexyPhraseModule: added syntax m^2, O_2
+Version 3.0-dev on 2007-03-13 (aef561b): - TexyHtmlWellForm: element prohibitions improved
+Version 3.0-dev on 2007-03-13 (e8dd256): - TexyHtmlWellForm: added support for element prohibitions - TexyBlockModule: PHP 5.2.x regexp bug fixed
+Version 3.0-dev on 2007-03-11 (f58e758): - TexyImage->imageURL -> TexyImage->URL - TexyQuoteModule temporary reverted back
+Version 3.0-dev on 2007-03-09 (b058500): - removed Texy::completeURL & Texy::completePath - replaced by Texy::checkURL & Texy::absolutize - added TexyLink::$raw
+Version 3.0-dev on 2007-03-09 (7e5c6d4): - TexyHtmlModule - added support for solveTag() & solveComment() - improved URL security: Texy::completePath & Texy::completeURL & TexyLineModule & TexyHtmlModule - better rel=nofollow handling - removed emailOnClick - added Texy::$urlSchemes - removed Texy::isAbsolute() - some bugs fixed
+Version 3.0-dev on 2007-03-08 (19812b4): added Texy::webalize, Texy::normalize, Texy::isAbsolute
+Version 3.0-dev on 2007-03-07 (5b99de2): * updated HTML tag tables * TexyBlockModule bugs FIXED * TexyPhraseModule & TexyTypographyModule regexps updated * Texy::_toText & Texy::_toHtml
+Version 3.0-dev on 2007-03-06 (acdc291): - COMPLETELY REMOVED TexyDocumentModule & TexyDocumentParser - TexyBlockModule is back - in modifiers are not allowed \n - TexyModule::preProcess --> TexyModule::preBlock (called in parser)
+Version 3.0-dev on 2007-03-05 (f4a1101): * some bugs fixed * UTF stuff moved to TexyUtf * HTML stuff moved to TexyHtml (static properties)
+Version 3.0-dev on 2007-03-05 (c6b1140): completed support for handlers
+Version 3.0-dev on 2007-03-05 (9f3e03f): * TexyHtml->childNodes behavior changed (can be array, string, false) * some methods renamed: factoryImage(), factoryLink(), solve(), next()
+Version 3.0-dev on 2007-03-04 (7aa10d3): - removed TexyDocumentParser flag in favour of document 'nested' flag - /--div is now ordinary block, not "hack"
+Version 3.0-dev on 2007-03-04 (188b3c6): * handlers renamed, proceed() renamed back to factory() * Texy parser & TexyDocumentModule improved
+Version 3.0-dev on 2007-03-04 (11bcd0a): * UPDATED HANDLER MODEL - new function $module->proceed(...) * TexyBlockParser - callbacks returns TexyHtml objects now * added TexyHtml::parseDocument * named syntax now in format: "aaa/bbb" * handlers processXXX() renamed to patternXXX() *
+Version 3.0-dev on 2007-03-03 (30b6dd9): * ADDED NEW PARSER TexyDocumentParser ! * rewritten and renamed TexyBlockModule (now TexyDocumentModule) * TexyGenericBlock moved into TexyBlockParser * fixed TexyQuoteModule
+Version 3.0-dev on 2007-03-03 (5687ea3): * improved BlockQuotes * escape \| for tables
+Version 3.0-dev on 2007-03-03 (e6176ef): * MODIFIERS SIMPLIFIED
+Version 3.0-dev on 2007-03-03 (7f51d2f): - improved processing of \n & \r in genericBlock, phraseModule and typographyModule - new "internal" syntax {{texy(...)}} - special escape sequences \) and \*
+Version 3.0-dev on 2007-03-02 (c7d825c): * improved support for $texy->handler * changed Texy syntax (phraseModule)
+Version 3.0-dev on 2007-03-02 (d56c738): added typographyModule->locale
+Version 3.0-dev on 2007-03-01 (6a372b5): Contenttype patterns modified
+Version 3.0-dev on 2007-03-01 (6d4d6e7): * TOC generator * fixed email xx@x.cz * added support for <ol start=?>
+Version 3.0-dev on 2007-03-01 (a1b66aa): Examples updated
+Version 3.0-dev on 2007-03-01 (b456ec6): TexyDom REMOVED!
+Version 3.0-dev on 2007-02-28 (366e967): - TexyModule::$allowed is now TexyModule::$default - changed modules defaults - TexyTypographyModule dash&nbsp fix
+Version 3.0-dev on 2007-02-27 (db92b75): * fixed TexyTypographyModule & TexyLongWordsModule
+Version 3.0-dev on 2007-02-27 (57c11f4): * TexyModifier optimization, refactoring * many bug FIXED * SUCCESSFULLY TESTED ON REFERENCE FILES
+Version 3.0-dev on 2007-02-27 (46a0fac): TexyParser is independent on TexyDomElement
+Version 3.0-dev on 2007-02-26 (cc1b18f): - fixed TexyBlockModule & lineParser & TexyTextualElement::contentToHtml - htmlSpecialChars optimalization
+Version 3.0-dev on 2007-02-26 (d389ba8): * TexySmiliesModule -> TexyEmoticonModule * TexyImageDescModule -> TexyFigureModule - TexyUrl removed * TexyImageModule & TexyLinkModule rewritten
+Version 3.0-dev on 2007-02-23 (6aacaeb): * bugfixes * examples updated for version 2
+Version 3.0-dev on 2007-02-23 (25c984e): * back renamed TexyHtmlEl to TexyHtml :-) * parser modified
+Version 3.0-dev on 2007-02-23 (fe98162): * back renamed TexyLink to TexyUrl
+Version 3.0-dev on 2007-02-23 (07c2715): * TexyHtml splitted in TexyHtml & TexyHtmlEl * rewritten TexyImageModule, TexyLinkModule * speed optimizations
+Version 3.0-dev on 2007-02-20 (6f224b1): * htmlSpecialChars, html_entity_decode fixed * TexyLongWordsModule optimalized * TexyTypographyModule - entites converted to UTF-8
+Version 3.0-dev on 2007-02-20 (057b5d2): * phpDoc updated
+Version 3.0-dev on 2007-02-20 (9ccaca5): * files renamed * TexyURL -> TexyLink
+Version 3.0-dev on 2007-02-20 (a3575f2): * TexyModifier rewritten * TexyDomElement::generateTags removed * renamed HASH -> MARK * support for $texy::allowed & named patterns * POZOR: odkazy a obrázky nepracují dobře!
+Version 3.0-dev on 2007-02-19 (fdae4f2): TexyHtml rewritten to aka NHtml TexyDom & TexyDomLine removed (merged to Texy::parse & toHtml)
+Version 3.0-dev on 2007-02-19 (4267ea2): + full support for $texy->encoding ($texy->utf removed) + some operators == changed to === + TexyModifier changed
+Version 3.0-dev on 2007-02-18 (2feee04): some files renamed
+Version 3.0-dev on 2007-02-18 (da89b41): second big refactoring towards version 2
+Version 3.0-dev on 2007-02-17 (cd4e606): big refactoring towards version 2
+Version 3.0-dev on 2007-02-13 (fed6791): - in headers changed year 2006 to 2007 - FIX: opraveny tabulky v TexyLongWordsModule & TexyQuickCorrectModule - odstraněny zbytečné Texy-elementy
+Version 3.0-dev on 2006-10-26 (7b3bb86): Undefined class property handled via Exception
+Version 3.0-dev on 2006-10-22 (963a05d): bugfix
+Version 3.0-dev on 2006-10-09 (963a7a4): 
+Version 3.0-dev on 2006-10-09 (03e4e1e): Podpora proměnných v odkazech Optimalizace rychlosti Dokončení přepisu na PHP5 - verze 1.2
+Version 3.0-dev on 2006-10-07 (1e2a201): BIG UPDATE - fully working PHP5-only version (1.2)
+Version 3.0-dev on 2006-06-06 (516ddf6): change @version in headings
+Version 3.0-dev on 2006-06-06 (84ec84d): Allowed named entities &amp; &quot; &lt; &gt;
+Version 3.0-dev on 2006-06-06 (3ceff30): 
+Version 3.0-dev on 2006-06-06 (7ccc2df): htmlChars() updated
+Version 3.0-dev on 2006-06-06 (8dd6793): Opraveno zpracovani entit pro toHTML() a toText()
+Version 3.0-dev on 2006-06-04 (d4d091a): 
+Version 3.0-dev on 2006-06-04 (66a4c88): second step to Texy 1.5
+Version 3.0-dev on 2006-06-04 (a0d2c38): first step to Texy 1.5
+Version 3.0-dev on 2006-06-04 (b4bfd94): update to 1.0 final
+Version 3.0-dev on 2006-06-04 (3c9c744): partial update to 1.0 final
+Version 3.0-dev on 2006-06-04 (88e6cac): update to 1.0.rc5
+Version 3.0-dev on 2006-06-04 (3af5fc0): update to 1.0.rc4
+Version 3.0-dev on 2006-06-04 (56d2ba1): divided into geshi & fshl
+Version 3.0-dev on 2006-06-04 (b39f2c3): divided into geshi & fshl
+Version 3.0-dev on 2006-06-04 (2515961): update to 1.0.rc3
+Version 3.0-dev on 2006-06-04 (1f84d62): update to 1.0.rc2
+Version 3.0-dev on 2006-06-04 (1f0dcd3): update to 1.0.rc1
+Version 3.0-dev on 2006-06-04 (a51687f): update to 0.9.7
+Version 3.0-dev on 2006-06-04 (dd8fbb3): initial import 0.9.6
