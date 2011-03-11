@@ -7,6 +7,19 @@
  * @package      StaticWeb
  */
 
+namespace StaticWeb;
+
+use Nette;
+use Nette\Debug;
+use Nette\Environment as Env;
+use Nette\Application\PresenterRequest;
+use Nette\Application\IPresenterResponse;
+use Nette\Application\RenderResponse;
+use Nette\Application\BadRequestException;
+use Nette\Application\AbortException;
+use Nette\Application\RedirectingResponse;
+use Nette\Web\IHttpResponse;
+
 
 
 /**
@@ -14,7 +27,7 @@
  *
  * @author   Jan Tvrdík
  */
-abstract class BaseStaticPresenter extends Object implements IPresenter
+abstract class BaseStaticPresenter extends Nette\Object implements Nette\Application\IPresenter
 {
 	/** @var     string            page (without leading and trailing slash, for example: "about" or "books/linux") */
 	protected $page;
@@ -160,14 +173,16 @@ abstract class BaseStaticPresenter extends Object implements IPresenter
 	 */
 	protected function createTemplate($path = NULL)
 	{
-		$template = new FileTemplate($path);
+		$template = new Nette\Templates\FileTemplate($path);
 
 		// default parameters
-		$template->baseUri = rtrim(Environment::getVariable('baseUri', NULL), '/');
+		$template->baseUri = rtrim(Env::getVariable('baseUri', NULL), '/');
 		$template->basePath = preg_replace('#https?://[^/]+#A', '', $template->baseUri);
 
 		// default filters
-		$template->onPrepareFilters[] = create_function('$template', '$template->registerFilter(new LatteFilter);');
+		$template->onPrepareFilters[] = function($template) {
+			$template->registerFilter(new Nette\Templates\LatteFilter());
+		};
 
 		// default helpers
 		$template->registerHelper('escape', 'Nette\Templates\TemplateHelpers::escapeHtml');
@@ -226,11 +241,11 @@ abstract class BaseStaticPresenter extends Object implements IPresenter
 	 * Returns current HTTP request.
 	 *
 	 * @author   David Grudl
-	 * @return   HttpRequest
+	 * @return   Nette\Web\HttpRequest
 	 */
 	protected function getHttpRequest()
 	{
-		return Environment::getHttpRequest();
+		return Env::getHttpRequest();
 	}
 
 
@@ -239,11 +254,11 @@ abstract class BaseStaticPresenter extends Object implements IPresenter
 	 * Returns Application instance.
 	 *
 	 * @author   David Grudl
-	 * @return   Application
+	 * @return   Nette\Application\Application
 	 */
 	protected function getApplication()
 	{
-		return Environment::getApplication();
+		return Env::getApplication();
 	}
 
 }

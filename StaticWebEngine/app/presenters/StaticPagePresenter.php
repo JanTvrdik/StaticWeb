@@ -7,6 +7,13 @@
  * @package      StaticWeb
  */
 
+namespace StaticWeb;
+
+use Nette;
+use Nette\Debug;
+use Nette\Application\PresenterRequest;
+use Nette\Application\BadRequestException;
+
 require_once dirname(__FILE__) . '/BaseStaticPresenter.php';
 
 
@@ -24,7 +31,7 @@ final class StaticPagePresenter extends BaseStaticPresenter
 	 * @author   Jan Tvrdík
 	 * @param    PresenterRequest
 	 * @return   void
-	 * @throws   AbortException|BadRequestException
+	 * @throws   Nette\Applicationy\AbortException|BadRequestException
 	 */
 	public function processRequest(PresenterRequest $request)
 	{
@@ -33,7 +40,7 @@ final class StaticPagePresenter extends BaseStaticPresenter
 			throw new BadRequestException('Invalid request. Parameter \'page\' is required.');
 		}
 		$this->page = $params['page'];
-		if (!String::match($this->page, '#^[a-z0-9]([a-z0-9_.-]*[a-z0-9])?(/[a-z0-9]([a-z0-9_.-]*[a-z0-9])?)*$#i')) {
+		if (!Nette\String::match($this->page, '#^[a-z0-9]([a-z0-9_.-]*[a-z0-9])?(/[a-z0-9]([a-z0-9_.-]*[a-z0-9])?)*$#i')) {
 			throw new BadRequestException('Parameter \'page\' contains illegal characters.');
 		}
 		$this->sendTemplate();

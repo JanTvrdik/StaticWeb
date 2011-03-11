@@ -7,6 +7,15 @@
  * @package      StaticWeb
  */
 
+namespace StaticWeb;
+
+use Nette;
+use Nette\Debug;
+use Nette\Environment as Env;
+use Nette\Application\PresenterRequest;
+use Nette\Web\IHttpRequest;
+use Nette\Web\Uri;
+
 
 
 /**
@@ -21,7 +30,7 @@
  *
  * @author   Jan Tvrdík
  */
-class StaticRouter extends Object implements IRouter
+class StaticRouter extends Nette\Object implements Nette\Application\IRouter
 {
 	/** @var     string            presenter name */
 	private $presenter;

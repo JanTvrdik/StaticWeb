@@ -7,6 +7,13 @@
  * @package      StaticWeb
  */
 
+namespace StaticWeb;
+
+use Nette;
+use Nette\Debug;
+use Nette\Application\PresenterRequest;
+use Nette\Application\BadRequestException;
+
 require_once dirname(__FILE__) . '/BaseStaticPresenter.php';
 
 
@@ -24,14 +31,14 @@ final class ErrorPresenter extends BaseStaticPresenter
 	 * @author   Jan Tvrdík
 	 * @param    PresenterRequest
 	 * @return   void
-	 * @throws   AbortException|InvalidStateException
+	 * @throws   Nette\Applicationy\AbortException|\InvalidStateException
 	 */
 	public function processRequest(PresenterRequest $request)
 	{
 		$params = $request->getParams();
 		$exception = & $params['exception'];
 		if (!isset($exception)) {
-			throw new InvalidStateException('Missing required parameter - exception.');
+			throw new \InvalidStateException('Missing required parameter - exception.');
 		}
 
 		if ($exception instanceof BadRequestException) {
