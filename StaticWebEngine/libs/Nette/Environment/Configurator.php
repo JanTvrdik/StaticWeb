@@ -7,13 +7,17 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette,
+	Nette\Config\Config;
 
 
 
 /**
- * Environment helper.
+ * Nette\Environment helper.
  *
  * @author     David Grudl
  */
@@ -25,14 +29,14 @@ class Configurator extends Object
 	/** @var array */
 	public $defaultServices = array(
 		'Nette\\Application\\Application' => array(__CLASS__, 'createApplication'),
-		'Nette\\Web\\HttpContext' => 'HttpContext',
+		'Nette\\Web\\HttpContext' => 'Nette\Web\HttpContext',
 		'Nette\\Web\\IHttpRequest' => array(__CLASS__, 'createHttpRequest'),
-		'Nette\\Web\\IHttpResponse' => 'HttpResponse',
-		'Nette\\Web\\IUser' => 'User',
+		'Nette\\Web\\IHttpResponse' => 'Nette\Web\HttpResponse',
+		'Nette\\Web\\IUser' => 'Nette\Web\User',
 		'Nette\\Caching\\ICacheStorage' => array(__CLASS__, 'createCacheStorage'),
 		'Nette\\Caching\\ICacheJournal' => array(__CLASS__, 'createCacheJournal'),
 		'Nette\\Mail\\IMailer' => array(__CLASS__, 'createMailer'),
-		'Nette\\Web\\Session' => 'Session',
+		'Nette\\Web\\Session' => 'Nette\Web\Session',
 		'Nette\\Loaders\\RobotLoader' => array(__CLASS__, 'createRobotLoader'),
 	);
 
@@ -100,8 +104,8 @@ class Configurator extends Object
 
 	/**
 	 * Loads global configuration from file and process it.
-	 * @param  string|Config  file name or Config object
-	 * @return Config
+	 * @param  string|Nette\Config\Config  file name or Config object
+	 * @return Nette\Config\Config
 	 */
 	public function loadConfig($file)
 	{
@@ -127,7 +131,7 @@ class Configurator extends Object
 		}
 
 		// expand variables
-		$iterator = new RecursiveIteratorIterator($config);
+		$iterator = new \RecursiveIteratorIterator($config);
 		foreach ($iterator as $key => $value) {
 			$tmp = $iterator->getDepth() ? $iterator->getSubIterator($iterator->getDepth() - 1)->current() : $config;
 			$tmp[$key] = Environment::expand($value);
@@ -148,7 +152,7 @@ class Configurator extends Object
 						$context->removeService($key);
 						$context->addService($key, $factory, isset($value->singleton) ? $value->singleton : TRUE, (array) $value->option);
 					} else {
-						throw new InvalidStateException("Factory method is not specified for service $key.");
+						throw new \InvalidStateException("Factory method is not specified for service $key.");
 					}
 					if ($value->run) {
 						$runServices[] = $key;
@@ -181,7 +185,7 @@ class Configurator extends Object
 				$key = strtr($key, '-', '.'); // backcompatibility
 
 				if (!is_scalar($value)) {
-					throw new InvalidStateException("Configuration value for directive '$key' is not scalar.");
+					throw new \InvalidStateException("Configuration value for directive '$key' is not scalar.");
 				}
 
 				if ($key === 'date.timezone') { // PHP bug #47466
@@ -215,7 +219,7 @@ class Configurator extends Object
 						break;
 					default:
 						if (ini_get($key) != $value) { // intentionally ==
-							throw new NotSupportedException('Required function ini_set() is disabled.');
+							throw new \NotSupportedException('Required function ini_set() is disabled.');
 						}
 					}
 				}
@@ -266,7 +270,7 @@ class Configurator extends Object
 
 
 	/**
-	 * @return Application
+	 * @return Nette\Application\Application
 	 */
 	public static function createApplication(array $options = NULL)
 	{
@@ -275,15 +279,15 @@ class Configurator extends Object
 		}
 
 		$context = clone Environment::getContext();
-		$context->addService('Nette\\Application\\IRouter', 'MultiRouter');
+		$context->addService('Nette\\Application\\IRouter', 'Nette\Application\MultiRouter');
 
 		if (!$context->hasService('Nette\\Application\\IPresenterLoader')) {
-			$context->addService('Nette\\Application\\IPresenterLoader', callback(create_function('', '
-				return new PresenterLoader(Environment::getVariable(\'appDir\'));
-			')));
+			$context->addService('Nette\\Application\\IPresenterLoader', function() {
+				return new Nette\Application\PresenterLoader(Environment::getVariable('appDir'));
+			});
 		}
 
-		$class = isset($options['class']) ? $options['class'] : 'Application';
+		$class = isset($options['class']) ? $options['class'] : 'Nette\Application\Application';
 		$application = new $class;
 		$application->setContext($context);
 		$application->catchExceptions = Environment::isProduction();
@@ -293,11 +297,11 @@ class Configurator extends Object
 
 
 	/**
-	 * @return HttpRequest
+	 * @return Nette\Web\HttpRequest
 	 */
 	public static function createHttpRequest()
 	{
-		$factory = new HttpRequestFactory;
+		$factory = new Nette\Web\HttpRequestFactory;
 		$factory->setEncoding('UTF-8');
 		return $factory->createHttpRequest();
 	}
@@ -305,48 +309,48 @@ class Configurator extends Object
 
 
 	/**
-	 * @return ICacheStorage
+	 * @return Nette\Caching\ICacheStorage
 	 */
 	public static function createCacheStorage()
 	{
 		$dir = Environment::getVariable('tempDir') . '/cache';
 		umask(0000);
 		@mkdir($dir, 0777); // @ - directory may exists
-		return new FileStorage($dir, Environment::getService('Nette\\Caching\\ICacheJournal'));
+		return new Nette\Caching\FileStorage($dir, Environment::getService('Nette\\Caching\\ICacheJournal'));
 	}
 
 
 
 	/**
-	 * @return ICacheJournal
+	 * @return Nette\Caching\ICacheJournal
 	 */
 	public static function createCacheJournal()
 	{
-		return new FileJournal(Environment::getVariable('tempDir'));
+		return new Nette\Caching\FileJournal(Environment::getVariable('tempDir'));
 	}
 
 
 
 	/**
-	 * @return IMailer
+	 * @return Nette\Mail\IMailer
 	 */
 	public static function createMailer(array $options = NULL)
 	{
 		if (isset($options['smtp'])) {
-			return new SmtpMailer($options);
+			return new Nette\Mail\SmtpMailer($options);
 		} else {
-			return new SendmailMailer;
+			return new Nette\Mail\SendmailMailer;
 		}
 	}
 
 
 
 	/**
-	 * @return RobotLoader
+	 * @return Nette\Loaders\RobotLoader
 	 */
 	public static function createRobotLoader(array $options = NULL)
 	{
-		$loader = new RobotLoader;
+		$loader = new Nette\Loaders\RobotLoader;
 		$loader->autoRebuild = isset($options['autoRebuild']) ? $options['autoRebuild'] : !Environment::isProduction();
 		$loader->setCacheStorage(Environment::getService('Nette\\Caching\\ICacheStorage'));
 		if (isset($options['directory'])) {

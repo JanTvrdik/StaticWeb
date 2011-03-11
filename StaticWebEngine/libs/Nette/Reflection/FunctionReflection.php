@@ -7,8 +7,13 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Reflection
  */
+
+namespace Nette\Reflection;
+
+use Nette,
+	Nette\ObjectMixin,
+	Nette\Annotations;
 
 
 
@@ -17,7 +22,7 @@
  *
  * @author     David Grudl
  */
-class FunctionReflection extends ReflectionFunction
+class FunctionReflection extends \ReflectionFunction
 {
 	/** @var string|Closure */
 	private $value;
@@ -49,7 +54,7 @@ class FunctionReflection extends ReflectionFunction
 
 
 	/**
-	 * @return ExtensionReflection
+	 * @return Nette\Reflection\ExtensionReflection
 	 */
 	public function getExtension()
 	{
@@ -68,16 +73,16 @@ class FunctionReflection extends ReflectionFunction
 
 
 
-	/********************* Object behaviour ****************d*g**/
+	/********************* Nette\Object behaviour ****************d*g**/
 
 
 
 	/**
-	 * @return ClassReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
-	public function getReflection()
+	public static function getReflection()
 	{
-		return new ClassReflection($this);
+		return new Nette\Reflection\ClassReflection(get_called_class());
 	}
 
 
@@ -112,7 +117,7 @@ class FunctionReflection extends ReflectionFunction
 
 	public function __unset($name)
 	{
-		throw new MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
+		throw new \MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
 	}
 
 }

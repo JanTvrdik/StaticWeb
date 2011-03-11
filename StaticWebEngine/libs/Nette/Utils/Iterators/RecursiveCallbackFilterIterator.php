@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class RecursiveCallbackFilterIterator extends FilterIterator implements RecursiveIterator
+class RecursiveCallbackFilterIterator extends \FilterIterator implements \RecursiveIterator
 {
 	/** @var callback */
 	private $callback;
@@ -31,7 +34,7 @@ class RecursiveCallbackFilterIterator extends FilterIterator implements Recursiv
 	 * @param
 	 * @param  callback
 	 */
-	function __construct(RecursiveIterator $iterator, $callback, $childrenCallback = NULL)
+	function __construct(\RecursiveIterator $iterator, $callback, $childrenCallback = NULL)
 	{
 		parent::__construct($iterator);
 		$this->callback = $callback;

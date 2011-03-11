@@ -7,8 +7,13 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Templates
  */
+
+namespace Nette\Templates;
+
+use Nette,
+	Nette\Environment,
+	Nette\Caching\Cache;
 
 
 
@@ -17,7 +22,7 @@
  *
  * @author     David Grudl
  */
-class CachingHelper extends Object
+class CachingHelper extends Nette\Object
 {
 	/** @var array */
 	private $frame;
@@ -96,7 +101,7 @@ class CachingHelper extends Object
 
 
 	/**
-	 * @return Cache
+	 * @return Nette\Caching\Cache
 	 */
 	protected static function getCache()
 	{

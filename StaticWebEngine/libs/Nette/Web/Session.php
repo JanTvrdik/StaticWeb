@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Web
  */
+
+namespace Nette\Web;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class Session extends Object
+class Session extends Nette\Object
 {
 	/** Default file lifetime is 3 hours */
 	const DEFAULT_FILE_LIFETIME = 10800;
@@ -55,7 +58,7 @@ class Session extends Object
 
 	/**
 	 * Starts and initializes session data.
-	 * @throws InvalidStateException
+	 * @throws \InvalidStateException
 	 * @return void
 	 */
 	public function start()
@@ -64,16 +67,16 @@ class Session extends Object
 			return;
 
 		} elseif (self::$started === NULL && defined('SID')) {
-			throw new InvalidStateException('A session had already been started by session.auto-start or session_start().');
+			throw new \InvalidStateException('A session had already been started by session.auto-start or session_start().');
 		}
 
 		$this->configure($this->options);
 
-		Debug::tryError();
+		Nette\Debug::tryError();
 		session_start();
-		if (Debug::catchError($e)) {
+		if (Nette\Debug::catchError($e)) {
 			@session_write_close(); // this is needed
-			throw new InvalidStateException($e->getMessage());
+			throw new \InvalidStateException($e->getMessage());
 		}
 
 		self::$started = TRUE;
@@ -101,7 +104,7 @@ class Session extends Object
 		// browser closing detection
 		$browserKey = $this->getHttpRequest()->getCookie('nette-browser');
 		if (!$browserKey) {
-			$browserKey = String::random();
+			$browserKey = Nette\String::random();
 		}
 		$browserClosed = !isset($nf['B']) || $nf['B'] !== $browserKey;
 		$nf['B'] = $browserKey;
@@ -118,7 +121,7 @@ class Session extends Object
 					foreach ($metadata as $variable => $value) {
 						if ((!empty($value['B']) && $browserClosed) || (!empty($value['T']) && $now > $value['T']) // whenBrowserIsClosed || Time
 							|| ($variable !== '' && is_object($nf['DATA'][$namespace][$variable]) && (isset($value['V']) ? $value['V'] : NULL) // Version
-								!== ClassReflection::from($nf['DATA'][$namespace][$variable])->getAnnotation('serializationVersion'))) {
+								!== Nette\Reflection\ClassReflection::from($nf['DATA'][$namespace][$variable])->getAnnotation('serializationVersion'))) {
 
 							if ($variable === '') { // expire whole namespace
 								unset($nf['META'][$namespace], $nf['DATA'][$namespace]);
@@ -169,7 +172,7 @@ class Session extends Object
 	public function destroy()
 	{
 		if (!self::$started) {
-			throw new InvalidStateException('Session is not started.');
+			throw new \InvalidStateException('Session is not started.');
 		}
 
 		session_destroy();
@@ -196,14 +199,14 @@ class Session extends Object
 
 	/**
 	 * Regenerates the session ID.
-	 * @throws InvalidStateException
+	 * @throws \InvalidStateException
 	 * @return void
 	 */
 	public function regenerateId()
 	{
 		if (self::$started) {
 			if (headers_sent($file, $line)) {
-				throw new InvalidStateException("Cannot regenerate session ID after HTTP headers have been sent" . ($file ? " (output started at $file:$line)." : "."));
+				throw new \InvalidStateException("Cannot regenerate session ID after HTTP headers have been sent" . ($file ? " (output started at $file:$line)." : "."));
 			}
 			session_regenerate_id(TRUE);
 
@@ -233,7 +236,7 @@ class Session extends Object
 	public function setName($name)
 	{
 		if (!is_string($name) || !preg_match('#[^0-9.][^.]*$#A', $name)) {
-			throw new InvalidArgumentException('Session name must be a string and cannot contain dot.');
+			throw new \InvalidArgumentException('Session name must be a string and cannot contain dot.');
 		}
 
 		session_name($name);
@@ -264,12 +267,12 @@ class Session extends Object
 	 * @param  string
 	 * @param  string
 	 * @return SessionNamespace
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
-	public function getNamespace($namespace, $class = 'SessionNamespace')
+	public function getNamespace($namespace, $class = 'Nette\Web\SessionNamespace')
 	{
 		if (!is_string($namespace) || $namespace === '') {
-			throw new InvalidArgumentException('Session namespace must be a non-empty string.');
+			throw new \InvalidArgumentException('Session namespace must be a non-empty string.');
 		}
 
 		if (!self::$started) {
@@ -299,7 +302,7 @@ class Session extends Object
 
 	/**
 	 * Iteration over all namespaces.
-	 * @return ArrayIterator
+	 * @return \ArrayIterator
 	 */
 	public function getIterator()
 	{
@@ -308,10 +311,10 @@ class Session extends Object
 		}
 
 		if (isset($_SESSION['__NF']['DATA'])) {
-			return new ArrayIterator(array_keys($_SESSION['__NF']['DATA']));
+			return new \ArrayIterator(array_keys($_SESSION['__NF']['DATA']));
 
 		} else {
-			return new ArrayIterator;
+			return new \ArrayIterator;
 		}
 	}
 
@@ -359,8 +362,8 @@ class Session extends Object
 	 * Sets session options.
 	 * @param  array
 	 * @return Session  provides a fluent interface
-	 * @throws NotSupportedException
-	 * @throws InvalidStateException
+	 * @throws \NotSupportedException
+	 * @throws \InvalidStateException
 	 */
 	public function setOptions(array $options)
 	{
@@ -403,7 +406,7 @@ class Session extends Object
 
 			} elseif (isset($special[$key])) {
 				if (self::$started) {
-					throw new InvalidStateException("Unable to set '$key' when session has been started.");
+					throw new \InvalidStateException("Unable to set '$key' when session has been started.");
 				}
 				$key = "session_$key";
 				$key($value);
@@ -415,13 +418,13 @@ class Session extends Object
 				$cookie[substr($key, 7)] = $value;
 
 			} elseif (!function_exists('ini_set')) {
-				if (ini_get($key) != $value && !Framework::$iAmUsingBadHost) { // intentionally ==
-					throw new NotSupportedException('Required function ini_set() is disabled.');
+				if (ini_get($key) != $value && !Nette\Framework::$iAmUsingBadHost) { // intentionally ==
+					throw new \NotSupportedException('Required function ini_set() is disabled.');
 				}
 
 			} else {
 				if (self::$started) {
-					throw new InvalidStateException("Unable to set '$key' when session has been started.");
+					throw new \InvalidStateException("Unable to set '$key' when session has been started.");
 				}
 				ini_set("session.$key", $value);
 			}
@@ -451,7 +454,7 @@ class Session extends Object
 			));
 
 		} else {
-			$time = Tools::createDateTime($time)->format('U') - time();
+			$time = Nette\Tools::createDateTime($time)->format('U') - time();
 			return $this->setOptions(array(
 				'gc_maxlifetime' => $time,
 				'cookie_lifetime' => $time,
@@ -521,21 +524,21 @@ class Session extends Object
 
 
 	/**
-	 * @return IHttpRequest
+	 * @return Nette\Web\IHttpRequest
 	 */
 	protected function getHttpRequest()
 	{
-		return Environment::getHttpRequest();
+		return Nette\Environment::getHttpRequest();
 	}
 
 
 
 	/**
-	 * @return IHttpResponse
+	 * @return Nette\Web\IHttpResponse
 	 */
 	protected function getHttpResponse()
 	{
-		return Environment::getHttpResponse();
+		return Nette\Environment::getHttpResponse();
 	}
 
 }

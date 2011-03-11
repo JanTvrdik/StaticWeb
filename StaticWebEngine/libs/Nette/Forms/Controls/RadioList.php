@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette,
+	Nette\Web\Html;
 
 
 
@@ -18,15 +22,15 @@
  * @author     David Grudl
  *
  * @property   array $items
- * @property-read Html $separatorPrototype
- * @property-read Html $containerPrototype
+ * @property-read Nette\Web\Html $separatorPrototype
+ * @property-read Nette\Web\Html $containerPrototype
  */
 class RadioList extends FormControl
 {
-	/** @var Html  separator element template */
+	/** @var Nette\Web\Html  separator element template */
 	protected $separator;
 
-	/** @var Html  container element template */
+	/** @var Nette\Web\Html  container element template */
 	protected $container;
 
 	/** @var array */
@@ -98,7 +102,7 @@ class RadioList extends FormControl
 
 	/**
 	 * Returns separator HTML element template.
-	 * @return Html
+	 * @return Nette\Web\Html
 	 */
 	final public function getSeparatorPrototype()
 	{
@@ -109,7 +113,7 @@ class RadioList extends FormControl
 
 	/**
 	 * Returns container HTML element template.
-	 * @return Html
+	 * @return Nette\Web\Html
 	 */
 	final public function getContainerPrototype()
 	{
@@ -121,7 +125,7 @@ class RadioList extends FormControl
 	/**
 	 * Generates control's HTML element.
 	 * @param  mixed
-	 * @return Html
+	 * @return Nette\Web\Html
 	 */
 	public function getControl($key = NULL)
 	{

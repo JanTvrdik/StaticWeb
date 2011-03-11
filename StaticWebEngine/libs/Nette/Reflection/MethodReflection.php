@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Reflection
  */
+
+namespace Nette\Reflection;
+
+use Nette,
+	Nette\ObjectMixin;
 
 
 
@@ -17,17 +21,17 @@
  *
  * @author     David Grudl
  */
-class MethodReflection extends ReflectionMethod
+class MethodReflection extends \ReflectionMethod
 {
 
 	/**
 	 * @param  string|object
 	 * @param  string
-	 * @return MethodReflection
+	 * @return Nette\Reflection\MethodReflection
 	 */
 	public static function from($class, $method)
 	{
-		return new self(is_object($class) ? get_class($class) : $class, $method);
+		return new static(is_object($class) ? get_class($class) : $class, $method);
 	}
 
 
@@ -79,11 +83,11 @@ class MethodReflection extends ReflectionMethod
 
 
 	/**
-	 * @return Callback
+	 * @return Nette\Callback
 	 */
 	public function getCallback()
 	{
-		return new Callback(parent::getDeclaringClass()->getName(), $this->getName());
+		return new Nette\Callback(parent::getDeclaringClass()->getName(), $this->getName());
 	}
 
 
@@ -100,7 +104,7 @@ class MethodReflection extends ReflectionMethod
 
 
 	/**
-	 * @return ClassReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
 	public function getDeclaringClass()
 	{
@@ -110,7 +114,7 @@ class MethodReflection extends ReflectionMethod
 
 
 	/**
-	 * @return MethodReflection
+	 * @return Nette\Reflection\MethodReflection
 	 */
 	public function getPrototype()
 	{
@@ -121,7 +125,7 @@ class MethodReflection extends ReflectionMethod
 
 
 	/**
-	 * @return ExtensionReflection
+	 * @return Nette\Reflection\ExtensionReflection
 	 */
 	public function getExtension()
 	{
@@ -141,7 +145,7 @@ class MethodReflection extends ReflectionMethod
 
 
 
-	/********************* Annotations support ****************d*g**/
+	/********************* Nette\Annotations support ****************d*g**/
 
 
 
@@ -182,16 +186,16 @@ class MethodReflection extends ReflectionMethod
 
 
 
-	/********************* Object behaviour ****************d*g**/
+	/********************* Nette\Object behaviour ****************d*g**/
 
 
 
 	/**
-	 * @return ClassReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
-	public function getReflection()
+	public static function getReflection()
 	{
-		return new ClassReflection($this);
+		return new Nette\Reflection\ClassReflection(get_called_class());
 	}
 
 
@@ -226,7 +230,7 @@ class MethodReflection extends ReflectionMethod
 
 	public function __unset($name)
 	{
-		throw new MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
+		throw new \MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
 	}
 
 }

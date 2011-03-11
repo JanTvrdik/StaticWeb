@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette,
+	Nette\Web\Html;
 
 
 
@@ -17,7 +21,7 @@
  *
  * @author     David Grudl
  */
-class DefaultFormRenderer extends Object implements IFormRenderer
+class DefaultFormRenderer extends Nette\Object implements IFormRenderer
 {
 	/**
 	 *  /--- form.container
@@ -334,7 +338,7 @@ class DefaultFormRenderer extends Object implements IFormRenderer
 	public function renderControls($parent)
 	{
 		if (!($parent instanceof FormContainer || $parent instanceof FormGroup)) {
-			throw new InvalidArgumentException("Argument must be FormContainer or FormGroup instance.");
+			throw new \InvalidArgumentException("Argument must be FormContainer or FormGroup instance.");
 		}
 
 		$container = $this->getWrapper('controls container');
@@ -399,7 +403,7 @@ class DefaultFormRenderer extends Object implements IFormRenderer
 		$s = array();
 		foreach ($controls as $control) {
 			if (!$control instanceof IFormControl) {
-				throw new InvalidArgumentException("Argument must be array of IFormControl instances.");
+				throw new \InvalidArgumentException("Argument must be array of IFormControl instances.");
 			}
 			$s[] = (string) $control->getControl();
 		}
@@ -477,7 +481,7 @@ class DefaultFormRenderer extends Object implements IFormRenderer
 
 	/**
 	 * @param  string
-	 * @return Html
+	 * @return Nette\Web\Html
 	 */
 	protected function getWrapper($name)
 	{

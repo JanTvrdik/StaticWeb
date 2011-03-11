@@ -1,3 +1,10 @@
+2011-01-18 (56bb8cf): DatabasePanel: added link to source code
+2011-01-18 (be1d018): DatabasePanel: added $explain - displays EXPLAIN SQL
+2011-01-18 (1889f89): added Connection::fetchAll() & Statement::getConnection()
+2011-01-18 (82c72a2): Debug bluescreen: added [search] link (experimental)
+2011-01-18 (680d128): Debug bluescreen: link color improved
+2011-01-18 (09f5af1): Debug bar: added PHP, server and framework version to tooltip
+2011-01-13 (df32739): Mail::addAttachment() accepts URL
 2011-01-13 (ad9cf6a): Mail::generateMessage() returns correct result
 2011-01-13 (50061cc): Application: calls $presenter->forward() if is instance of Presenter
 2011-01-13 (e5d7f45): typos
@@ -491,10 +498,3 @@
 2010-08-05 (6f798bb): Json::decode() added $options parameter [Closes #78]
 2010-08-05 (1d641c1): Html: added support for data-xxx attributes
 2010-08-05 (010a14e): SmartCachingIterator: fixed isFirst(width) & isLast(width) for width < 2
-2010-08-05 (447baca): MultiRouter: is ArrayList descendant because SplQueue is not able to serialize.
-2010-08-04 (888a073): Nette\Image: better __call() behaviour.
-2010-08-04 (3a8f6b6): MemcachedStorage: fixed broken delete() [Closes #81]
-2010-07-29 (b9fb2e3): Typo in doc-comment
-2010-07-23 (a8c51dd): typos
-2010-07-23 (5ca7448): Debug: added $scream (disables the @ operator)
-2010-07-23 (8e2fbda): tests: Nette\Debug tests renamed and improved

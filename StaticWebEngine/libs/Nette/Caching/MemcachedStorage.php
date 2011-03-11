@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Caching
  */
+
+namespace Nette\Caching;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class MemcachedStorage extends Object implements ICacheStorage
+class MemcachedStorage extends Nette\Object implements ICacheStorage
 {
 	/**#@+ @internal cache structure */
 	const META_CALLBACKS = 'callbacks';
@@ -50,16 +53,16 @@ class MemcachedStorage extends Object implements ICacheStorage
 	public function __construct($host = 'localhost', $port = 11211, $prefix = '', ICacheJournal $journal = NULL)
 	{
 		if (!self::isAvailable()) {
-			throw new NotSupportedException("PHP extension 'memcache' is not loaded.");
+			throw new \NotSupportedException("PHP extension 'memcache' is not loaded.");
 		}
 
 		$this->prefix = $prefix;
 		$this->journal = $journal;
-		$this->memcache = new Memcache;
-		Debug::tryError();
+		$this->memcache = new \Memcache;
+		Nette\Debug::tryError();
 		$this->memcache->connect($host, $port);
-		if (Debug::catchError($e)) {
-			throw new InvalidStateException($e->getMessage());
+		if (Nette\Debug::catchError($e)) {
+			throw new \InvalidStateException($e->getMessage());
 		}
 	}
 
@@ -108,7 +111,7 @@ class MemcachedStorage extends Object implements ICacheStorage
 	public function write($key, $data, array $dp)
 	{
 		if (isset($dp[Cache::ITEMS])) {
-			throw new NotSupportedException('Dependent items are not supported by MemcachedStorage.');
+			throw new \NotSupportedException('Dependent items are not supported by MemcachedStorage.');
 		}
 
 		$key = $this->prefix . $key;
@@ -130,7 +133,7 @@ class MemcachedStorage extends Object implements ICacheStorage
 
 		if (isset($dp[Cache::TAGS]) || isset($dp[Cache::PRIORITY])) {
 			if (!$this->journal) {
-				throw new InvalidStateException('CacheJournal has not been provided.');
+				throw new \InvalidStateException('CacheJournal has not been provided.');
 			}
 			$this->getJournal()->write($key, $dp);
 		}

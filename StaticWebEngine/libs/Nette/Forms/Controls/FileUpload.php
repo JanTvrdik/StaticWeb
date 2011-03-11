@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette,
+	Nette\Web\HttpUploadedFile;
 
 
 
@@ -41,7 +45,7 @@ class FileUpload extends FormControl
 	{
 		if ($form instanceof Form) {
 			if ($form->getMethod() !== Form::POST) {
-				throw new InvalidStateException('File upload requires method POST.');
+				throw new \InvalidStateException('File upload requires method POST.');
 			}
 			$form->getElementPrototype()->enctype = 'multipart/form-data';
 		}
@@ -52,7 +56,7 @@ class FileUpload extends FormControl
 
 	/**
 	 * Sets control's value.
-	 * @param  array|HttpUploadedFile
+	 * @param  array|Nette\Web\HttpUploadedFile
 	 * @return FileUpload  provides a fluent interface
 	 */
 	public function setValue($value)

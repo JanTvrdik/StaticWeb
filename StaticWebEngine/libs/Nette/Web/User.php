@@ -7,8 +7,15 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Web
  */
+
+namespace Nette\Web;
+
+use Nette,
+	Nette\Environment,
+	Nette\Security\IAuthenticator,
+	Nette\Security\IAuthorizator,
+	Nette\Security\IIdentity;
 
 
 
@@ -17,14 +24,14 @@
  *
  * @author     David Grudl
  *
- * @property-read IIdentity $identity
- * @property   IAuthenticator $authenticationHandler
- * @property   IAuthorizator $authorizationHandler
+ * @property-read Nette\Security\IIdentity $identity
+ * @property   Nette\Security\IAuthenticator $authenticationHandler
+ * @property   Nette\Security\IAuthorizator $authorizationHandler
  * @property-read int $logoutReason
  * @property-read array $roles
  * @property-read bool $authenticated
  */
-class User extends Object implements IUser
+class User extends Nette\Object implements IUser
 {
 	/**#@+ log-out reason {@link User::getLogoutReason()} */
 	const MANUAL = 1;
@@ -44,10 +51,10 @@ class User extends Object implements IUser
 	/** @var array of function(User $sender); Occurs when the user is logged out */
 	public $onLoggedOut;
 
-	/** @var IAuthenticator */
+	/** @var Nette\Security\IAuthenticator */
 	private $authenticationHandler;
 
-	/** @var IAuthorizator */
+	/** @var Nette\Security\IAuthorizator */
 	private $authorizationHandler;
 
 	/** @var string */
@@ -67,13 +74,13 @@ class User extends Object implements IUser
 	 * @param  mixed optional parameter (e.g. username)
 	 * @param  mixed optional parameter (e.g. password)
 	 * @return void
-	 * @throws AuthenticationException if authentication was not successful
+	 * @throws Nette\Security\AuthenticationException if authentication was not successful
 	 */
 	public function login($username = NULL, $password = NULL)
 	{
 		$handler = $this->getAuthenticationHandler();
 		if ($handler === NULL) {
-			throw new InvalidStateException('Authentication handler has not been set.');
+			throw new \InvalidStateException('Authentication handler has not been set.');
 		}
 
 		$this->logout(TRUE);
@@ -119,7 +126,7 @@ class User extends Object implements IUser
 
 	/**
 	 * Returns current user identity, if any.
-	 * @return IIdentity
+	 * @return Nette\Security\IIdentity
 	 */
 	final public function getIdentity()
 	{
@@ -143,7 +150,7 @@ class User extends Object implements IUser
 
 	/**
 	 * Sets authentication handler.
-	 * @param  IAuthenticator
+	 * @param  Nette\Security\IAuthenticator
 	 * @return User  provides a fluent interface
 	 */
 	public function setAuthenticationHandler(IAuthenticator $handler)
@@ -156,7 +163,7 @@ class User extends Object implements IUser
 
 	/**
 	 * Returns authentication handler.
-	 * @return IAuthenticator
+	 * @return Nette\Security\IAuthenticator
 	 */
 	final public function getAuthenticationHandler()
 	{
@@ -206,7 +213,7 @@ class User extends Object implements IUser
 	{
 		$session = $this->getSessionNamespace(TRUE);
 		if ($time) {
-			$time = Tools::createDateTime($time)->format('U');
+			$time = Nette\Tools::createDateTime($time)->format('U');
 			$session->expireTime = $time;
 			$session->expireDelta = $time - time();
 
@@ -369,7 +376,7 @@ class User extends Object implements IUser
 	{
 		$handler = $this->getAuthorizationHandler();
 		if (!$handler) {
-			throw new InvalidStateException("Authorization handler has not been set.");
+			throw new \InvalidStateException("Authorization handler has not been set.");
 		}
 
 		foreach ($this->getRoles() as $role) {
@@ -383,7 +390,7 @@ class User extends Object implements IUser
 
 	/**
 	 * Sets authorization handler.
-	 * @param  IAuthorizator
+	 * @param  Nette\Security\IAuthorizator
 	 * @return User  provides a fluent interface
 	 */
 	public function setAuthorizationHandler(IAuthorizator $handler)
@@ -396,7 +403,7 @@ class User extends Object implements IUser
 
 	/**
 	 * Returns current authorization handler.
-	 * @return IAuthorizator
+	 * @return Nette\Security\IAuthorizator
 	 */
 	final public function getAuthorizationHandler()
 	{
@@ -414,7 +421,7 @@ class User extends Object implements IUser
 
 	/**
 	 * Returns session handler.
-	 * @return Session
+	 * @return Nette\Web\Session
 	 */
 	protected function getSession()
 	{

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Selector
  */
+
+namespace Nette\Database\Selector;
+
+use Nette;
 
 
 
@@ -18,7 +21,7 @@
  *
  * @author     Jakub Vrana
  */
-class TableRow extends Object implements IteratorAggregate, ArrayAccess
+class TableRow extends Nette\Object implements \IteratorAggregate, \ArrayAccess
 {
 	/** @var TableSelection */
 	protected $table;
@@ -124,7 +127,7 @@ class TableRow extends Object implements IteratorAggregate, ArrayAccess
 	public function getIterator()
 	{
 		$this->access(NULL);
-		return new ArrayIterator($this->data);
+		return new \ArrayIterator($this->data);
 	}
 
 

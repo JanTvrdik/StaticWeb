@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Web
  */
+
+namespace Nette\Web;
+
+use Nette;
 
 
 
@@ -29,7 +32,7 @@
  * @property-read string $remoteHost
  * @property-read bool $secured
  */
-class HttpRequest extends Object implements IHttpRequest
+class HttpRequest extends Nette\Object implements IHttpRequest
 {
 	/** @var string */
 	private $method;
@@ -148,7 +151,7 @@ class HttpRequest extends Object implements IHttpRequest
 	final public function getFile($key)
 	{
 		$args = func_get_args();
-		return ArrayTools::get($this->files, $args);
+		return Nette\ArrayTools::get($this->files, $args);
 	}
 
 

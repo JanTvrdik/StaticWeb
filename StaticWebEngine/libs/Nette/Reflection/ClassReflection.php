@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Reflection
  */
+
+namespace Nette\Reflection;
+
+use Nette,
+	Nette\ObjectMixin;
 
 
 
@@ -17,7 +21,7 @@
  *
  * @author     David Grudl
  */
-class ClassReflection extends ReflectionClass
+class ClassReflection extends \ReflectionClass
 {
 
 	/** @var array (method => array(type => callback)) */
@@ -27,11 +31,11 @@ class ClassReflection extends ReflectionClass
 
 	/**
 	 * @param  string|object
-	 * @return ClassReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
 	public static function from($class)
 	{
-		return new self($class);
+		return new static($class);
 	}
 
 
@@ -80,18 +84,6 @@ class ClassReflection extends ReflectionClass
 	 */
 	public function getExtensionMethod($name)
 	{
-		if (self::$extMethods === NULL || $name === NULL) { // for backwards compatibility
-			$list = get_defined_functions(); // names are lowercase!
-			foreach ($list['user'] as $fce) {
-				$pair = explode('_prototype_', $fce);
-				if (count($pair) === 2) {
-					self::$extMethods[$pair[1]][$pair[0]] = callback($fce);
-					self::$extMethods[$pair[1]][''] = NULL;
-				}
-			}
-			if ($name === NULL) return NULL;
-		}
-
 		$class = strtolower($this->getName());
 		$l = & self::$extMethods[strtolower($name)];
 
@@ -125,7 +117,7 @@ class ClassReflection extends ReflectionClass
 
 
 	/**
-	 * @return MethodReflection
+	 * @return Nette\Reflection\MethodReflection
 	 */
 	public function getConstructor()
 	{
@@ -135,7 +127,7 @@ class ClassReflection extends ReflectionClass
 
 
 	/**
-	 * @return ExtensionReflection
+	 * @return Nette\Reflection\ExtensionReflection
 	 */
 	public function getExtension()
 	{
@@ -148,7 +140,7 @@ class ClassReflection extends ReflectionClass
 	{
 		$res = array();
 		foreach (parent::getInterfaceNames() as $val) {
-			$res[$val] = new self($val);
+			$res[$val] = new static($val);
 		}
 		return $res;
 	}
@@ -156,7 +148,7 @@ class ClassReflection extends ReflectionClass
 
 
 	/**
-	 * @return MethodReflection
+	 * @return Nette\Reflection\MethodReflection
 	 */
 	public function getMethod($name)
 	{
@@ -176,11 +168,11 @@ class ClassReflection extends ReflectionClass
 
 
 	/**
-	 * @return ClassReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
 	public function getParentClass()
 	{
-		return ($ref = parent::getParentClass()) ? new self($ref->getName()) : NULL;
+		return ($ref = parent::getParentClass()) ? new static($ref->getName()) : NULL;
 	}
 
 
@@ -196,7 +188,7 @@ class ClassReflection extends ReflectionClass
 
 
 	/**
-	 * @return PropertyReflection
+	 * @return Nette\Reflection\PropertyReflection
 	 */
 	public function getProperty($name)
 	{
@@ -205,7 +197,7 @@ class ClassReflection extends ReflectionClass
 
 
 
-	/********************* Annotations support ****************d*g**/
+	/********************* Nette\Annotations support ****************d*g**/
 
 
 
@@ -246,16 +238,16 @@ class ClassReflection extends ReflectionClass
 
 
 
-	/********************* Object behaviour ****************d*g**/
+	/********************* Nette\Object behaviour ****************d*g**/
 
 
 
 	/**
-	 * @return ClassReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
-	public function getReflection()
+	public static function getReflection()
 	{
-		return new ClassReflection($this);
+		return new Nette\Reflection\ClassReflection(get_called_class());
 	}
 
 
@@ -290,7 +282,7 @@ class ClassReflection extends ReflectionClass
 
 	public function __unset($name)
 	{
-		throw new MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
+		throw new \MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
 	}
 
 }

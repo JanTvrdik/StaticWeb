@@ -7,13 +7,16 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
 /**
- * Custom output for Debug.
+ * Custom output for Nette\Debug.
  *
  * @author     David Grudl
  */

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -57,7 +60,6 @@ abstract class Component extends Object implements IComponent
 	 */
 	public function lookup($type, $need = TRUE)
 	{
-		if ($a = strrpos($type, '\\')) $type = substr($type, $a + 1); // fix namespace
 		if (!isset($this->monitors[$type])) { // not monitored or not processed yet
 			$obj = $this->parent;
 			$path = self::NAME_SEPARATOR . $this->name;
@@ -79,7 +81,7 @@ abstract class Component extends Object implements IComponent
 		}
 
 		if ($need && $this->monitors[$type][0] === NULL) {
-			throw new InvalidStateException("Component '$this->name' is not attached to '$type'.");
+			throw new \InvalidStateException("Component '$this->name' is not attached to '$type'.");
 		}
 
 		return $this->monitors[$type][0];
@@ -96,7 +98,6 @@ abstract class Component extends Object implements IComponent
 	 */
 	public function lookupPath($type, $need = TRUE)
 	{
-		if ($a = strrpos($type, '\\')) $type = substr($type, $a + 1); // fix namespace
 		$this->lookup($type, $need);
 		return $this->monitors[$type][2];
 	}
@@ -110,7 +111,6 @@ abstract class Component extends Object implements IComponent
 	 */
 	public function monitor($type)
 	{
-		if ($a = strrpos($type, '\\')) $type = substr($type, $a + 1); // fix namespace
 		if (empty($this->monitors[$type][3])) {
 			if ($obj = $this->lookup($type, FALSE)) {
 				$this->attached($obj);
@@ -128,7 +128,6 @@ abstract class Component extends Object implements IComponent
 	 */
 	public function unmonitor($type)
 	{
-		if ($a = strrpos($type, '\\')) $type = substr($type, $a + 1); // fix namespace
 		unset($this->monitors[$type]);
 	}
 
@@ -189,7 +188,7 @@ abstract class Component extends Object implements IComponent
 	 * @param  IComponentContainer  New parent or null if this component is being removed from a parent
 	 * @param  string
 	 * @return Component  provides a fluent interface
-	 * @throws InvalidStateException
+	 * @throws \InvalidStateException
 	 */
 	public function setParent(IComponentContainer $parent = NULL, $name = NULL)
 	{
@@ -203,7 +202,7 @@ abstract class Component extends Object implements IComponent
 
 		// A component cannot be given a parent if it already has a parent.
 		if ($this->parent !== NULL && $parent !== NULL) {
-			throw new InvalidStateException("Component '$this->name' already has a parent.");
+			throw new \InvalidStateException("Component '$this->name' already has a parent.");
 		}
 
 		// remove from parent?
@@ -226,10 +225,10 @@ abstract class Component extends Object implements IComponent
 
 	/**
 	 * Is called by a component when it is about to be set new parent. Descendant can
-	 * override this method to disallow a parent change by throwing an InvalidStateException
+	 * override this method to disallow a parent change by throwing an \InvalidStateException
 	 * @param  IComponentContainer
 	 * @return void
-	 * @throws InvalidStateException
+	 * @throws \InvalidStateException
 	 */
 	protected function validateParent(IComponentContainer $parent)
 	{
@@ -330,7 +329,7 @@ abstract class Component extends Object implements IComponent
 	 */
 	final public function __wakeup()
 	{
-		throw new NotImplementedException;
+		throw new \NotImplementedException;
 	}
 
 }

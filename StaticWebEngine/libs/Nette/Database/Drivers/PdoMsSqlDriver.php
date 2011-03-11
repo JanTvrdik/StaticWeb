@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Drivers
  */
+
+namespace Nette\Database\Drivers;
+
+use Nette;
 
 
 
@@ -17,14 +20,14 @@
  *
  * @author     David Grudl
  */
-class PdoMsSqlDriver extends Object implements ISupplementalDriver
+class PdoMsSqlDriver extends Nette\Object implements Nette\Database\ISupplementalDriver
 {
-	/** @var Connection */
+	/** @var Nette\Database\Connection */
 	private $connection;
 
 
 
-	public function __construct(Connection $connection, array $options)
+	public function __construct(Nette\Database\Connection $connection, array $options)
 	{
 		$this->connection = $connection;
 	}
@@ -49,7 +52,7 @@ class PdoMsSqlDriver extends Object implements ISupplementalDriver
 	/**
 	 * Formats date-time for use in a SQL statement.
 	 */
-	public function formatDateTime(DateTime $value)
+	public function formatDateTime(\DateTime $value)
 	{
 		return $value->format("'Y-m-d H:i:s'");
 	}

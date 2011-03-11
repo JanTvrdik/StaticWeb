@@ -7,8 +7,14 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Templates
  */
+
+namespace Nette\Templates;
+
+use Nette,
+	Nette\String,
+	Nette\Forms\Form,
+	Nette\Web\Html;
 
 
 
@@ -28,7 +34,7 @@ final class TemplateHelpers
 	 */
 	final public function __construct()
 	{
-		throw new LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
@@ -40,11 +46,11 @@ final class TemplateHelpers
 	 */
 	public static function loader($helper)
 	{
-		$callback = callback('TemplateHelpers', $helper);
+		$callback = callback('Nette\Templates\TemplateHelpers', $helper);
 		if ($callback->isCallable()) {
 			return $callback;
 		}
-		$callback = callback('String', $helper);
+		$callback = callback('Nette\String', $helper);
 		if ($callback->isCallable()) {
 			return $callback;
 		}
@@ -129,7 +135,7 @@ final class TemplateHelpers
 		if (is_object($s) && ($s instanceof ITemplate || $s instanceof Html || $s instanceof Form)) {
 			$s = $s->__toString(TRUE);
 		}
-		return str_replace(']]>', ']]\x3E', Json::encode($s));
+		return str_replace(']]>', ']]\x3E', Nette\Json::encode($s));
 	}
 
 
@@ -156,9 +162,9 @@ final class TemplateHelpers
 		return String::replace(
 			$s,
 			'#(</textarea|</pre|</script|^).*?(?=<textarea|<pre|<script|$)#si',
-			callback(create_function('$m', '
-				return trim(preg_replace("#[ \\t\\r\\n]+#", " ", $m[0]));
-			')));
+			function($m) {
+				return trim(preg_replace("#[ \t\r\n]+#", " ", $m[0]));
+			});
 	}
 
 
@@ -173,9 +179,9 @@ final class TemplateHelpers
 	public static function indent($s, $level = 1, $chars = "\t")
 	{
 		if ($level >= 1) {
-			$s = String::replace($s, '#<(textarea|pre).*?</\\1#si', callback(create_function('$m', '
-				return strtr($m[0], " \\t\\r\\n", "\\x1F\\x1E\\x1D\\x1A");
-			')));
+			$s = String::replace($s, '#<(textarea|pre).*?</\\1#si', function($m) {
+				return strtr($m[0], " \t\r\n", "\x1F\x1E\x1D\x1A");
+			});
 			$s = String::indent($s, $level, $chars);
 			$s = strtr($s, "\x1F\x1E\x1D\x1A", " \t\r\n");
 		}
@@ -200,7 +206,7 @@ final class TemplateHelpers
 			$format = self::$dateFormat;
 		}
 
-		$time = Tools::createDateTime($time);
+		$time = Nette\Tools::createDateTime($time);
 		return strpos($format, '%') === FALSE
 			? $time->format($format) // formats using date()
 			: strftime($format, $time->format('U')); // formats according to locales
@@ -262,7 +268,7 @@ final class TemplateHelpers
 	public static function dataStream($data, $type = NULL)
 	{
 		if ($type === NULL) {
-			$type = Tools::detectMimeTypeFromString($data, NULL);
+			$type = Nette\Tools::detectMimeTypeFromString($data, NULL);
 		}
 		return 'data:' . ($type ? "$type;" : '') . 'base64,' . base64_encode($data);
 	}

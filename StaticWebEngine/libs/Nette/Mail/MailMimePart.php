@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Mail
  */
+
+namespace Nette\Mail;
+
+use Nette;
 
 
 
@@ -21,7 +24,7 @@
  * @property   string $body
  * @property-read array $headers
  */
-class MailMimePart extends Object
+class MailMimePart extends Nette\Object
 {
 	/**#@+ encoding */
 	const ENCODING_BASE64 = 'base64';
@@ -56,7 +59,7 @@ class MailMimePart extends Object
 	public function setHeader($name, $value, $append = FALSE)
 	{
 		if (!$name || preg_match('#[^a-z0-9-]#i', $name)) {
-			throw new InvalidArgumentException("Header name must be non-empty alphanumeric string, '$name' given.");
+			throw new \InvalidArgumentException("Header name must be non-empty alphanumeric string, '$name' given.");
 		}
 
 		if ($value == NULL) { // intentionally ==
@@ -71,24 +74,24 @@ class MailMimePart extends Object
 			}
 
 			foreach ($value as $email => $name) {
-				if ($name !== NULL && !String::checkEncoding($name)) {
-					throw new InvalidArgumentException("Name is not valid UTF-8 string.");
+				if ($name !== NULL && !Nette\String::checkEncoding($name)) {
+					throw new \InvalidArgumentException("Name is not valid UTF-8 string.");
 				}
 
 				if (!preg_match('#^[^@",\s]+@[^@",\s]+\.[a-z]{2,10}$#i', $email)) {
-					throw new InvalidArgumentException("Email address '$email' is not valid.");
+					throw new \InvalidArgumentException("Email address '$email' is not valid.");
 				}
 
 				if (preg_match('#[\r\n]#', $name)) {
-					throw new InvalidArgumentException("Name must not contain line separator.");
+					throw new \InvalidArgumentException("Name must not contain line separator.");
 				}
 				$tmp[$email] = $name;
 			}
 
 		} else {
 			$value = (string) $value;
-			if (!String::checkEncoding($value)) {
-				throw new InvalidArgumentException("Header is not valid UTF-8 string.");
+			if (!Nette\String::checkEncoding($value)) {
+				throw new \InvalidArgumentException("Header is not valid UTF-8 string.");
 			}
 			$this->headers[$name] = preg_replace('#[\r\n]+#', ' ', $value);
 		}
@@ -258,7 +261,7 @@ class MailMimePart extends Object
 	public function generateMessage()
 	{
 		$output = '';
-		$boundary = '--------' . String::random();
+		$boundary = '--------' . Nette\String::random();
 
 		foreach ($this->headers as $name => $value) {
 			$output .= $name . ': ' . $this->getEncodedHeader($name);
@@ -291,7 +294,7 @@ class MailMimePart extends Object
 				break;
 
 			default:
-				throw new InvalidStateException('Unknown encoding.');
+				throw new \InvalidStateException('Unknown encoding.');
 			}
 		}
 
@@ -343,37 +346,4 @@ class MailMimePart extends Object
 	 * Converts a 8 bit string to a quoted-printable string.
 	 * @param  string
 	 * @return string
-	 */public static function encodeQuotedPrintable($s)
-	{
-		$range = '!"#$%&\'()*+,-./0123456789:;<>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}'; // \x21-\x7E without \x3D
-		$pos = 0;
-		$len = 0;
-		$o = '';
-		$size = strlen($s);
-		while ($pos < $size) {
-			if ($l = strspn($s, $range, $pos)) {
-				while ($len + $l > self::LINE_LENGTH - 1) { // 1 = length of suffix =
-					$lx = self::LINE_LENGTH - $len - 1;
-					$o .= substr($s, $pos, $lx) . '=' . self::EOL;
-					$pos += $lx;
-					$l -= $lx;
-					$len = 0;
-				}
-				$o .= substr($s, $pos, $l);
-				$len += $l;
-				$pos += $l;
-
-			} else {
-				$len += 3;
-				if ($len > self::LINE_LENGTH - 1) {
-					$o .= '=' . self::EOL;
-					$len = 3;
-				}
-				$o .= '=' . strtoupper(bin2hex($s[$pos]));
-				$pos++;
-			}
-		}
-		return rtrim($o, '=' . self::EOL);
-	}
-
-}
+	 */}

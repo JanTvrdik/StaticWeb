@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class ArrayList implements ArrayAccess, Countable, IteratorAggregate
+class ArrayList implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 	private $list = array();
 
@@ -25,11 +28,11 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns an iterator over all items.
-	 * @return ArrayIterator
+	 * @return \ArrayIterator
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($this->list);
+		return new \ArrayIterator($this->list);
 	}
 
 
@@ -50,7 +53,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
 	 * @param  int
 	 * @param  mixed
 	 * @return void
-	 * @throws OutOfRangeException
+	 * @throws \OutOfRangeException
 	 */
 	public function offsetSet($index, $value)
 	{
@@ -58,7 +61,7 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
 			$this->list[] = $value;
 
 		} elseif ($index < 0 || $index >= count($this->list)) {
-			throw new OutOfRangeException("Offset invalid or out of range");
+			throw new \OutOfRangeException("Offset invalid or out of range");
 
 		} else {
 			$this->list[(int) $index] = $value;
@@ -71,12 +74,12 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
 	 * Returns a item.
 	 * @param  int
 	 * @return mixed
-	 * @throws OutOfRangeException
+	 * @throws \OutOfRangeException
 	 */
 	public function offsetGet($index)
 	{
 		if ($index < 0 || $index >= count($this->list)) {
-			throw new OutOfRangeException("Offset invalid or out of range");
+			throw new \OutOfRangeException("Offset invalid or out of range");
 		}
 		return $this->list[(int) $index];
 	}
@@ -99,12 +102,12 @@ class ArrayList implements ArrayAccess, Countable, IteratorAggregate
 	 * Removes the element at the specified position in this list.
 	 * @param  int
 	 * @return void
-	 * @throws OutOfRangeException
+	 * @throws \OutOfRangeException
 	 */
 	public function offsetUnset($index)
 	{
 		if ($index < 0 || $index >= count($this->list)) {
-			throw new OutOfRangeException("Offset invalid or out of range");
+			throw new \OutOfRangeException("Offset invalid or out of range");
 		}
 		array_splice($this->list, (int) $index, 1);
 	}

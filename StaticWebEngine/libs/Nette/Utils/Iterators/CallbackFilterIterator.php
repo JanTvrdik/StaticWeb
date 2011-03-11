@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class CallbackFilterIterator extends FilterIterator
+class CallbackFilterIterator extends \FilterIterator
 {
 	/** @var callback */
 	private $callback;
@@ -28,7 +31,7 @@ class CallbackFilterIterator extends FilterIterator
 	 * @param
 	 * @param  callback
 	 */
-	function __construct(Iterator $iterator, $callback)
+	function __construct(\Iterator $iterator, $callback)
 	{
 		parent::__construct($iterator);
 		$this->callback = $callback;

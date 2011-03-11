@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,6 +20,6 @@
  *
  * @author     David Grudl
  */
-class InvalidLinkException extends Exception
+class InvalidLinkException extends \Exception
 {
 }

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Selector
  */
+
+namespace Nette\Database\Selector;
+
+use Nette;
 
 
 
@@ -18,9 +21,9 @@
  *
  * @author     Jakub Vrana
  */
-class TableSelection extends Object implements Iterator, ArrayAccess, Countable // not IteratorAggregate because $this->data can be changed during iteration
+class TableSelection extends Nette\Object implements \Iterator, \ArrayAccess, \Countable // not IteratorAggregate because $this->data can be changed during iteration
 {
-	/** @var Connection */
+	/** @var Nette\Database\Connection */
 	public $connection;
 
 	/** @var string table name */
@@ -92,7 +95,7 @@ class TableSelection extends Object implements Iterator, ArrayAccess, Countable 
 	 * @param  string
 	 * @param
 	 */
-	public function __construct($table, Connection $connection)
+	public function __construct($table, Nette\Database\Connection $connection)
 	{
 		$this->name = $table;
 		$this->connection = $connection;
@@ -197,7 +200,7 @@ class TableSelection extends Object implements Iterator, ArrayAccess, Countable 
 			if (!$clone->select) {
 				$clone->select = array($this->getPrimary($clone->name));
 			}
-			if ($this->connection->getAttribute(PDO::ATTR_DRIVER_NAME) !== 'mysql') {
+			if ($this->connection->getAttribute(\PDO::ATTR_DRIVER_NAME) !== 'mysql') {
 				$condition .= " IN ($clone)";
 			} else {
 				$in = array();
@@ -407,7 +410,7 @@ class TableSelection extends Object implements Iterator, ArrayAccess, Countable 
 		try {
 			$result = $this->query($this->getSql());
 
-		} catch (PDOException $exception) {
+		} catch (\PDOException $exception) {
 			if (!$this->select && $this->prevAccessed) {
 				$this->prevAccessed = '';
 				$this->accessed = array();
@@ -418,7 +421,7 @@ class TableSelection extends Object implements Iterator, ArrayAccess, Countable 
 		}
 
 		$this->rows = array();
-		$result->setFetchMode(PDO::FETCH_ASSOC);
+		$result->setFetchMode(\PDO::FETCH_ASSOC);
 		foreach ($result as $key => $row) {
 			$row = $result->normalizeRow($row);
 			$this->rows[isset($row[$this->primary]) ? $row[$this->primary] : $key] = new TableRow($row, $this);
@@ -435,7 +438,7 @@ class TableSelection extends Object implements Iterator, ArrayAccess, Countable 
 	protected function whereString()
 	{
 		$return = '';
-		$driver = $this->connection->getAttribute(PDO::ATTR_DRIVER_NAME);
+		$driver = $this->connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
 		$where = $this->where;
 		if ($this->limit !== NULL && $driver === 'oci') {
 			$where[] = ($this->offset ? "rownum > $this->offset AND " : '') . 'rownum <= ' . ($this->limit + $this->offset);
@@ -465,7 +468,7 @@ class TableSelection extends Object implements Iterator, ArrayAccess, Countable 
 
 	protected function topString()
 	{
-		if ($this->limit !== NULL && $this->connection->getAttribute(PDO::ATTR_DRIVER_NAME) === 'dblib') {
+		if ($this->limit !== NULL && $this->connection->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'dblib') {
 			return " TOP ($this->limit)"; //! offset is not supported
 		}
 		return '';
@@ -529,7 +532,7 @@ class TableSelection extends Object implements Iterator, ArrayAccess, Countable 
 		if ($data instanceof TableSelection) {
 			$data = $data->getSql();
 
-		} elseif ($data instanceof Traversable) {
+		} elseif ($data instanceof \Traversable) {
 			$data = iterator_to_array($data);
 		}
 

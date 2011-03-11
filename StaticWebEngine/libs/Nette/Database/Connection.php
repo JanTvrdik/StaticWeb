@@ -7,8 +7,13 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Database
  */
+
+namespace Nette\Database;
+
+use Nette,
+	Nette\ObjectMixin,
+	PDO;
 
 
 
@@ -25,10 +30,10 @@ class Connection extends PDO
 	/** @var SqlPreprocessor */
 	private $preprocessor;
 
-	/** @var DatabaseReflection */
+	/** @var Nette\Database\Reflection\DatabaseReflection */
 	public $databaseReflection;
 
-	/** @var Cache */
+	/** @var Nette\Caching\Cache */
 	public $cache;
 
 	/** @var array */
@@ -43,19 +48,19 @@ class Connection extends PDO
 	{
 		parent::__construct($dsn, $username, $password, $options);
 		$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('Statement', array($this)));
+		$this->setAttribute(PDO::ATTR_STATEMENT_CLASS, array('Nette\Database\Statement', array($this)));
 
-		$class = 'Pdo' . $this->getAttribute(PDO::ATTR_DRIVER_NAME) . 'Driver';
+		$class = 'Nette\Database\Drivers\Pdo' . $this->getAttribute(PDO::ATTR_DRIVER_NAME) . 'Driver';
 		if (class_exists($class)) {
 			$this->driver = new $class($this, (array) $options);
 		}
 
 		$this->preprocessor = new SqlPreprocessor($this);
 
-		$this->databaseReflection = new DatabaseReflection; // TODO
+		$this->databaseReflection = new Nette\Database\Reflection\DatabaseReflection; // TODO
 
-		if (!Debug::$productionMode) {
-			Debug::addPanel($panel = new DatabasePanel($dsn));
+		if (!Nette\Debug::$productionMode) {
+			Nette\Debug::addPanel($panel = new DatabasePanel($dsn));
 			$this->onQuery[] = callback($panel, 'logQuery');
 		}
 	}
@@ -165,6 +170,20 @@ class Connection extends PDO
 
 
 
+	/**
+	 * Shortcut for query()->fetchAll()
+	 * @param  string  statement
+	 * @param  mixed   [parameters, ...]
+	 * @return array
+	 */
+	public function fetchAll($args)
+	{
+		$args = func_get_args();
+		return $this->queryArgs(array_shift($args), $args)->fetchAll();
+	}
+
+
+
 	/********************* selector ****************d*g**/
 
 
@@ -172,11 +191,11 @@ class Connection extends PDO
 	/**
 	 * Creates selector for table.
 	 * @param  string
-	 * @return TableSelection
+	 * @return Nette\Database\Selector\TableSelection
 	 */
 	public function table($table)
 	{
-		return new TableSelection($table, $this);
+		return new Nette\Database\Selector\TableSelection($table, $this);
 	}
 
 
@@ -238,35 +257,35 @@ class Connection extends PDO
 
 		// syntax highlight
 		$sql = htmlSpecialChars($sql);
-		$sql = preg_replace_callback("#(/\\*.+?\\*/)|(\\*\\*.+?\\*\\*)|(?<=[\\s,(])($keywords1)(?=[\\s,)])|(?<=[\\s,(=])($keywords2)(?=[\\s,)=])#is", create_function('$matches', '
+		$sql = preg_replace_callback("#(/\\*.+?\\*/)|(\\*\\*.+?\\*\\*)|(?<=[\\s,(])($keywords1)(?=[\\s,)])|(?<=[\\s,(=])($keywords2)(?=[\\s,)=])#is", function($matches) {
 			if (!empty($matches[1])) // comment
-				return \'<em style="color:gray">\' . $matches[1] . \'</em>\';
+				return '<em style="color:gray">' . $matches[1] . '</em>';
 
 			if (!empty($matches[2])) // error
-				return \'<strong style="color:red">\' . $matches[2] . \'</strong>\';
+				return '<strong style="color:red">' . $matches[2] . '</strong>';
 
 			if (!empty($matches[3])) // most important keywords
-				return \'<strong style="color:blue">\' . $matches[3] . \'</strong>\';
+				return '<strong style="color:blue">' . $matches[3] . '</strong>';
 
 			if (!empty($matches[4])) // other keywords
-				return \'<strong style="color:green">\' . $matches[4] . \'</strong>\';
-		'), $sql);
+				return '<strong style="color:green">' . $matches[4] . '</strong>';
+		}, $sql);
 
 		return '<pre class="dump">' . trim($sql) . "</pre>\n";
 	}
 
 
 
-	/********************* Object behaviour ****************d*g**/
+	/********************* Nette\Object behaviour ****************d*g**/
 
 
 
 	/**
-	 * @return ClassReflection
+	 * @return Nette\Reflection\ClassReflection
 	 */
-	public function getReflection()
+	public static function getReflection()
 	{
-		return new ClassReflection($this);
+		return new Nette\Reflection\ClassReflection(get_called_class());
 	}
 
 
@@ -301,7 +320,7 @@ class Connection extends PDO
 
 	public function __unset($name)
 	{
-		throw new MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
+		throw new \MemberAccessException("Cannot unset the property {$this->reflection->name}::\$$name.");
 	}
 
 }

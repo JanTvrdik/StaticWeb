@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Loaders
  */
+
+namespace Nette\Loaders;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-abstract class AutoLoader extends Object
+abstract class AutoLoader extends Nette\Object
 {
 	/** @var array  list of registered loaders */
 	static private $loaders = array();
@@ -36,7 +39,7 @@ abstract class AutoLoader extends Object
 	{
 		foreach (func_get_args() as $type) {
 			if (!class_exists($type)) {
-				throw new InvalidStateException("Unable to load class or interface '$type'.");
+				throw new \InvalidStateException("Unable to load class or interface '$type'.");
 			}
 		}
 	}
@@ -61,7 +64,7 @@ abstract class AutoLoader extends Object
 	public function register()
 	{
 		if (!function_exists('spl_autoload_register')) {
-			throw new RuntimeException('spl_autoload does not exist in this PHP installation.');
+			throw new \RuntimeException('spl_autoload does not exist in this PHP installation.');
 		}
 
 		spl_autoload_register(array($this, 'tryLoad'));

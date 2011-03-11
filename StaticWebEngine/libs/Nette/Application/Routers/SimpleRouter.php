@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class SimpleRouter extends Object implements IRouter
+class SimpleRouter extends Nette\Object implements IRouter
 {
 	const PRESENTER_KEY = 'presenter';
 	const MODULE_KEY = 'module';
@@ -42,7 +45,7 @@ class SimpleRouter extends Object implements IRouter
 		if (is_string($defaults)) {
 			$a = strrpos($defaults, ':');
 			if (!$a) {
-				throw new InvalidArgumentException("Argument must be array or string in format Presenter:action, '$defaults' given.");
+				throw new \InvalidArgumentException("Argument must be array or string in format Presenter:action, '$defaults' given.");
 			}
 			$defaults = array(
 				self::PRESENTER_KEY => substr($defaults, 0, $a),
@@ -63,10 +66,10 @@ class SimpleRouter extends Object implements IRouter
 
 	/**
 	 * Maps HTTP request to a PresenterRequest object.
-	 * @param  IHttpRequest
+	 * @param  Nette\Web\IHttpRequest
 	 * @return PresenterRequest|NULL
 	 */
-	public function match(IHttpRequest $httpRequest)
+	public function match(Nette\Web\IHttpRequest $httpRequest)
 	{
 		if ($httpRequest->getUri()->getPathInfo() !== '') {
 			return NULL;
@@ -76,7 +79,7 @@ class SimpleRouter extends Object implements IRouter
 		$params += $this->defaults;
 
 		if (!isset($params[self::PRESENTER_KEY])) {
-			throw new InvalidStateException('Missing presenter.');
+			throw new \InvalidStateException('Missing presenter.');
 		}
 
 		$presenter = $this->module . $params[self::PRESENTER_KEY];
@@ -97,10 +100,10 @@ class SimpleRouter extends Object implements IRouter
 	/**
 	 * Constructs absolute URL from PresenterRequest object.
 	 * @param  PresenterRequest
-	 * @param  Uri
+	 * @param  Nette\Web\Uri
 	 * @return string|NULL
 	 */
-	public function constructUrl(PresenterRequest $appRequest, Uri $refUri)
+	public function constructUrl(PresenterRequest $appRequest, Nette\Web\Uri $refUri)
 	{
 		$params = $appRequest->getParams();
 

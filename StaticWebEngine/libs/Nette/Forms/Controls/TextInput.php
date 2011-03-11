@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette;
 
 
 
@@ -44,10 +47,10 @@ class TextInput extends TextBase
 	 */
 	public function sanitize($value)
 	{
-		if ($this->control->maxlength && String::length($value) > $this->control->maxlength) {
+		if ($this->control->maxlength && Nette\String::length($value) > $this->control->maxlength) {
 			$value = iconv_substr($value, 0, $this->control->maxlength, 'UTF-8');
 		}
-		return String::trim(strtr($value, "\r\n", '  '));
+		return Nette\String::trim(strtr($value, "\r\n", '  '));
 	}
 
 
@@ -76,7 +79,7 @@ class TextInput extends TextBase
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Html
+	 * @return Nette\Web\Html
 	 */
 	public function getControl()
 	{

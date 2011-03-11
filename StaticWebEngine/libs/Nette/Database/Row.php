@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Database
  */
+
+namespace Nette\Database;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class Row implements ArrayAccess, IteratorAggregate, Countable
+class Row implements \ArrayAccess, \IteratorAggregate, \Countable
 {
 
 	public function __construct($statement)
@@ -36,7 +39,7 @@ class Row implements ArrayAccess, IteratorAggregate, Countable
 
 	public function getIterator()
 	{
-		return new ArrayIterator($this);
+		return new \ArrayIterator($this);
 	}
 
 

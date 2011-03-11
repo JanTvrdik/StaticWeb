@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -25,7 +28,7 @@ final class ArrayTools
 	 */
 	final public function __construct()
 	{
-		throw new LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
@@ -64,7 +67,7 @@ final class ArrayTools
 			if (is_array($arr) || $arr === NULL) {
 				$arr = & $arr[$k];
 			} else {
-				throw new InvalidArgumentException('Traversed item is not an array.');
+				throw new \InvalidArgumentException('Traversed item is not an array.');
 			}
 		}
 		return $arr;

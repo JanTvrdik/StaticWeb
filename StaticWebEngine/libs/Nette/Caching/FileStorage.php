@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Caching
  */
+
+namespace Nette\Caching;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class FileStorage extends Object implements ICacheStorage
+class FileStorage extends Nette\Object implements ICacheStorage
 {
 	/**
 	 * Atomic thread safe logic:
@@ -68,7 +71,7 @@ class FileStorage extends Object implements ICacheStorage
 	{
 		$this->dir = realpath($dir);
 		if ($this->dir === FALSE) {
-			throw new DirectoryNotFoundException("Directory '$dir' not found.");
+			throw new \DirectoryNotFoundException("Directory '$dir' not found.");
 		}
 
 		if (self::$useDirectories === NULL) {
@@ -76,7 +79,7 @@ class FileStorage extends Object implements ICacheStorage
 			$uniq = uniqid('_', TRUE);
 			umask(0000);
 			if (!@mkdir("$dir/$uniq", 0777)) { // @ - is escalated to exception
-				throw new InvalidStateException("Unable to write to directory '$dir'. Make this directory writable.");
+				throw new \InvalidStateException("Unable to write to directory '$dir'. Make this directory writable.");
 			}
 
 			// tests subdirectory mode
@@ -205,7 +208,7 @@ class FileStorage extends Object implements ICacheStorage
 
 		if (isset($dp[Cache::TAGS]) || isset($dp[Cache::PRIORITY])) {
 			if (!$this->journal) {
-				throw new InvalidStateException('CacheJournal has not been provided.');
+				throw new \InvalidStateException('CacheJournal has not been provided.');
 			}
 			$this->journal->write($cacheFile, $dp);
 		}
@@ -272,7 +275,7 @@ class FileStorage extends Object implements ICacheStorage
 		// cleaning using file iterator
 		if ($all || $collector) {
 			$now = time();
-			foreach (Finder::find('*')->from($this->dir)->childFirst() as $entry) {
+			foreach (Nette\Finder::find('*')->from($this->dir)->childFirst() as $entry) {
 				$path = (string) $entry;
 				if ($entry->isDir()) { // collector: remove empty dirs
 					@rmdir($path); // @ - removing dirs is not necessary

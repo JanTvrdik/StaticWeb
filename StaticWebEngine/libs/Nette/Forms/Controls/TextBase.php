@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette,
+	Nette\String;
 
 
 
@@ -50,7 +54,7 @@ abstract class TextBase extends FormControl
 	{
 		$value = $this->value;
 		foreach ($this->filters as $filter) {
-			$value = (string) $filter->invoke($value);
+			$value = (string) $filter($value);
 		}
 		return $value === $this->translate($this->emptyValue) ? '' : $value;
 	}

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Mail
  */
+
+namespace Nette\Mail;
+
+use Nette;
 
 
 
@@ -17,6 +20,6 @@
  *
  * @author     David Grudl
  */
-class SmtpException extends Exception
+class SmtpException extends \Exception
 {
 }

@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette,
+	Nette\Environment;
 
 
 
@@ -118,7 +122,7 @@ final class Debug
 	 */
 	final public function __construct()
 	{
-		throw new LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
@@ -144,7 +148,7 @@ final class Debug
 			}
 		}
 
-		$tab = array('DebugHelpers', 'renderTab'); $panel = array('DebugHelpers', 'renderPanel');
+		$tab = array('Nette\DebugHelpers', 'renderTab'); $panel = array('Nette\DebugHelpers', 'renderPanel');
 		self::addPanel(new DebugPanel('time', $tab, $panel));
 		self::addPanel(new DebugPanel('memory', $tab, $panel));
 		self::addPanel($tmp = new DebugPanel('errors', $tab, $panel)); $tmp->data = & self::$errors;
@@ -181,7 +185,7 @@ final class Debug
 		}
 
 		if (self::$productionMode === self::DETECT) {
-			if (class_exists('Environment')) {
+			if (class_exists('Nette\Environment')) {
 				self::$productionMode = Environment::isProduction();
 
 			} elseif (isset($_SERVER['SERVER_ADDR']) || isset($_SERVER['LOCAL_ADDR'])) { // IP address based detection
@@ -213,7 +217,7 @@ final class Debug
 		if (is_string($logDirectory)) {
 			self::$logDirectory = realpath($logDirectory);
 			if (self::$logDirectory === FALSE) {
-				throw new DirectoryNotFoundException("Directory '$logDirectory' is not found.");
+				throw new \DirectoryNotFoundException("Directory '$logDirectory' is not found.");
 			}
 		} elseif ($logDirectory === FALSE) {
 			self::$logDirectory = FALSE;
@@ -232,12 +236,12 @@ final class Debug
 			ini_set('log_errors', FALSE);
 
 		} elseif (ini_get('display_errors') != !self::$productionMode && ini_get('display_errors') !== (self::$productionMode ? 'stderr' : 'stdout')) { // intentionally ==
-			throw new NotSupportedException('Function ini_set() must be enabled.');
+			throw new \NotSupportedException('Function ini_set() must be enabled.');
 		}
 
 		if ($email) {
 			if (!is_string($email)) {
-				throw new InvalidArgumentException('Email address must be a string.');
+				throw new \InvalidArgumentException('Email address must be a string.');
 			}
 			self::$email = $email;
 		}
@@ -283,16 +287,16 @@ final class Debug
 			return;
 
 		} elseif (!self::$logDirectory) {
-			throw new InvalidStateException('Logging directory is not specified in Debug::$logDirectory.');
+			throw new \InvalidStateException('Logging directory is not specified in Nette\Debug::$logDirectory.');
 
 		} elseif (!is_dir(self::$logDirectory)) {
-			throw new DirectoryNotFoundException("Directory '" . self::$logDirectory . "' is not found or is not directory.");
+			throw new \DirectoryNotFoundException("Directory '" . self::$logDirectory . "' is not found or is not directory.");
 		}
 
-		if ($message instanceof Exception) {
+		if ($message instanceof \Exception) {
 			$exception = $message;
 			$message = "PHP Fatal error: "
-				. ($message instanceof FatalErrorException ? $exception->getMessage() : "Uncaught exception " . get_class($exception) . " with message '" . $exception->getMessage() . "'")
+				. ($message instanceof \FatalErrorException ? $exception->getMessage() : "Uncaught exception " . get_class($exception) . " with message '" . $exception->getMessage() . "'")
 				. " in " . $exception->getFile() . ":" . $exception->getLine();
 		}
 
@@ -305,15 +309,15 @@ final class Debug
 		}
 
 		if (isset($exception)) {
-			$hash = md5($exception . (method_exists($exception, 'getPrevious') ? $exception->getPrevious() : (isset($exception->previous) ? $exception->previous : '')));
-			foreach (new DirectoryIterator(self::$logDirectory) as $entry) {
+			$hash = md5($exception );
+			foreach (new \DirectoryIterator(self::$logDirectory) as $entry) {
 				if (strpos($entry, $hash)) {
 					$skip = TRUE; break;
 				}
 			}
 			if (empty($skip) && $logHandle = @fopen(self::$logDirectory . "/exception " . @date('Y-m-d H-i-s') . " $hash.html", 'w')) {
 				ob_start(); // double buffer prevents sending HTTP headers in some PHP
-				ob_start(create_function('$buffer', 'extract(NClosureFix::$vars['.NClosureFix::uses(array('logHandle'=>$logHandle)).'], EXTR_REFS); fwrite($logHandle, $buffer); '), 1);
+				ob_start(function($buffer) use ($logHandle) { fwrite($logHandle, $buffer); }, 1);
 				DebugHelpers::renderBlueScreen($exception);
 				ob_end_flush();
 				ob_end_clean();
@@ -340,7 +344,7 @@ final class Debug
 		);
 		$error = error_get_last();
 		if (isset($types[$error['type']])) {
-			self::_exceptionHandler(new FatalErrorException($error['message'], 0, $error['type'], $error['file'], $error['line'], NULL));
+			self::_exceptionHandler(new \FatalErrorException($error['message'], 0, $error['type'], $error['file'], $error['line'], NULL));
 			return;
 		}
 
@@ -355,11 +359,11 @@ final class Debug
 
 	/**
 	 * Handler to catch uncaught exception.
-	 * @param  Exception
+	 * @param  \Exception
 	 * @return void
 	 * @internal
 	 */
-	public static function _exceptionHandler(Exception $exception)
+	public static function _exceptionHandler(\Exception $exception)
 	{
 		if (!headers_sent()) { // for PHP < 5.2.4
 			header('HTTP/1.1 500 Internal Server Error');
@@ -395,7 +399,7 @@ final class Debug
 			foreach (self::$onFatalError as $handler) {
 				call_user_func($handler, $exception);
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			echo "\nNette\\Debug FATAL ERROR: thrown ", get_class($e), ': ', $e->getMessage(), "\nwhile processing ", get_class($exception), ': ', $exception->getMessage(), "\n";
 			exit;
 		}
@@ -411,13 +415,13 @@ final class Debug
 	 * @param  int    line number the error was raised at
 	 * @param  array  an array of variables that existed in the scope the error was triggered in
 	 * @return bool   FALSE to call normal error handler, NULL otherwise
-	 * @throws FatalErrorException
+	 * @throws \FatalErrorException
 	 * @internal
 	 */
 	public static function _errorHandler($severity, $message, $file, $line, $context)
 	{
 		if (self::$lastError !== FALSE) { // tryError mode
-			self::$lastError = new ErrorException($message, 0, $severity, $file, $line);
+			self::$lastError = new \ErrorException($message, 0, $severity, $file, $line);
 			return NULL;
 		}
 
@@ -426,13 +430,13 @@ final class Debug
 		}
 
 		if ($severity === E_RECOVERABLE_ERROR || $severity === E_USER_ERROR) {
-			throw new FatalErrorException($message, 0, $severity, $file, $line, $context);
+			throw new \FatalErrorException($message, 0, $severity, $file, $line, $context);
 
 		} elseif (($severity & error_reporting()) !== $severity) {
 			return FALSE; // calls normal error handler to fill-in error_get_last()
 
 		} elseif (self::$strictMode && !self::$productionMode) {
-			self::_exceptionHandler(new FatalErrorException($message, 0, $severity, $file, $line, $context));
+			self::_exceptionHandler(new \FatalErrorException($message, 0, $severity, $file, $line, $context));
 			exit;
 		}
 
@@ -458,7 +462,7 @@ final class Debug
 			return NULL;
 
 		} else {
-			$ok = self::fireLog(new ErrorException($message, 0, $severity, $file, $line), self::WARNING);
+			$ok = self::fireLog(new \ErrorException($message, 0, $severity, $file, $line), self::WARNING);
 			return self::$consoleMode || (!self::$showBar && !$ok) ? FALSE : NULL;
 		}
 
@@ -468,7 +472,7 @@ final class Debug
 
 
 	/** @deprecated */
-	public static function processException(Exception $exception)
+	public static function processException(\Exception $exception)
 	{
 		trigger_error(__METHOD__ . '() is deprecated; use ' . __CLASS__ . '::log($exception, Debug::ERROR) instead.', E_USER_WARNING);
 		self::log($exception, self::ERROR);
@@ -478,10 +482,10 @@ final class Debug
 
 	/**
 	 * Handles exception throwed in __toString().
-	 * @param  Exception
+	 * @param  \Exception
 	 * @return void
 	 */
-	public static function toStringException(Exception $exception)
+	public static function toStringException(\Exception $exception)
 	{
 		if (self::$enabled) {
 			self::_exceptionHandler($exception);
@@ -509,7 +513,7 @@ final class Debug
 
 	/**
 	 * Returns catched error/warning message.
-	 * @param  ErrorException  catched error
+	 * @param  \ErrorException  catched error
 	 * @return bool
 	 */
 	public static function catchError(& $error)
@@ -678,7 +682,7 @@ final class Debug
 			$item['template'] = array_shift($args);
 		}
 
-		if (isset($args[0]) && $args[0] instanceof Exception) {
+		if (isset($args[0]) && $args[0] instanceof \Exception) {
 			$e = array_shift($args);
 			$trace = $e->getTrace();
 			if (isset($trace[0]['class']) && $trace[0]['class'] === __CLASS__ && ($trace[0]['function'] === '_shutdownHandler' || $trace[0]['function'] === '_errorHandler')) {
@@ -699,7 +703,7 @@ final class Debug
 			};
 
 			$file = str_replace(dirname(dirname(dirname($e->getFile()))), "\xE2\x80\xA6", $e->getFile());
-			$item['template'] = ($e instanceof ErrorException ? '' : get_class($e) . ': ') . $e->getMessage() . ($e->getCode() ? ' #' . $e->getCode() : '') . ' in ' . $file . ':' . $e->getLine();
+			$item['template'] = ($e instanceof \ErrorException ? '' : get_class($e) . ': ') . $e->getMessage() . ($e->getCode() ? ' #' . $e->getCode() : '') . ' in ' . $file . ':' . $e->getLine();
 			array_unshift($trace, array('file' => $e->getFile(), 'line' => $e->getLine()));
 
 		} else {

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Templates
  */
+
+namespace Nette\Templates;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class TemplateCacheStorage extends FileStorage
+class TemplateCacheStorage extends Nette\Caching\FileStorage
 {
 	/** @var string */
 	public $hint;
@@ -45,7 +48,7 @@ class TemplateCacheStorage extends FileStorage
 	 */
 	protected function getCacheFile($key)
 	{
-		$key = substr_replace($key, trim(strtr($this->hint, '\\/@', '.._'), '.') . '-', strpos($key, Cache::NAMESPACE_SEPARATOR) + 1, 0);
+		$key = substr_replace($key, trim(strtr($this->hint, '\\/@', '.._'), '.') . '-', strpos($key, Nette\Caching\Cache::NAMESPACE_SEPARATOR) + 1, 0);
 		return parent::getCacheFile($key) . '.php';
 	}
 

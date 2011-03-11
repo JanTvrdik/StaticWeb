@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Reflection
  */
+
+namespace Nette\Reflection;
+
+use Nette,
+	Nette\String;
 
 
 
@@ -42,23 +46,23 @@ final class AnnotationsParser
 	 */
 	final public function __construct()
 	{
-		throw new LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
 
 	/**
 	 * Returns annotations.
-	 * @param  ReflectionClass|ReflectionMethod|ReflectionProperty
+	 * @param  \ReflectionClass|\ReflectionMethod|\ReflectionProperty
 	 * @return array
 	 */
-	public static function getAll(Reflector $r)
+	public static function getAll(\Reflector $r)
 	{
-		if ($r instanceof ReflectionClass) {
+		if ($r instanceof \ReflectionClass) {
 			$type = $r->getName();
 			$member = '';
 
-		} elseif ($r instanceof ReflectionMethod) {
+		} elseif ($r instanceof \ReflectionMethod) {
 			$type = $r->getDeclaringClass()->getName();
 			$member = $r->getName();
 
@@ -68,7 +72,7 @@ final class AnnotationsParser
 		}
 
 		if (!self::$useReflection) { // auto-expire cache
-			$file = $r instanceof ReflectionClass ? $r->getFileName() : $r->getDeclaringClass()->getFileName(); // will be used later
+			$file = $r instanceof \ReflectionClass ? $r->getFileName() : $r->getDeclaringClass()->getFileName(); // will be used later
 			if ($file && isset(self::$timestamps[$file]) && self::$timestamps[$file] !== filemtime($file)) {
 				unset(self::$cache[$type]);
 			}
@@ -80,7 +84,7 @@ final class AnnotationsParser
 		}
 
 		if (self::$useReflection === NULL) { // detects whether is reflection available
-			self::$useReflection = (bool) ClassReflection::from(__CLASS__)->getDocComment();
+			self::$useReflection = (bool) Nette\Reflection\ClassReflection::from(__CLASS__)->getDocComment();
 		}
 
 		if (self::$useReflection) {
@@ -177,7 +181,7 @@ final class AnnotationsParser
 				$res[$name][] = new $class(is_array($value) ? $value : array('value' => $value));
 
 			} else {
-				$res[$name][] = is_array($value) ? new ArrayObject($value, ArrayObject::ARRAY_AS_PROPS) : $value;
+				$res[$name][] = is_array($value) ? new \ArrayObject($value, \ArrayObject::ARRAY_AS_PROPS) : $value;
 			}
 		}
 
@@ -291,11 +295,11 @@ final class AnnotationsParser
 
 
 	/**
-	 * @return Cache
+	 * @return Nette\Caching\Cache
 	 */
 	protected static function getCache()
 	{
-		return Environment::getCache('Nette.Annotations');
+		return Nette\Environment::getCache('Nette.Annotations');
 	}
 
 }

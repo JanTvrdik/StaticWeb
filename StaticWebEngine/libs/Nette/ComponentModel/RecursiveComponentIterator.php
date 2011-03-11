@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -18,7 +21,7 @@
  * @author     David Grudl
  * @internal
  */
-class RecursiveComponentIterator extends RecursiveArrayIterator implements Countable
+class RecursiveComponentIterator extends \RecursiveArrayIterator implements \Countable
 {
 
 	/**
@@ -34,7 +37,7 @@ class RecursiveComponentIterator extends RecursiveArrayIterator implements Count
 
 	/**
 	 * The sub-iterator for the current element.
-	 * @return RecursiveIterator
+	 * @return \RecursiveIterator
 	 */
 	public function getChildren()
 	{

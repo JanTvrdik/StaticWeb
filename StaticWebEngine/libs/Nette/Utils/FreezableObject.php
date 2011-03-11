@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -65,7 +68,7 @@ abstract class FreezableObject extends Object implements IFreezable
 	protected function updating()
 	{
 		if ($this->frozen) {
-			throw new InvalidStateException("Cannot modify a frozen object {$this->reflection->name}.");
+			throw new \InvalidStateException("Cannot modify a frozen object {$this->reflection->name}.");
 		}
 	}
 

@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette,
+	Nette\Environment;
 
 
 
@@ -153,7 +157,7 @@ abstract class Presenter extends Control implements IPresenter
 			$this->startup();
 			if (!$this->startupCheck) {
 				$class = $this->reflection->getMethod('startup')->getDeclaringClass()->getName();
-				throw new InvalidStateException("Method $class::startup() or its descendant doesn't call parent::startup().");
+				throw new \InvalidStateException("Method $class::startup() or its descendant doesn't call parent::startup().");
 			}
 			// calls $this->action<Action>()
 			$this->tryCall($this->formatActionMethod($this->getAction()), $this->params);
@@ -298,7 +302,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	final public function isSignalReceiver($component, $signal = NULL)
 	{
-		if ($component instanceof Component) {
+		if ($component instanceof Nette\Component) {
 			$component = $component === $this ? '' : $component->lookupPath(__CLASS__, TRUE);
 		}
 
@@ -341,7 +345,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	public function changeAction($action)
 	{
-		if (String::match($action, "#^[a-zA-Z0-9][a-zA-Z0-9_\x7f-\xff]*$#")) {
+		if (Nette\String::match($action, "#^[a-zA-Z0-9][a-zA-Z0-9_\x7f-\xff]*$#")) {
 			$this->action = $action;
 			$this->view = $action;
 
@@ -410,7 +414,7 @@ abstract class Presenter extends Control implements IPresenter
 		$template = $this->getTemplate();
 		if (!$template) return;
 
-		if ($template instanceof IFileTemplate && !$template->getFile()) { // content template
+		if ($template instanceof Nette\Templates\IFileTemplate && !$template->getFile()) { // content template
 			$files = $this->formatTemplateFiles($this->getName(), $this->view);
 			foreach ($files as $file) {
 				if (is_file($file)) {
@@ -437,7 +441,7 @@ abstract class Presenter extends Control implements IPresenter
 
 			if (empty($template->layout) && $this->layout !== NULL) {
 				$file = str_replace(Environment::getVariable('appDir'), "\xE2\x80\xA6", reset($files));
-				throw new FileNotFoundException("Layout not found. Missing template '$file'.");
+				throw new \FileNotFoundException("Layout not found. Missing template '$file'.");
 			}
 		}
 
@@ -630,7 +634,7 @@ abstract class Presenter extends Control implements IPresenter
 			$this->sendPayload();
 
 		} elseif (!$code) {
-			$code = $this->getHttpRequest()->isMethod('post') ? IHttpResponse::S303_POST_GET : IHttpResponse::S302_FOUND;
+			$code = $this->getHttpRequest()->isMethod('post') ? Nette\Web\IHttpResponse::S303_POST_GET : Nette\Web\IHttpResponse::S302_FOUND;
 		}
 		$this->sendResponse(new RedirectingResponse($uri, $code));
 	}
@@ -681,7 +685,7 @@ abstract class Presenter extends Control implements IPresenter
 		if (!$this->isAjax() && ($this->request->isMethod('get') || $this->request->isMethod('head'))) {
 			$uri = $this->createRequest($this, $this->action, $this->getGlobalState() + $this->request->params, 'redirectX');
 			if ($uri !== NULL && !$this->getHttpRequest()->getUri()->isEqual($uri)) {
-				$this->sendResponse(new RedirectingResponse($uri, IHttpResponse::S301_MOVED_PERMANENTLY));
+				$this->sendResponse(new RedirectingResponse($uri, Nette\Web\IHttpResponse::S301_MOVED_PERMANENTLY));
 			}
 		}
 	}
@@ -733,7 +737,7 @@ abstract class Presenter extends Control implements IPresenter
 		if ($presenterLoader === NULL) {
 			$presenterLoader = $this->getApplication()->getPresenterLoader();
 			$router = $this->getApplication()->getRouter();
-			$refUri = new Uri($this->getHttpRequest()->getUri());
+			$refUri = new Nette\Web\Uri($this->getHttpRequest()->getUri());
 			$refUri->setPath($this->getHttpRequest()->getUri()->getScriptPath());
 		}
 
@@ -848,7 +852,7 @@ abstract class Presenter extends Control implements IPresenter
 		// PROCESS ARGUMENTS
 		if (is_subclass_of($presenterClass, __CLASS__)) {
 			if ($action === '') {
-				$action = self::$defaultAction;
+				$action = $presenterClass::$defaultAction;
 			}
 
 			$current = ($action === '*' || $action === $this->action) && $presenterClass === get_class($this); // TODO
@@ -856,9 +860,9 @@ abstract class Presenter extends Control implements IPresenter
 			$reflection = new PresenterComponentReflection($presenterClass);
 			if ($args || $destination === 'this') {
 				// counterpart of run() & tryCall()
-				$method = call_user_func(array($presenterClass, 'formatActionMethod'), $action);
+				$method = $presenterClass::formatActionMethod($action);
 				if (!$reflection->hasCallableMethod($method)) {
-					$method = call_user_func(array($presenterClass, 'formatRenderMethod'), $action);
+					$method = $presenterClass::formatRenderMethod($action);
 					if (!$reflection->hasCallableMethod($method)) {
 						$method = NULL;
 					}
@@ -952,7 +956,7 @@ abstract class Presenter extends Control implements IPresenter
 		static $cache;
 		$params = & $cache[strtolower($class . ':' . $method)];
 		if ($params === NULL) {
-			$params = MethodReflection::from($class, $method)->getDefaultParameters();
+			$params = Nette\Reflection\MethodReflection::from($class, $method)->getDefaultParameters();
 		}
 		$i = 0;
 		foreach ($params as $name => $def) {
@@ -980,7 +984,7 @@ abstract class Presenter extends Control implements IPresenter
 		}
 
 		if (array_key_exists($i, $args)) {
-			$method = MethodReflection::from($class, $method)->getName();
+			$method = Nette\Reflection\MethodReflection::from($class, $method)->getName();
 			throw new InvalidLinkException("Passed more parameters than method $class::$method() expects.");
 		}
 	}
@@ -1024,7 +1028,7 @@ abstract class Presenter extends Control implements IPresenter
 	 */
 	public static function getPersistentComponents()
 	{
-		return (array) ClassReflection::from(func_get_arg(0))->getAnnotation('persistent');
+		return (array) Nette\Reflection\ClassReflection::from(get_called_class())->getAnnotation('persistent');
 	}
 
 
@@ -1055,7 +1059,7 @@ abstract class Presenter extends Control implements IPresenter
 			}
 
 			$components = $this->getReflection()->getPersistentComponents();
-			$iterator = $this->getComponents(TRUE, 'IStatePersistent');
+			$iterator = $this->getComponents(TRUE, 'Nette\Application\IStatePersistent');
 			foreach ($iterator as $name => $component)
 			{
 				if ($iterator->getDepth() === 0) {
@@ -1202,12 +1206,12 @@ abstract class Presenter extends Control implements IPresenter
 
 	/**
 	 * Returns session namespace provided to pass temporary data between redirects.
-	 * @return SessionNamespace
+	 * @return Nette\Web\SessionNamespace
 	 */
 	public function getFlashSession()
 	{
 		if (empty($this->params[self::FLASH_KEY])) {
-			$this->params[self::FLASH_KEY] = String::random(4);
+			$this->params[self::FLASH_KEY] = Nette\String::random(4);
 		}
 		return $this->getSession('Nette.Application.Flash/' . $this->params[self::FLASH_KEY]);
 	}
@@ -1219,7 +1223,7 @@ abstract class Presenter extends Control implements IPresenter
 
 
 	/**
-	 * @return HttpRequest
+	 * @return Nette\Web\HttpRequest
 	 */
 	protected function getHttpRequest()
 	{
@@ -1229,7 +1233,7 @@ abstract class Presenter extends Control implements IPresenter
 
 
 	/**
-	 * @return HttpResponse
+	 * @return Nette\Web\HttpResponse
 	 */
 	protected function getHttpResponse()
 	{
@@ -1239,7 +1243,7 @@ abstract class Presenter extends Control implements IPresenter
 
 
 	/**
-	 * @return HttpContext
+	 * @return Nette\Web\HttpContext
 	 */
 	protected function getHttpContext()
 	{
@@ -1259,7 +1263,7 @@ abstract class Presenter extends Control implements IPresenter
 
 
 	/**
-	 * @return Session
+	 * @return Nette\Web\Session
 	 */
 	public function getSession($namespace = NULL)
 	{
@@ -1269,7 +1273,7 @@ abstract class Presenter extends Control implements IPresenter
 
 
 	/**
-	 * @return User
+	 * @return Nette\Web\User
 	 */
 	public function getUser()
 	{

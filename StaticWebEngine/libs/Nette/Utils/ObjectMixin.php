@@ -7,13 +7,16 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
 /**
- * Object behaviour mixin.
+ * Nette\Object behaviour mixin.
  *
  * @author     David Grudl
  */
@@ -29,7 +32,7 @@ final class ObjectMixin
 	 */
 	final public function __construct()
 	{
-		throw new LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
@@ -39,19 +42,19 @@ final class ObjectMixin
 	 * @param  string  method name
 	 * @param  array   arguments
 	 * @return mixed
-	 * @throws MemberAccessException
+	 * @throws \MemberAccessException
 	 */
 	public static function call($_this, $name, $args)
 	{
-		$class = new ClassReflection($_this);
+		$class = new Nette\Reflection\ClassReflection($_this);
 
 		if ($name === '') {
-			throw new MemberAccessException("Call to class '$class->name' method without name.");
+			throw new \MemberAccessException("Call to class '$class->name' method without name.");
 		}
 
 		// event functionality
 		if ($class->hasEventProperty($name)) {
-			if (is_array($list = $_this->$name) || $list instanceof Traversable) {
+			if (is_array($list = $_this->$name) || $list instanceof \Traversable) {
 				foreach ($list as $handler) {
 					callback($handler)->invokeArgs($args);
 				}
@@ -65,7 +68,7 @@ final class ObjectMixin
 			return $cb->invokeArgs($args);
 		}
 
-		throw new MemberAccessException("Call to undefined method $class->name::$name().");
+		throw new \MemberAccessException("Call to undefined method $class->name::$name().");
 	}
 
 
@@ -74,14 +77,14 @@ final class ObjectMixin
 	 * Returns property value.
 	 * @param  string  property name
 	 * @return mixed   property value
-	 * @throws MemberAccessException if the property is not defined.
+	 * @throws \MemberAccessException if the property is not defined.
 	 */
 	public static function & get($_this, $name)
 	{
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new MemberAccessException("Cannot read a class '$class' property without name.");
+			throw new \MemberAccessException("Cannot read a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -97,7 +100,7 @@ final class ObjectMixin
 		$m = 'get' . $name;
 		if (isset(self::$methods[$class][$m])) {
 			// ampersands:
-			// - uses &__get() because declaration should be forward compatible (e.g. with Html)
+			// - uses &__get() because declaration should be forward compatible (e.g. with Nette\Web\Html)
 			// - doesn't call &$_this->$m because user could bypass property setter by: $x = & $obj->property; $x = 'new value';
 			$val = $_this->$m();
 			return $val;
@@ -110,7 +113,7 @@ final class ObjectMixin
 		}
 
 		$name = func_get_arg(1);
-		throw new MemberAccessException("Cannot read an undeclared property $class::\$$name.");
+		throw new \MemberAccessException("Cannot read an undeclared property $class::\$$name.");
 	}
 
 
@@ -120,14 +123,14 @@ final class ObjectMixin
 	 * @param  string  property name
 	 * @param  mixed   property value
 	 * @return void
-	 * @throws MemberAccessException if the property is not defined or is read-only
+	 * @throws \MemberAccessException if the property is not defined or is read-only
 	 */
 	public static function set($_this, $name, $value)
 	{
 		$class = get_class($_this);
 
 		if ($name === '') {
-			throw new MemberAccessException("Cannot write to a class '$class' property without name.");
+			throw new \MemberAccessException("Cannot write to a class '$class' property without name.");
 		}
 
 		if (!isset(self::$methods[$class])) {
@@ -144,12 +147,12 @@ final class ObjectMixin
 
 			} else {
 				$name = func_get_arg(1);
-				throw new MemberAccessException("Cannot write to a read-only property $class::\$$name.");
+				throw new \MemberAccessException("Cannot write to a read-only property $class::\$$name.");
 			}
 		}
 
 		$name = func_get_arg(1);
-		throw new MemberAccessException("Cannot write to an undeclared property $class::\$$name.");
+		throw new \MemberAccessException("Cannot write to an undeclared property $class::\$$name.");
 	}
 
 

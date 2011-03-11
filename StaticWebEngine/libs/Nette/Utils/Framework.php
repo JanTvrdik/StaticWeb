@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -25,7 +28,7 @@ final class Framework
 
 	const VERSION = '2.0-dev';
 
-	const REVISION = 'ad9cf6a released on 2011-01-13';
+	const REVISION = '56bb8cf released on 2011-01-18';
 	/**#@-*/
 
 	/** @var bool set to TRUE if your host has disabled function ini_set */
@@ -38,18 +41,7 @@ final class Framework
 	 */
 	final public function __construct()
 	{
-		throw new LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
-}
-
-class NClosureFix
-{
-	static $vars = array();
-
-	static function uses($args)
-	{
-		self::$vars[] = $args;
-		return count(self::$vars)-1;
-	}
 }

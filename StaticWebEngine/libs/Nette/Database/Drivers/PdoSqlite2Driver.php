@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Drivers
  */
+
+namespace Nette\Database\Drivers;
+
+use Nette;
 
 
 
@@ -37,7 +40,7 @@ class PdoSqlite2Driver extends PdoSqliteDriver
 	{
 		if (!is_object($row)) {
 			$iterator = $row;
-		} elseif ($row instanceof Traversable) {
+		} elseif ($row instanceof \Traversable) {
 			$iterator = iterator_to_array($row);
 		} else {
 			$iterator = (array) $row;

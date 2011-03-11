@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class RedirectingResponse extends Object implements IPresenterResponse
+class RedirectingResponse extends Nette\Object implements IPresenterResponse
 {
 	/** @var string */
 	private $uri;
@@ -31,7 +34,7 @@ class RedirectingResponse extends Object implements IPresenterResponse
 	 * @param  string  URI
 	 * @param  int     HTTP code 3xx
 	 */
-	public function __construct($uri, $code = IHttpResponse::S302_FOUND)
+	public function __construct($uri, $code = Nette\Web\IHttpResponse::S302_FOUND)
 	{
 		$this->uri = (string) $uri;
 		$this->code = (int) $code;
@@ -65,7 +68,7 @@ class RedirectingResponse extends Object implements IPresenterResponse
 	 */
 	public function send()
 	{
-		Environment::getHttpResponse()->redirect($this->uri, $this->code);
+		Nette\Environment::getHttpResponse()->redirect($this->uri, $this->code);
 	}
 
 }

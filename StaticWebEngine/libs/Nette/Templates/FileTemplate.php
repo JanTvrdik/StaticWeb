@@ -7,8 +7,14 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Templates
  */
+
+namespace Nette\Templates;
+
+use Nette,
+	Nette\Environment,
+	Nette\Caching\Cache,
+	Nette\Loaders\LimitedScope;
 
 
 
@@ -19,7 +25,7 @@
  */
 class FileTemplate extends Template implements IFileTemplate
 {
-	/** @var ICacheStorage */
+	/** @var Nette\Caching\ICacheStorage */
 	private $cacheStorage;
 
 	/** @var string */
@@ -49,7 +55,7 @@ class FileTemplate extends Template implements IFileTemplate
 	{
 		$this->file = realpath($file);
 		if (!$this->file) {
-			throw new FileNotFoundException("Missing template file '$file'.");
+			throw new \FileNotFoundException("Missing template file '$file'.");
 		}
 		return $this;
 	}
@@ -78,7 +84,7 @@ class FileTemplate extends Template implements IFileTemplate
 	public function render()
 	{
 		if ($this->file == NULL) { // intentionally ==
-			throw new InvalidStateException("Template file name was not specified.");
+			throw new \InvalidStateException("Template file name was not specified.");
 		}
 
 		$this->__set('template', $this);
@@ -104,7 +110,7 @@ class FileTemplate extends Template implements IFileTemplate
 				$content,
 				array(
 					Cache::FILES => $this->file,
-					Cache::CONSTS => 'Framework::REVISION',
+					Cache::CONSTS => 'Nette\Framework::REVISION',
 				)
 			);
 			$cache->release();
@@ -129,10 +135,10 @@ class FileTemplate extends Template implements IFileTemplate
 
 	/**
 	 * Set cache storage.
-	 * @param  Cache
+	 * @param  Nette\Caching\Cache
 	 * @return void
 	 */
-	public function setCacheStorage(ICacheStorage $storage)
+	public function setCacheStorage(Nette\Caching\ICacheStorage $storage)
 	{
 		$this->cacheStorage = $storage;
 	}
@@ -140,7 +146,7 @@ class FileTemplate extends Template implements IFileTemplate
 
 
 	/**
-	 * @return ICacheStorage
+	 * @return Nette\Caching\ICacheStorage
 	 */
 	public function getCacheStorage()
 	{

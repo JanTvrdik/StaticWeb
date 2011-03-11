@@ -44,16 +44,7 @@ class ArgumentOutOfRangeException extends InvalidArgumentException
  */
 class InvalidStateException extends RuntimeException
 {
-	public function __construct($message = '', $code = 0, Exception $previous = NULL)
-	{
-		if (PHP_VERSION_ID < 50300) {
-			$this->previous = $previous;
-			parent::__construct($message, $code);
-		} else {
-			parent::__construct($message, $code, $previous);
-		}
 	}
-}
 
 
 
@@ -125,22 +116,16 @@ class DirectoryNotFoundException extends IOException
  * The exception that indicates errors that can not be recovered from.
  * Execution of the script should be halted.
  */
-class FatalErrorException extends Exception
+
+class FatalErrorException extends ErrorException
 {
-	private $severity;
 
 	public function __construct($message, $code, $severity, $file, $line, $context)
 	{
-		parent::__construct($message, $code);
-		$this->severity = $severity;
-		$this->file = $file;
-		$this->line = $line;
+		parent::__construct($message, $code, $severity, $file, $line);
 		$this->context = $context;
 	}
 
-	public function getSeverity()
-	{
-		return $this->severity;
-	}
-
 }
+
+

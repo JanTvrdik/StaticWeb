@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Templates
  */
+
+namespace Nette\Templates;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class TemplateException extends InvalidStateException implements IDebugPanel
+class TemplateException extends \InvalidStateException implements Nette\IDebugPanel
 {
 	/** @var string */
 	public $sourceFile;
@@ -52,10 +55,10 @@ class TemplateException extends InvalidStateException implements IDebugPanel
 
 	function getPanel()
 	{
-		$link = DebugHelpers::editorLink($this->sourceFile, $this->sourceLine);
+		$link = Nette\DebugHelpers::editorLink($this->sourceFile, $this->sourceLine);
 		return '<p><b>File:</b> ' . ($link ? '<a href="' . htmlspecialchars($link) . '">' : '') . htmlspecialchars($this->sourceFile) . ($link ? '</a>' : '')
 			. '&nbsp; <b>Line:</b> ' . ($this->sourceLine ? $this->sourceLine : 'n/a') . '</p>'
-			. ($this->sourceLine ? '<pre>' . DebugHelpers::highlightFile($this->sourceFile, $this->sourceLine) . '</pre>' : '');
+			. ($this->sourceLine ? '<pre>' . Nette\DebugHelpers::highlightFile($this->sourceFile, $this->sourceLine) . '</pre>' : '');
 	}
 
 

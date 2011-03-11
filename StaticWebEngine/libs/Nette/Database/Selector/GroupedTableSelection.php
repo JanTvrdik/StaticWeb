@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Selector
  */
+
+namespace Nette\Database\Selector;
+
+use Nette;
 
 
 
@@ -103,7 +106,7 @@ class GroupedTableSelection extends TableSelection
 
 	public function insert($data)
 	{
-		if ($data instanceof Traversable && !$data instanceof TableSelection) {
+		if ($data instanceof \Traversable && !$data instanceof TableSelection) {
 			$data = iterator_to_array($data);
 		}
 		if (is_array($data)) {

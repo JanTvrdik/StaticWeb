@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Web
  */
+
+namespace Nette\Web;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class HttpContext extends Object
+class HttpContext extends Nette\Object
 {
 
 
@@ -80,21 +83,21 @@ class HttpContext extends Object
 
 
 	/**
-	 * @return IHttpRequest
+	 * @return Nette\Web\IHttpRequest
 	 */
 	public function getRequest()
 	{
-		return Environment::getHttpRequest();
+		return Nette\Environment::getHttpRequest();
 	}
 
 
 
 	/**
-	 * @return IHttpResponse
+	 * @return Nette\Web\IHttpResponse
 	 */
 	public function getResponse()
 	{
-		return Environment::getHttpResponse();
+		return Nette\Environment::getHttpResponse();
 	}
 
 }

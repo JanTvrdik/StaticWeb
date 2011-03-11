@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Web
  */
+
+namespace Nette\Web;
+
+use Nette;
 
 
 
@@ -48,7 +51,7 @@
  * @property-read string $baseUri
  * @property-read string $relativeUri
  */
-class Uri extends FreezableObject
+class Uri extends Nette\FreezableObject
 {
 	/** @var array */
 	public static $defaultPorts = array(
@@ -94,7 +97,7 @@ class Uri extends FreezableObject
 		if (is_string($uri)) {
 			$parts = @parse_url($uri); // @ - is escalated to exception
 			if ($parts === FALSE) {
-				throw new InvalidArgumentException("Malformed or unsupported URI '$uri'.");
+				throw new \InvalidArgumentException("Malformed or unsupported URI '$uri'.");
 			}
 
 			foreach ($parts as $key => $val) {

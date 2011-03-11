@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Database
  */
+
+namespace Nette\Database;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class SqlPreprocessor extends Object
+class SqlPreprocessor extends Nette\Object
 {
 	/** @var Connection */
 	private $connection;
@@ -66,7 +69,7 @@ class SqlPreprocessor extends Object
 			:[a-zA-Z0-9_]+:| ## :substitution:
 			\?               ## placeholder
 		~xs*/
-		$sql = String::replace($sql, '~\'.*?\'|".*?"|:[a-zA-Z0-9_]+:|\?~s', array($this, 'callback'));
+		$sql = Nette\String::replace($sql, '~\'.*?\'|".*?"|:[a-zA-Z0-9_]+:|\?~s', array($this, 'callback'));
 
 		while ($this->counter < count($params)) {
 			$sql .= ' ' . $this->formatValue($params[$this->counter++]);
@@ -148,7 +151,7 @@ class SqlPreprocessor extends Object
 				return ', (' . implode(', ', $vx) . ')';
 			}
 
-		} elseif ($value instanceof DateTime) {
+		} elseif ($value instanceof \DateTime) {
 			return $this->driver->formatDateTime($value);
 
 		} elseif ($value instanceof SqlLiteral) {

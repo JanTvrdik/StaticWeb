@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Database
  */
+
+namespace Nette\Database;
+
+use Nette;
 
 
 
@@ -32,7 +35,7 @@ interface ISupplementalDriver
 	 * @param  DateTime
 	 * @return string
 	 */
-	function formatDateTime(DateTime $value);
+	function formatDateTime(\DateTime $value);
 
 	/**
 	 * Encodes string for use in a LIKE statement.

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette;
 
 
 
@@ -17,12 +20,12 @@
  *
  * @author     David Grudl
  *
- * @property-read ArrayIterator $controls
+ * @property-read \ArrayIterator $controls
  * @property-read Form $form
  * @property-read bool $valid
  * @property   array $values
  */
-class FormContainer extends ComponentContainer implements ArrayAccess
+class FormContainer extends Nette\ComponentContainer implements \ArrayAccess
 {
 	/** @var array of function(Form $sender); Occurs when the form is validated */
 	public $onValidate;
@@ -64,11 +67,11 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 	 */
 	public function setValues($values, $erase = FALSE)
 	{
-		if ($values instanceof Traversable) {
+		if ($values instanceof \Traversable) {
 			$values = iterator_to_array($values);
 
 		} elseif (!is_array($values)) {
-			throw new InvalidArgumentException("First parameter must be an array, " . gettype($values) ." given.");
+			throw new \InvalidArgumentException("First parameter must be an array, " . gettype($values) ." given.");
 		}
 
 		$cursor = & $values;
@@ -79,7 +82,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 				$sub->cursor = & $cursor;
 			}
 			if ($control instanceof IFormControl) {
-				if ((is_array($sub->cursor) || $sub->cursor instanceof ArrayAccess) && array_key_exists($name, $sub->cursor)) {
+				if ((is_array($sub->cursor) || $sub->cursor instanceof \ArrayAccess) && array_key_exists($name, $sub->cursor)) {
 					$control->setValue($sub->cursor[$name]);
 
 				} elseif ($erase) {
@@ -87,7 +90,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 				}
 			}
 			if ($control instanceof FormContainer) {
-				if ((is_array($sub->cursor) || $sub->cursor instanceof ArrayAccess) && isset($sub->cursor[$name])) {
+				if ((is_array($sub->cursor) || $sub->cursor instanceof \ArrayAccess) && isset($sub->cursor[$name])) {
 					$cursor = & $sub->cursor[$name];
 				} else {
 					unset($cursor);
@@ -195,9 +198,9 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 	 * @param  string
 	 * @param  string
 	 * @return void
-	 * @throws InvalidStateException
+	 * @throws \InvalidStateException
 	 */
-	public function addComponent(IComponent $component, $name, $insertBefore = NULL)
+	public function addComponent(Nette\IComponent $component, $name, $insertBefore = NULL)
 	{
 		parent::addComponent($component, $name, $insertBefore);
 		if ($this->currentGroup !== NULL && $component instanceof IFormControl) {
@@ -209,11 +212,11 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 
 	/**
 	 * Iterates over all form controls.
-	 * @return ArrayIterator
+	 * @return \ArrayIterator
 	 */
 	public function getControls()
 	{
-		return $this->getComponents(TRUE, 'IFormControl');
+		return $this->getComponents(TRUE, 'Nette\Forms\IFormControl');
 	}
 
 
@@ -225,7 +228,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 	 */
 	public function getForm($need = TRUE)
 	{
-		return $this->lookup('Form', $need);
+		return $this->lookup('Nette\Forms\Form', $need);
 	}
 
 
@@ -420,14 +423,14 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 
 
 
-	/********************* interface ArrayAccess ****************d*g**/
+	/********************* interface \ArrayAccess ****************d*g**/
 
 
 
 	/**
 	 * Adds the component to the container.
 	 * @param  string  component name
-	 * @param  IComponent
+	 * @param  Nette\IComponent
 	 * @return void
 	 */
 	final public function offsetSet($name, $component)
@@ -440,8 +443,8 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 	/**
 	 * Returns component specified by name. Throws exception if component doesn't exist.
 	 * @param  string  component name
-	 * @return IComponent
-	 * @throws InvalidArgumentException
+	 * @return Nette\IComponent
+	 * @throws \InvalidArgumentException
 	 */
 	final public function offsetGet($name)
 	{
@@ -482,7 +485,7 @@ class FormContainer extends ComponentContainer implements ArrayAccess
 	 */
 	final public function __clone()
 	{
-		throw new NotImplementedException('Form cloning is not supported yet.');
+		throw new \NotImplementedException('Form cloning is not supported yet.');
 	}
 
 }

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -46,7 +49,7 @@ interface IComponentContainer extends IComponent
 	 * Iterates over a components.
 	 * @param  bool    recursive?
 	 * @param  string  class types filter
-	 * @return Iterator
+	 * @return \Iterator
 	 */
 	function getComponents($deep = FALSE, $filterType = NULL);
 

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class Application extends Object
+class Application extends Nette\Object
 {
 	/** @var int */
 	public static $maxLoop = 20;
@@ -31,7 +34,7 @@ class Application extends Object
 	/** @var array of function(Application $sender); Occurs before the application loads presenter */
 	public $onStartup;
 
-	/** @var array of function(Application $sender, Exception $e = NULL); Occurs before the application shuts down */
+	/** @var array of function(Application $sender, \Exception $e = NULL); Occurs before the application shuts down */
 	public $onShutdown;
 
 	/** @var array of function(Application $sender, PresenterRequest $request); Occurs when a new request is ready for dispatch */
@@ -40,7 +43,7 @@ class Application extends Object
 	/** @var array of function(Application $sender, IPresenterResponse $response); Occurs when a new response is received */
 	public $onResponse;
 
-	/** @var array of function(Application $sender, Exception $e); Occurs when an unhandled exception occurs in the application */
+	/** @var array of function(Application $sender, \Exception $e); Occurs when an unhandled exception occurs in the application */
 	public $onError;
 
 	/** @var array of string */
@@ -52,7 +55,7 @@ class Application extends Object
 	/** @var Presenter */
 	private $presenter;
 
-	/** @var Context */
+	/** @var Nette\Context */
 	private $context;
 
 
@@ -76,7 +79,7 @@ class Application extends Object
 		if ($this->allowedMethods) {
 			$method = $httpRequest->getMethod();
 			if (!in_array($method, $this->allowedMethods, TRUE)) {
-				$httpResponse->setCode(IHttpResponse::S501_NOT_IMPLEMENTED);
+				$httpResponse->setCode(Nette\Web\IHttpResponse::S501_NOT_IMPLEMENTED);
 				$httpResponse->setHeader('Allow', implode(',', $this->allowedMethods));
 				echo '<h1>Method ' . htmlSpecialChars($method) . ' is not implemented</h1>';
 				return;
@@ -99,7 +102,7 @@ class Application extends Object
 					$router = $this->getRouter();
 
 					// enable routing debuggger
-					Debug::addPanel(new RoutingDebugger($router, $httpRequest));
+					Nette\Debug::addPanel(new RoutingDebugger($router, $httpRequest));
 
 					$request = $router->match($httpRequest);
 					if (!$request instanceof PresenterRequest) {
@@ -140,7 +143,7 @@ class Application extends Object
 				}
 				break;
 
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				// fault barrier
 				$this->onError($this, $e);
 
@@ -179,7 +182,7 @@ class Application extends Object
 						$code = $e->getCode();
 					} else {
 						$code = 500;
-						Debug::log($e, Debug::ERROR);
+						Nette\Debug::log($e, Nette\Debug::ERROR);
 					}
 					echo "<!DOCTYPE html><meta http-equiv='Content-Type' content='text/html; charset=utf-8'><meta name=robots content=noindex><meta name=generator content='Nette Framework'>\n\n";
 					echo "<style>body{color:#333;background:white;width:500px;margin:100px auto}h1{font:bold 47px/1.5 sans-serif;margin:.6em 0}p{font:21px/1.5 Georgia,serif;margin:1.5em 0}small{font-size:70%;color:gray}</style>\n\n";
@@ -234,7 +237,7 @@ class Application extends Object
 	 * Gets the context.
 	 * @return Application  provides a fluent interface
 	 */
-	public function setContext(IContext $context)
+	public function setContext(Nette\IContext $context)
 	{
 		$this->context = $context;
 		return $this;
@@ -244,7 +247,7 @@ class Application extends Object
 
 	/**
 	 * Gets the context.
-	 * @return IContext
+	 * @return Nette\IContext
 	 */
 	final public function getContext()
 	{
@@ -302,7 +305,7 @@ class Application extends Object
 
 
 	/**
-	 * @return IHttpRequest
+	 * @return Nette\Web\IHttpRequest
 	 */
 	protected function getHttpRequest()
 	{
@@ -312,7 +315,7 @@ class Application extends Object
 
 
 	/**
-	 * @return IHttpResponse
+	 * @return Nette\Web\IHttpResponse
 	 */
 	protected function getHttpResponse()
 	{
@@ -322,7 +325,7 @@ class Application extends Object
 
 
 	/**
-	 * @return Session
+	 * @return Nette\Web\Session
 	 */
 	protected function getSession($namespace = NULL)
 	{
@@ -345,7 +348,7 @@ class Application extends Object
 	{
 		$session = $this->getSession('Nette.Application/requests');
 		do {
-			$key = String::random(5);
+			$key = Nette\String::random(5);
 		} while (isset($session[$key]));
 
 		$session[$key] = end($this->requests);

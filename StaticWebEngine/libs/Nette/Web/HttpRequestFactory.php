@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Web
  */
+
+namespace Nette\Web;
+
+use Nette,
+	Nette\String;
 
 
 
@@ -17,7 +21,7 @@
  *
  * @author     David Grudl
  */
-class HttpRequestFactory extends Object
+class HttpRequestFactory extends Nette\Object
 {
 	/** @internal */
 	const NONCHARS = '#[^\x09\x0A\x0D\x20-\x7E\xA0-\x{10FFFF}]#u';

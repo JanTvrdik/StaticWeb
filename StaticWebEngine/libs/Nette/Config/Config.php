@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Config
  */
+
+namespace Nette\Config;
+
+use Nette;
 
 
 
@@ -17,11 +20,11 @@
  *
  * @author     David Grudl
  */
-class Config implements ArrayAccess, IteratorAggregate
+class Config implements \ArrayAccess, \IteratorAggregate
 {
 	/** @var array */
 	private static $extensions = array(
-		'ini' => 'ConfigAdapterIni',
+		'ini' => 'Nette\Config\ConfigAdapterIni',
 	);
 
 
@@ -35,11 +38,11 @@ class Config implements ArrayAccess, IteratorAggregate
 	public static function registerExtension($extension, $class)
 	{
 		if (!class_exists($class)) {
-			throw new InvalidArgumentException("Class '$class' was not found.");
+			throw new \InvalidArgumentException("Class '$class' was not found.");
 		}
 
-		if (!ClassReflection::from($class)->implementsInterface('IConfigAdapter')) {
-			throw new InvalidArgumentException("Configuration adapter '$class' is not IConfigAdapter implementor.");
+		if (!Nette\Reflection\ClassReflection::from($class)->implementsInterface('Nette\Config\IConfigAdapter')) {
+			throw new \InvalidArgumentException("Configuration adapter '$class' is not Nette\\Config\\IConfigAdapter implementor.");
 		}
 
 		self::$extensions[strtolower($extension)] = $class;
@@ -58,10 +61,10 @@ class Config implements ArrayAccess, IteratorAggregate
 		$extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 		if (isset(self::$extensions[$extension])) {
 			$arr = call_user_func(array(self::$extensions[$extension], 'load'), $file, $section);
-			return new self($arr);
+			return new static($arr);
 
 		} else {
-			throw new InvalidArgumentException("Unknown file extension '$file'.");
+			throw new \InvalidArgumentException("Unknown file extension '$file'.");
 		}
 	}
 
@@ -73,7 +76,7 @@ class Config implements ArrayAccess, IteratorAggregate
 	public function __construct($arr = NULL)
 	{
 		foreach ((array) $arr as $k => $v) {
-			$this->$k = is_array($v) ? new self($v) : $v;
+			$this->$k = is_array($v) ? new static($v) : $v;
 		}
 	}
 
@@ -92,7 +95,7 @@ class Config implements ArrayAccess, IteratorAggregate
 			return call_user_func(array(self::$extensions[$extension], 'save'), $this, $file, $section);
 
 		} else {
-			throw new InvalidArgumentException("Unknown file extension '$file'.");
+			throw new \InvalidArgumentException("Unknown file extension '$file'.");
 		}
 	}
 
@@ -105,7 +108,7 @@ class Config implements ArrayAccess, IteratorAggregate
 	public function __set($key, $value)
 	{
 		if (!is_scalar($key)) {
-			throw new InvalidArgumentException("Key must be either a string or an integer.");
+			throw new \InvalidArgumentException("Key must be either a string or an integer.");
 
 		} elseif ($value === NULL) {
 			unset($this->$key);
@@ -120,7 +123,7 @@ class Config implements ArrayAccess, IteratorAggregate
 	public function &__get($key)
 	{
 		if (!is_scalar($key)) {
-			throw new InvalidArgumentException("Key must be either a string or an integer.");
+			throw new \InvalidArgumentException("Key must be either a string or an integer.");
 		}
 		return $this->$key;
 	}
@@ -161,7 +164,7 @@ class Config implements ArrayAccess, IteratorAggregate
 	public function offsetGet($key)
 	{
 		if (!is_scalar($key)) {
-			throw new InvalidArgumentException("Key must be either a string or an integer.");
+			throw new \InvalidArgumentException("Key must be either a string or an integer.");
 
 		} elseif (!isset($this->$key)) {
 			return NULL;
@@ -179,7 +182,7 @@ class Config implements ArrayAccess, IteratorAggregate
 	public function offsetExists($key)
 	{
 		if (!is_scalar($key)) {
-			throw new InvalidArgumentException("Key must be either a string or an integer.");
+			throw new \InvalidArgumentException("Key must be either a string or an integer.");
 		}
 		return isset($this->$key);
 	}
@@ -194,7 +197,7 @@ class Config implements ArrayAccess, IteratorAggregate
 	public function offsetUnset($key)
 	{
 		if (!is_scalar($key)) {
-			throw new InvalidArgumentException("Key must be either a string or an integer.");
+			throw new \InvalidArgumentException("Key must be either a string or an integer.");
 		}
 		unset($this->$key);
 	}
@@ -203,11 +206,11 @@ class Config implements ArrayAccess, IteratorAggregate
 
 	/**
 	 * Returns an iterator over all items.
-	 * @return RecursiveIterator
+	 * @return \RecursiveIterator
 	 */
 	public function getIterator()
 	{
-		return new GenericRecursiveIterator(new ArrayIterator($this));
+		return new Nette\GenericRecursiveIterator(new \ArrayIterator($this));
 	}
 
 

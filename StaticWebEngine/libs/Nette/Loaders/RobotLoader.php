@@ -7,8 +7,13 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Loaders
  */
+
+namespace Nette\Loaders;
+
+use Nette,
+	Nette\String,
+	Nette\Caching\Cache;
 
 
 
@@ -40,7 +45,7 @@ class RobotLoader extends AutoLoader
 	/** @var bool */
 	private $rebuilt = FALSE;
 
-	/** @var ICacheStorage */
+	/** @var Nette\Caching\ICacheStorage */
 	private $cacheStorage;
 
 
@@ -50,7 +55,7 @@ class RobotLoader extends AutoLoader
 	public function __construct()
 	{
 		if (!extension_loaded('tokenizer')) {
-			throw new Exception("PHP extension Tokenizer is not loaded.");
+			throw new \Exception("PHP extension Tokenizer is not loaded.");
 		}
 	}
 
@@ -70,7 +75,7 @@ class RobotLoader extends AutoLoader
 			$this->rebuild();
 		}
 
-		if (isset($this->list[strtolower(__CLASS__)]) && class_exists('NetteLoader', FALSE)) {
+		if (isset($this->list[strtolower(__CLASS__)]) && class_exists('Nette\Loaders\NetteLoader', FALSE)) {
 			NetteLoader::getInstance()->unregister();
 		}
 
@@ -99,7 +104,7 @@ class RobotLoader extends AutoLoader
 				$this->list[$type] = FALSE;
 				if ($this->autoRebuild && $this->rebuilt) {
 					$this->getCache()->save($this->getKey(), $this->list, array(
-						Cache::CONSTS => 'Framework::REVISION',
+						Cache::CONSTS => 'Nette\Framework::REVISION',
 					));
 				}
 			}
@@ -124,7 +129,7 @@ class RobotLoader extends AutoLoader
 	public function rebuild()
 	{
 		$this->getCache()->save($this->getKey(), callback($this, '_rebuildCallback'), array(
-			Cache::CONSTS => 'Framework::REVISION',
+			Cache::CONSTS => 'Nette\Framework::REVISION',
 		));
 		$this->rebuilt = TRUE;
 	}
@@ -166,14 +171,14 @@ class RobotLoader extends AutoLoader
 	 * Add directory (or directories) to list.
 	 * @param  string|array
 	 * @return void
-	 * @throws DirectoryNotFoundException if path is not found
+	 * @throws \DirectoryNotFoundException if path is not found
 	 */
 	public function addDirectory($path)
 	{
 		foreach ((array) $path as $val) {
 			$real = realpath($val);
 			if ($real === FALSE) {
-				throw new DirectoryNotFoundException("Directory '$val' not found.");
+				throw new \DirectoryNotFoundException("Directory '$val' not found.");
 			}
 			$this->scanDirs[] = $real;
 		}
@@ -196,11 +201,8 @@ class RobotLoader extends AutoLoader
 				$this->scanScript($file2);
 				return $this->addClass($class, $file, $time);
 			}
-			$e = new InvalidStateException("Ambiguous class '$class' resolution; defined in $file and in " . $this->list[$lClass][0] . ".");
-			if (PHP_VERSION_ID < 50300) {
-				Debug::_exceptionHandler($e);
-				exit;
-			} else {
+			$e = new \InvalidStateException("Ambiguous class '$class' resolution; defined in $file and in " . $this->list[$lClass][0] . ".");
+			{
 				throw $e;
 			}
 		}
@@ -219,26 +221,26 @@ class RobotLoader extends AutoLoader
 	{
 		if (is_dir($dir)) {
 			$disallow = array();
-			$iterator = Finder::findFiles(String::split($this->acceptFiles, '#[,\s]+#'))
-				->filter(create_function('$file', 'extract(NClosureFix::$vars['.NClosureFix::uses(array('disallow'=>&$disallow)).'], EXTR_REFS);
+			$iterator = Nette\Finder::findFiles(String::split($this->acceptFiles, '#[,\s]+#'))
+				->filter(function($file) use (&$disallow){
 					return !isset($disallow[$file->getPathname()]);
-				'))
+				})
 				->from($dir)
 				->exclude(String::split($this->ignoreDirs, '#[,\s]+#'))
-				->filter($filter = create_function('$dir', 'extract(NClosureFix::$vars['.NClosureFix::uses(array('disallow'=>&$disallow)).'], EXTR_REFS);
+				->filter($filter = function($dir) use (&$disallow){
 					$path = $dir->getPathname();
 					if (is_file("$path/netterobots.txt")) {
 						foreach (file("$path/netterobots.txt") as $s) {
-							if ($matches = String::match($s, \'#^disallow\\\\s*:\\\\s*(\\\\S+)#i\')) {
-								$disallow[$path . str_replace(\'/\', DIRECTORY_SEPARATOR, rtrim(\'/\' . ltrim($matches[1], \'/\'), \'/\'))] = TRUE;
+							if ($matches = String::match($s, '#^disallow\\s*:\\s*(\\S+)#i')) {
+								$disallow[$path . str_replace('/', DIRECTORY_SEPARATOR, rtrim('/' . ltrim($matches[1], '/'), '/'))] = TRUE;
 							}
 						}
 					}
 					return !isset($disallow[$path]);
-				'));
-			$filter(new SplFileInfo($dir));
+				});
+			$filter(new \SplFileInfo($dir));
 		} else {
-			$iterator = new ArrayIterator(array(new SplFileInfo($dir)));
+			$iterator = new \ArrayIterator(array(new \SplFileInfo($dir)));
 		}
 
 		foreach ($iterator as $entry) {
@@ -338,10 +340,10 @@ class RobotLoader extends AutoLoader
 
 
 	/**
-	 * @param  Cache
+	 * @param  Nette\Caching\Cache
 	 * @return RobotLoader
 	 */
-	public function setCacheStorage(ICacheStorage $storage)
+	public function setCacheStorage(Nette\Caching\ICacheStorage $storage)
 	{
 		$this->cacheStorage = $storage;
 		return $this;
@@ -350,7 +352,7 @@ class RobotLoader extends AutoLoader
 
 
 	/**
-	 * @return Cache
+	 * @return Nette\Caching\Cache
 	 */
 	public function getCacheStorage()
 	{
@@ -360,13 +362,13 @@ class RobotLoader extends AutoLoader
 
 
 	/**
-	 * @return Cache
+	 * @return Nette\Caching\Cache
 	 */
 	protected function getCache()
 	{
 		if (!$this->cacheStorage) {
 			trigger_error('Missing cache storage.', E_USER_WARNING);
-			$this->cacheStorage = new DummyStorage;
+			$this->cacheStorage = new Nette\Caching\DummyStorage;
 		}
 		return new Cache($this->cacheStorage, 'Nette.RobotLoader');
 	}

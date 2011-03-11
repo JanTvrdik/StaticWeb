@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -18,7 +21,7 @@
  *
  * @author     David Grudl
  */
-class Link extends Object
+class Link extends Nette\Object
 {
 	/** @var PresenterComponent */
 	private $component;
@@ -102,8 +105,8 @@ class Link extends Object
 		try {
 			return $this->component->link($this->destination, $this->params);
 
-		} catch (Exception $e) {
-			Debug::toStringException($e);
+		} catch (\Exception $e) {
+			Nette\Debug::toStringException($e);
 		}
 	}
 

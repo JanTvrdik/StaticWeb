@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-final class Rules extends Object implements IteratorAggregate
+final class Rules extends Nette\Object implements \IteratorAggregate
 {
 	/** @internal */
 	const VALIDATE_PREFIX = 'validate';
@@ -196,11 +199,11 @@ final class Rules extends Object implements IteratorAggregate
 
 	/**
 	 * Iterates over ruleset.
-	 * @return ArrayIterator
+	 * @return \ArrayIterator
 	 */
 	final public function getIterator()
 	{
-		return new ArrayIterator($this->rules);
+		return new \ArrayIterator($this->rules);
 	}
 
 
@@ -229,7 +232,7 @@ final class Rules extends Object implements IteratorAggregate
 
 		if (!$this->getCallback($rule)->isCallable()) {
 			$operation = is_scalar($rule->operation) ? " '$rule->operation'" : '';
-			throw new InvalidArgumentException("Unknown operation$operation for control '{$rule->control->name}'.");
+			throw new \InvalidArgumentException("Unknown operation$operation for control '{$rule->control->name}'.");
 		}
 	}
 

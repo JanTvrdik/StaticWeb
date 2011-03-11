@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -37,33 +40,8 @@ final class Callback extends Object
 			$this->cb = array($t, $m);
 		}
 
-		// __invoke support
-		if (is_object($this->cb)) {
-			$this->cb = array($this->cb, '__invoke');
-
-		} elseif (PHP_VERSION_ID < 50202) {
-			// explode 'Class::method' into array
-			if (is_string($this->cb) && strpos($this->cb, ':')) {
-				$this->cb = explode('::', $this->cb);
-			}
-
-			// remove class namespace
-			if (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
-				$this->cb[0] = substr($this->cb[0], $a + 1);
-			}
-
-		} else {
-			// remove class namespace
-			if (is_string($this->cb) && $a = strrpos($this->cb, '\\')) {
-				$this->cb = substr($this->cb, $a + 1);
-
-			} elseif (is_array($this->cb) && is_string($this->cb[0]) && $a = strrpos($this->cb[0], '\\')) {
-				$this->cb[0] = substr($this->cb[0], $a + 1);
-			}
-		}
-
 		if (!is_callable($this->cb, TRUE)) {
-			throw new InvalidArgumentException("Invalid callback.");
+			throw new \InvalidArgumentException("Invalid callback.");
 		}
 	}
 
@@ -76,7 +54,7 @@ final class Callback extends Object
 	public function __invoke()
 	{
 		if (!is_callable($this->cb)) {
-			throw new InvalidStateException("Callback '$this' is not callable.");
+			throw new \InvalidStateException("Callback '$this' is not callable.");
 		}
 		$args = func_get_args();
 		return call_user_func_array($this->cb, $args);
@@ -91,7 +69,7 @@ final class Callback extends Object
 	public function invoke()
 	{
 		if (!is_callable($this->cb)) {
-			throw new InvalidStateException("Callback '$this' is not callable.");
+			throw new \InvalidStateException("Callback '$this' is not callable.");
 		}
 		$args = func_get_args();
 		return call_user_func_array($this->cb, $args);
@@ -107,7 +85,7 @@ final class Callback extends Object
 	public function invokeArgs(array $args)
 	{
 		if (!is_callable($this->cb)) {
-			throw new InvalidStateException("Callback '$this' is not callable.");
+			throw new \InvalidStateException("Callback '$this' is not callable.");
 		}
 		return call_user_func_array($this->cb, $args);
 	}

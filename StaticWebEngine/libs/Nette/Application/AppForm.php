@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -19,16 +22,16 @@
  *
  * @property-read Presenter $presenter
  */
-class AppForm extends Form implements ISignalReceiver
+class AppForm extends Nette\Forms\Form implements ISignalReceiver
 {
 
 	/**
 	 * Application form constructor.
 	 */
-	public function __construct(IComponentContainer $parent = NULL, $name = NULL)
+	public function __construct(Nette\IComponentContainer $parent = NULL, $name = NULL)
 	{
 		parent::__construct();
-		$this->monitor('Presenter');
+		$this->monitor('Nette\Application\Presenter');
 		if ($parent !== NULL) {
 			$parent->addComponent($this, $name);
 		}
@@ -43,7 +46,7 @@ class AppForm extends Form implements ISignalReceiver
 	 */
 	public function getPresenter($need = TRUE)
 	{
-		return $this->lookup('Presenter', $need);
+		return $this->lookup('Nette\Application\Presenter', $need);
 	}
 
 
@@ -57,7 +60,7 @@ class AppForm extends Form implements ISignalReceiver
 	protected function attached($presenter)
 	{
 		if ($presenter instanceof Presenter) {
-			$name = $this->lookupPath('Presenter');
+			$name = $this->lookupPath('Nette\Application\Presenter');
 
 			if (!isset($this->getElementPrototype()->id)) {
 				$this->getElementPrototype()->id = 'frm-' . $name;
@@ -110,7 +113,7 @@ class AppForm extends Form implements ISignalReceiver
 		}
 
 		if ($isPost) {
-			return ArrayTools::mergeTree($request->getPost(), $request->getFiles());
+			return Nette\ArrayTools::mergeTree($request->getPost(), $request->getFiles());
 		} else {
 			return $request->getParams();
 		}

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -23,7 +26,7 @@
  *
  * @property-read Presenter $presenter
  */
-abstract class PresenterComponent extends ComponentContainer implements ISignalReceiver, IStatePersistent, ArrayAccess
+abstract class PresenterComponent extends Nette\ComponentContainer implements ISignalReceiver, IStatePersistent, \ArrayAccess
 {
 	/** @var array */
 	protected $params = array();
@@ -32,9 +35,9 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 
 	/**
 	 */
-	public function __construct(IComponentContainer $parent = NULL, $name = NULL)
+	public function __construct(Nette\IComponentContainer $parent = NULL, $name = NULL)
 	{
-		$this->monitor('Presenter');
+		$this->monitor('Nette\Application\Presenter');
 		parent::__construct($parent, $name);
 	}
 
@@ -47,7 +50,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 */
 	public function getPresenter($need = TRUE)
 	{
-		return $this->lookup('Presenter', $need);
+		return $this->lookup('Nette\Application\Presenter', $need);
 	}
 
 
@@ -59,7 +62,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 */
 	public function getUniqueId()
 	{
-		return $this->lookupPath('Presenter', TRUE);
+		return $this->lookupPath('Nette\Application\Presenter', TRUE);
 	}
 
 
@@ -104,9 +107,9 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 * Access to reflection.
 	 * @return PresenterComponentReflection
 	 */
-	public function getReflection()
+	public static function getReflection()
 	{
-		return new PresenterComponentReflection($this);
+		return new PresenterComponentReflection(get_called_class());
 	}
 
 
@@ -165,7 +168,7 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 			}
 
 			if (is_object($val)) {
-				throw new InvalidStateException("Persistent parameter must be scalar or array, {$this->reflection->name}::\$$nm is " . gettype($val));
+				throw new \InvalidStateException("Persistent parameter must be scalar or array, {$this->reflection->name}::\$$nm is " . gettype($val));
 
 			} else {
 				if (isset($meta['def'])) {
@@ -222,9 +225,9 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	 */
 	public static function getPersistentParams()
 	{
-		$rc = new ClassReflection(func_get_arg(0));
+		$rc = new Nette\Reflection\ClassReflection(get_called_class());
 		$params = array();
-		foreach ($rc->getProperties(ReflectionProperty::IS_PUBLIC) as $rp) {
+		foreach ($rc->getProperties(\ReflectionProperty::IS_PUBLIC) as $rp) {
 			if (!$rp->isStatic() && $rp->hasAnnotation('persistent')) {
 				$params[] = $rp->getName();
 			}
@@ -359,14 +362,14 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 
 
 
-	/********************* interface ArrayAccess ****************d*g**/
+	/********************* interface \ArrayAccess ****************d*g**/
 
 
 
 	/**
 	 * Adds the component to the container.
 	 * @param  string  component name
-	 * @param  IComponent
+	 * @param  Nette\IComponent
 	 * @return void
 	 */
 	final public function offsetSet($name, $component)
@@ -379,8 +382,8 @@ abstract class PresenterComponent extends ComponentContainer implements ISignalR
 	/**
 	 * Returns component specified by name. Throws exception if component doesn't exist.
 	 * @param  string  component name
-	 * @return IComponent
-	 * @throws InvalidArgumentException
+	 * @return Nette\IComponent
+	 * @throws \InvalidArgumentException
 	 */
 	final public function offsetGet($name)
 	{

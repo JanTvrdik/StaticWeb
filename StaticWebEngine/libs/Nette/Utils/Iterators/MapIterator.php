@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class MapIterator extends IteratorIterator
+class MapIterator extends \IteratorIterator
 {
 	/** @var callback */
 	private $callback;
@@ -28,7 +31,7 @@ class MapIterator extends IteratorIterator
 	 * @param
 	 * @param  callback
 	 */
-	function __construct(Traversable $iterator, $callback)
+	function __construct(\Traversable $iterator, $callback)
 	{
 		parent::__construct($iterator);
 		$this->callback = $callback;

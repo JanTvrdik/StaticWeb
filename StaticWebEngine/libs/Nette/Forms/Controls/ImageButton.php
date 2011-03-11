@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Forms
  */
+
+namespace Nette\Forms;
+
+use Nette;
 
 
 
@@ -54,7 +57,7 @@ class ImageButton extends SubmitButton
 	{
 		$path = $this->getHtmlName(); // img_x or img['x']
 		$path = explode('[', strtr(str_replace(']', '', strpos($path, '[') === FALSE ? $path . '.x' : substr($path, 0, -2)), '.', '_'));
-		$this->setValue(ArrayTools::get($this->getForm()->getHttpData(), $path) !== NULL);
+		$this->setValue(Nette\ArrayTools::get($this->getForm()->getHttpData(), $path) !== NULL);
 	}
 
 }

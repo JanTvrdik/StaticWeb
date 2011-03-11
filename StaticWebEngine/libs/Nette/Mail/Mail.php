@@ -7,8 +7,12 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Mail
  */
+
+namespace Nette\Mail;
+
+use Nette,
+	Nette\String;
 
 
 
@@ -32,7 +36,7 @@ class Mail extends MailMimePart
 	/**#@-*/
 
 	/** @var IMailer */
-	public static $defaultMailer = 'SendmailMailer';
+	public static $defaultMailer = 'Nette\Mail\SendmailMailer';
 
 	/** @var array */
 	public static $defaultHeaders = array(
@@ -239,7 +243,7 @@ class Mail extends MailMimePart
 
 	/**
 	 * Sets HTML body.
-	 * @param  string|ITemplate
+	 * @param  string|Nette\Templates\ITemplate
 	 * @param  mixed base-path or FALSE to disable parsing
 	 * @return Mail  provides a fluent interface
 	 */
@@ -300,17 +304,15 @@ class Mail extends MailMimePart
 	{
 		$part = new MailMimePart;
 		if ($content === NULL) {
-			if (!is_file($file)) {
-				throw new FileNotFoundException("File '$file' not found.");
+			$content = file_get_contents($file);
+			if ($content === FALSE) {
+				throw new \FileNotFoundException("Unable to read file '$file'.");
 			}
-			if (!$contentType && $info = getimagesize($file)) {
-				$contentType = $info['mime'];
-			}
-			$part->setBody(file_get_contents($file));
 		} else {
-			$part->setBody((string) $content);
+			$content = (string) $content;
 		}
-		$part->setContentType($contentType ? $contentType : 'application/octet-stream');
+		$part->setBody($content);
+		$part->setContentType($contentType ? $contentType : Nette\Tools::detectMimeTypeFromString($content));
 		$part->setEncoding(preg_match('#(multipart|message)/#A', $contentType) ? self::ENCODING_8BIT : self::ENCODING_BASE64);
 		$part->setHeader('Content-Disposition', $disposition . '; filename="' . String::fixEncoding(basename($file)) . '"');
 		return $part;
@@ -353,7 +355,6 @@ class Mail extends MailMimePart
 	public function getMailer()
 	{
 		if ($this->mailer === NULL) {
-			if (is_string(self::$defaultMailer) && $a = strrpos(self::$defaultMailer, '\\')) self::$defaultMailer = substr(self::$defaultMailer, $a + 1); // fix namespace
 			$this->mailer = is_object(self::$defaultMailer) ? self::$defaultMailer : new self::$defaultMailer;
 		}
 		return $this->mailer;
@@ -431,9 +432,9 @@ class Mail extends MailMimePart
 	 */
 	protected function buildHtml()
 	{
-		if ($this->html instanceof ITemplate) {
+		if ($this->html instanceof Nette\Templates\ITemplate) {
 			$this->html->mail = $this;
-			if ($this->basePath === NULL && $this->html instanceof IFileTemplate) {
+			if ($this->basePath === NULL && $this->html instanceof Nette\Templates\IFileTemplate) {
 				$this->basePath = dirname($this->html->getFile());
 			}
 			$this->html = $this->html->__toString(TRUE);
@@ -463,7 +464,7 @@ class Mail extends MailMimePart
 	protected function buildText()
 	{
 		$text = $this->getBody();
-		if ($text instanceof ITemplate) {
+		if ($text instanceof Nette\Templates\ITemplate) {
 			$text->mail = $this;
 			$this->setBody($text->__toString(TRUE));
 

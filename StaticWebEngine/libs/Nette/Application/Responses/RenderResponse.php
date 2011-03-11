@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class RenderResponse extends Object implements IPresenterResponse
+class RenderResponse extends Nette\Object implements IPresenterResponse
 {
 	/** @var mixed */
 	private $source;
@@ -50,7 +53,7 @@ class RenderResponse extends Object implements IPresenterResponse
 	 */
 	public function send()
 	{
-		if ($this->source instanceof ITemplate) {
+		if ($this->source instanceof Nette\Templates\ITemplate) {
 			$this->source->render();
 
 		} else {

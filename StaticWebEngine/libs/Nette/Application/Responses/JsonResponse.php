@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class JsonResponse extends Object implements IPresenterResponse
+class JsonResponse extends Nette\Object implements IPresenterResponse
 {
 	/** @var array|stdClass */
 	private $payload;
@@ -33,8 +36,8 @@ class JsonResponse extends Object implements IPresenterResponse
 	 */
 	public function __construct($payload, $contentType = NULL)
 	{
-		if (!is_array($payload) && !$payload instanceof stdClass) {
-			throw new InvalidArgumentException("Payload must be array or anonymous class, " . gettype($payload) . " given.");
+		if (!is_array($payload) && !$payload instanceof \stdClass) {
+			throw new \InvalidArgumentException("Payload must be array or anonymous class, " . gettype($payload) . " given.");
 		}
 		$this->payload = $payload;
 		$this->contentType = $contentType ? $contentType : 'application/json';
@@ -69,9 +72,9 @@ class JsonResponse extends Object implements IPresenterResponse
 	 */
 	public function send()
 	{
-		Environment::getHttpResponse()->setContentType($this->contentType);
-		Environment::getHttpResponse()->setExpiration(FALSE);
-		echo Json::encode($this->payload);
+		Nette\Environment::getHttpResponse()->setContentType($this->contentType);
+		Nette\Environment::getHttpResponse()->setExpiration(FALSE);
+		echo Nette\Json::encode($this->payload);
 	}
 
 }

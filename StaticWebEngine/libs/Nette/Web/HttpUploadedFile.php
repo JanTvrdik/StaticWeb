@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Web
  */
+
+namespace Nette\Web;
+
+use Nette;
 
 
 
@@ -21,12 +24,12 @@
  * @property-read string $contentType
  * @property-read int $size
  * @property-read string $temporaryFile
- * @property-read Image $image
+ * @property-read Nette\Image $image
  * @property-read int $error
  * @property-read array $imageSize
  * @property-read bool $ok
  */
-class HttpUploadedFile extends Object
+class HttpUploadedFile extends Nette\Object
 {
 	/** @var string */
 	private $name;
@@ -79,7 +82,7 @@ class HttpUploadedFile extends Object
 	public function getContentType()
 	{
 		if ($this->isOk() && $this->type === NULL) {
-			$this->type = Tools::detectMimeType($this->tmpName);
+			$this->type = Nette\Tools::detectMimeType($this->tmpName);
 		}
 		return $this->type;
 	}
@@ -154,7 +157,7 @@ class HttpUploadedFile extends Object
 		}
 		$func = is_uploaded_file($this->tmpName) ? 'move_uploaded_file' : 'rename';
 		if (!$func($this->tmpName, $dest)) {
-			throw new InvalidStateException("Unable to move uploaded file '$this->tmpName' to '$dest'.");
+			throw new \InvalidStateException("Unable to move uploaded file '$this->tmpName' to '$dest'.");
 		}
 		chmod($dest, 0644);
 		$this->tmpName = $dest;
@@ -176,11 +179,11 @@ class HttpUploadedFile extends Object
 
 	/**
 	 * Returns the image.
-	 * @return Image
+	 * @return Nette\Image
 	 */
 	public function toImage()
 	{
-		return Image::fromFile($this->tmpName);
+		return Nette\Image::fromFile($this->tmpName);
 	}
 
 

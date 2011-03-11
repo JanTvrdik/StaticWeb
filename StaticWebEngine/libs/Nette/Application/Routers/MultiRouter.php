@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class MultiRouter extends ArrayList implements IRouter
+class MultiRouter extends Nette\ArrayList implements IRouter
 {
 	/** @var array */
 	private $cachedRoutes;
@@ -36,10 +39,10 @@ class MultiRouter extends ArrayList implements IRouter
 
 	/**
 	 * Maps HTTP request to a PresenterRequest object.
-	 * @param  IHttpRequest
+	 * @param  Nette\Web\IHttpRequest
 	 * @return PresenterRequest|NULL
 	 */
-	public function match(IHttpRequest $httpRequest)
+	public function match(Nette\Web\IHttpRequest $httpRequest)
 	{
 		foreach ($this as $route) {
 			$appRequest = $route->match($httpRequest);
@@ -56,10 +59,10 @@ class MultiRouter extends ArrayList implements IRouter
 	/**
 	 * Constructs absolute URL from PresenterRequest object.
 	 * @param  PresenterRequest
-	 * @param  Uri
+	 * @param  Nette\Web\Uri
 	 * @return string|NULL
 	 */
-	public function constructUrl(PresenterRequest $appRequest, Uri $refUri)
+	public function constructUrl(PresenterRequest $appRequest, Nette\Web\Uri $refUri)
 	{
 		if ($this->cachedRoutes === NULL) {
 			$routes = array();
@@ -120,7 +123,7 @@ class MultiRouter extends ArrayList implements IRouter
 	public function offsetSet($index, $route)
 	{
 		if (!$route instanceof IRouter) {
-			throw new InvalidArgumentException("Argument must be IRouter descendant.");
+			throw new \InvalidArgumentException("Argument must be IRouter descendant.");
 		}
 		parent::offsetSet($index, $route);
 	}

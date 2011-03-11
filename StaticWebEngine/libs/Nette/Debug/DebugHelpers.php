@@ -7,13 +7,17 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette,
+	Nette\Environment;
 
 
 
 /**
- * Rendering helpers for Debug.
+ * Rendering helpers for Nette\Debug.
  *
  * @author     David Grudl
  * @internal
@@ -23,16 +27,16 @@ final class DebugHelpers
 
 	/**
 	 * Renders blue screen.
-	 * @param  Exception
+	 * @param  \Exception
 	 * @return void
 	 */
-	public static function renderBlueScreen(Exception $exception)
+	public static function renderBlueScreen(\Exception $exception)
 	{
-		if (class_exists('Environment', FALSE)) {
+		if (class_exists('Nette\Environment', FALSE)) {
 			$application = Environment::getContext()->hasService('Nette\\Application\\Application', TRUE) ? Environment::getContext()->getService('Nette\\Application\\Application') : NULL;
 		}
 
-		require dirname(__FILE__) . '/templates/bluescreen.phtml';
+		require __DIR__ . '/templates/bluescreen.phtml';
 	}
 
 
@@ -51,7 +55,7 @@ final class DebugHelpers
 				'panel' => $tab ? (string) $panel->getPanel() : NULL,
 			);
 		}
-		require dirname(__FILE__) . '/templates/bar.phtml';
+		require __DIR__ . '/templates/bar.phtml';
 	}
 
 
@@ -66,18 +70,18 @@ final class DebugHelpers
 	{
 		switch ($id) {
 		case 'time':
-			require dirname(__FILE__) . '/templates/bar.time.tab.phtml';
+			require __DIR__ . '/templates/bar.time.tab.phtml';
 			return;
 		case 'memory':
-			require dirname(__FILE__) . '/templates/bar.memory.tab.phtml';
+			require __DIR__ . '/templates/bar.memory.tab.phtml';
 			return;
 		case 'dumps':
 			if (!$data) return;
-			require dirname(__FILE__) . '/templates/bar.dumps.tab.phtml';
+			require __DIR__ . '/templates/bar.dumps.tab.phtml';
 			return;
 		case 'errors':
 			if (!$data) return;
-			require dirname(__FILE__) . '/templates/bar.errors.tab.phtml';
+			require __DIR__ . '/templates/bar.errors.tab.phtml';
 		}
 	}
 
@@ -93,10 +97,10 @@ final class DebugHelpers
 	{
 		switch ($id) {
 		case 'dumps':
-			require dirname(__FILE__) . '/templates/bar.dumps.panel.phtml';
+			require __DIR__ . '/templates/bar.dumps.panel.phtml';
 			return;
 		case 'errors':
-			require dirname(__FILE__) . '/templates/bar.errors.panel.phtml';
+			require __DIR__ . '/templates/bar.errors.panel.phtml';
 		}
 	}
 
@@ -369,9 +373,9 @@ final class DebugHelpers
 	{
 		return '<pre class="nette-dump">' . preg_replace_callback(
 			'#^( *)((?>[^(]{1,200}))\((\d+)\) <code>#m',
-			create_function('$m', '
-				return "$m[1]<a href=\'#\' rel=\'next\'>$m[2]($m[3]) " . (trim($m[1]) || $m[3] < 7 ? \'<abbr>&#x25bc;</abbr> </a><code>\' : \'<abbr>&#x25ba;</abbr> </a><code class="nette-collapsed">\');
-			'),
+			function ($m) {
+				return "$m[1]<a href='#' rel='next'>$m[2]($m[3]) " . (trim($m[1]) || $m[3] < 7 ? '<abbr>&#x25bc;</abbr> </a><code>' : '<abbr>&#x25ba;</abbr> </a><code class="nette-collapsed">');
+			},
 			self::htmlDump($dump)
 		) . '</pre>';
 	}

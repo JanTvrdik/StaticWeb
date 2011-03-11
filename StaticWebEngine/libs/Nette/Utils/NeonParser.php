@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -214,7 +217,7 @@ class NeonParser extends Object
 	private function error($message = "Unexpected '%s'")
 	{
 		list(, $line, $col) = self::$tokenizer->getOffset($this->n);
-		$token = str_replace("\n", '\n', String::truncate(self::$tokenizer->tokens[$this->n], 40));
+		$token = str_replace("\n", '\n', Nette\String::truncate(self::$tokenizer->tokens[$this->n], 40));
 		throw new NeonException(str_replace('%s', $token, $message) . "' on line " . ($line - 1) . ", column $col.");
 	}
 

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Drivers
  */
+
+namespace Nette\Database\Drivers;
+
+use Nette;
 
 
 
@@ -17,9 +20,9 @@
  *
  * @author     David Grudl
  */
-class PdoMySqlDriver extends Object implements ISupplementalDriver
+class PdoMySqlDriver extends Nette\Object implements Nette\Database\ISupplementalDriver
 {
-	/** @var Connection */
+	/** @var Nette\Database\Connection */
 	private $connection;
 
 
@@ -29,7 +32,7 @@ class PdoMySqlDriver extends Object implements ISupplementalDriver
 	 *   - charset => character encoding to set (default is utf8)
 	 *   - sqlmode => see http://dev.mysql.com/doc/refman/5.0/en/server-sql-mode.html
 	 */
-	public function __construct(Connection $connection, array $options)
+	public function __construct(Nette\Database\Connection $connection, array $options)
 	{
 		$this->connection = $connection;
 		$charset = isset($options['charset']) ? $options['charset'] : 'utf8';
@@ -62,7 +65,7 @@ class PdoMySqlDriver extends Object implements ISupplementalDriver
 	/**
 	 * Formats date-time for use in a SQL statement.
 	 */
-	public function formatDateTime(DateTime $value)
+	public function formatDateTime(\DateTime $value)
 	{
 		return $value->format("'Y-m-d H:i:s'");
 	}

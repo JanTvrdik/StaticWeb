@@ -14,23 +14,23 @@
 
 
 /**
- * Callback factory.
+ * Nette\Callback factory.
  * @param  mixed   class, object, function, callback
  * @param  string  method
- * @return Callback
+ * @return Nette\Callback
  */
 function callback($callback, $m = NULL)
 {
-	return ($m === NULL && $callback instanceof Callback) ? $callback : new Callback($callback, $m);
+	return ($m === NULL && $callback instanceof Nette\Callback) ? $callback : new Nette\Callback($callback, $m);
 }
 
 
 
 /**
- * Debug::dump shortcut.
+ * Nette\Debug::dump shortcut.
  */
 function dump($var)
 {
-	foreach (func_get_args() as $arg) Debug::dump($arg);
+	foreach (func_get_args() as $arg) Nette\Debug::dump($arg);
 	return $var;
 }

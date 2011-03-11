@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -25,7 +28,7 @@ final class String
 	 */
 	final public function __construct()
 	{
-		throw new LogicException("Cannot instantiate static class " . get_class($this));
+		throw new \LogicException("Cannot instantiate static class " . get_class($this));
 	}
 
 
@@ -325,9 +328,9 @@ final class String
 	 */
 	public static function random($length = 10, $charlist = '0-9a-z')
 	{
-		$charlist = str_shuffle(preg_replace_callback('#.-.#', create_function('$m', '
-			return implode(\'\', range($m[0][0], $m[0][2]));
-		'), $charlist));
+		$charlist = str_shuffle(preg_replace_callback('#.-.#', function($m) {
+			return implode('', range($m[0][0], $m[0][2]));
+		}, $charlist));
 		$chLen = strlen($charlist);
 
 		$s = '';
@@ -417,7 +420,7 @@ final class String
 			}
 			if (!is_callable($replacement, FALSE, $textual)) {
 				Debug::catchError($foo);
-				throw new InvalidStateException("Callback '$textual' is not callable.");
+				throw new \InvalidStateException("Callback '$textual' is not callable.");
 			}
 			$res = preg_replace_callback($pattern, $replacement, $subject, $limit);
 

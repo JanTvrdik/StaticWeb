@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette
  */
+
+namespace Nette;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class InstanceFilterIterator extends FilterIterator implements Countable
+class InstanceFilterIterator extends \FilterIterator implements \Countable
 {
 	/** @var string */
 	private $type;
@@ -28,7 +31,7 @@ class InstanceFilterIterator extends FilterIterator implements Countable
 	 * @param  Iterator
 	 * @param  string  class/interface name
 	 */
-	public function __construct(Iterator $iterator, $type)
+	public function __construct(\Iterator $iterator, $type)
 	{
 		$this->type = $type;
 		parent::__construct($iterator);

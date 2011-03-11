@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -52,7 +55,7 @@ class PresenterLoader implements IPresenterLoader
 			return $class;
 		}
 
-		if (!is_string($name) || !String::match($name, "#^[a-zA-Z\x7f-\xff][a-zA-Z0-9\x7f-\xff:]*$#")) {
+		if (!is_string($name) || !Nette\String::match($name, "#^[a-zA-Z\x7f-\xff][a-zA-Z0-9\x7f-\xff:]*$#")) {
 			throw new InvalidPresenterException("Presenter name must be alphanumeric string, '$name' is invalid.");
 		}
 
@@ -62,7 +65,7 @@ class PresenterLoader implements IPresenterLoader
 			// internal autoloading
 			$file = $this->formatPresenterFile($name);
 			if (is_file($file) && is_readable($file)) {
-				LimitedScope::load($file);
+				Nette\Loaders\LimitedScope::load($file);
 			}
 
 			if (!class_exists($class)) {
@@ -70,11 +73,11 @@ class PresenterLoader implements IPresenterLoader
 			}
 		}
 
-		$reflection = new ClassReflection($class);
+		$reflection = new Nette\Reflection\ClassReflection($class);
 		$class = $reflection->getName();
 
-		if (!$reflection->implementsInterface('IPresenter')) {
-			throw new InvalidPresenterException("Cannot load presenter '$name', class '$class' is not IPresenter implementor.");
+		if (!$reflection->implementsInterface('Nette\Application\IPresenter')) {
+			throw new InvalidPresenterException("Cannot load presenter '$name', class '$class' is not Nette\\Application\\IPresenter implementor.");
 		}
 
 		if ($reflection->isAbstract()) {
@@ -106,7 +109,6 @@ class PresenterLoader implements IPresenterLoader
 	 */
 	public function formatPresenterClass($presenter)
 	{
-		return strtr($presenter, ':', '_') . 'Presenter';
 		return str_replace(':', 'Module\\', $presenter) . 'Presenter';
 	}
 
@@ -119,7 +121,6 @@ class PresenterLoader implements IPresenterLoader
 	 */
 	public function unformatPresenterClass($class)
 	{
-		return strtr(substr($class, 0, -9), '_', ':');
 		return str_replace('Module\\', ':', substr($class, 0, -9));
 	}
 

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Caching
  */
+
+namespace Nette\Caching;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class Cache extends Object implements ArrayAccess
+class Cache extends Nette\Object implements \ArrayAccess
 {
 	/**#@+ dependency */
 	const PRIORITY = 'priority';
@@ -118,7 +121,7 @@ class Cache extends Object implements ArrayAccess
 	 * @param  mixed  value
 	 * @param  array  dependencies
 	 * @return mixed  value itself
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function save($key, $data, array $dp = NULL)
 	{
@@ -127,7 +130,7 @@ class Cache extends Object implements ArrayAccess
 
 		// convert expire into relative amount of seconds
 		if (isset($dp[Cache::EXPIRATION])) {
-			$dp[Cache::EXPIRATION] = Tools::createDateTime($dp[Cache::EXPIRATION])->format('U') - time();
+			$dp[Cache::EXPIRATION] = Nette\Tools::createDateTime($dp[Cache::EXPIRATION])->format('U') - time();
 		}
 
 		// convert FILES into CALLBACKS
@@ -155,15 +158,15 @@ class Cache extends Object implements ArrayAccess
 			unset($dp[self::CONSTS]);
 		}
 
-		if ($data instanceof Callback || $data instanceof Closure) {
-			Tools::enterCriticalSection();
+		if ($data instanceof Nette\Callback || $data instanceof \Closure) {
+			Nette\Tools::enterCriticalSection();
 			$data = $data->__invoke();
-			Tools::leaveCriticalSection();
+			Nette\Tools::leaveCriticalSection();
 		}
 
 		if (is_object($data)) {
 			$dp[self::CALLBACKS][] = array(array(__CLASS__, 'checkSerializationVersion'), get_class($data),
-				ClassReflection::from($data)->getAnnotation('serializationVersion'));
+				Nette\Reflection\ClassReflection::from($data)->getAnnotation('serializationVersion'));
 		}
 
 		$this->data = $data;
@@ -218,11 +221,11 @@ class Cache extends Object implements ArrayAccess
 
 
 	/**
-	 * Inserts (replaces) item into the cache (ArrayAccess implementation).
+	 * Inserts (replaces) item into the cache (\ArrayAccess implementation).
 	 * @param  mixed key
 	 * @param  mixed
 	 * @return void
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function offsetSet($key, $data)
 	{
@@ -232,10 +235,10 @@ class Cache extends Object implements ArrayAccess
 
 
 	/**
-	 * Retrieves the specified item from the cache or NULL if the key is not found (ArrayAccess implementation).
+	 * Retrieves the specified item from the cache or NULL if the key is not found (\ArrayAccess implementation).
 	 * @param  mixed key
 	 * @return mixed|NULL
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function offsetGet($key)
 	{
@@ -251,10 +254,10 @@ class Cache extends Object implements ArrayAccess
 
 
 	/**
-	 * Exists item in cache? (ArrayAccess implementation).
+	 * Exists item in cache? (\ArrayAccess implementation).
 	 * @param  mixed key
 	 * @return bool
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function offsetExists($key)
 	{
@@ -267,7 +270,7 @@ class Cache extends Object implements ArrayAccess
 	 * Removes the specified item from the cache.
 	 * @param  mixed key
 	 * @return void
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function offsetUnset($key)
 	{
@@ -332,7 +335,7 @@ class Cache extends Object implements ArrayAccess
 	 */
 	private static function checkSerializationVersion($class, $value)
 	{
-		return ClassReflection::from($class)->getAnnotation('serializationVersion') === $value;
+		return Nette\Reflection\ClassReflection::from($class)->getAnnotation('serializationVersion') === $value;
 	}
 
 }

@@ -7,8 +7,11 @@
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
- * @package Nette\Application
  */
+
+namespace Nette\Application;
+
+use Nette;
 
 
 
@@ -17,7 +20,7 @@
  *
  * @author     David Grudl
  */
-class DownloadResponse extends Object implements IPresenterResponse
+class DownloadResponse extends Nette\Object implements IPresenterResponse
 {
 	/** @var string */
 	private $file;
@@ -87,8 +90,8 @@ class DownloadResponse extends Object implements IPresenterResponse
 	 */
 	public function send()
 	{
-		Environment::getHttpResponse()->setContentType($this->contentType);
-		Environment::getHttpResponse()->setHeader('Content-Disposition', 'attachment; filename="' . $this->name . '"');
+		Nette\Environment::getHttpResponse()->setContentType($this->contentType);
+		Nette\Environment::getHttpResponse()->setHeader('Content-Disposition', 'attachment; filename="' . $this->name . '"');
 		readfile($this->file);
 	}
 
