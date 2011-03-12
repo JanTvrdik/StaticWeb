@@ -32,6 +32,9 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	/** @var     string            page (without leading and trailing slash, for example: "about" or "books/linux") */
 	protected $page;
 
+	/** @var     string|NULL       language code */
+	protected $lang;
+
 	/** @var     PresenterRequest */
 	private $request;
 
@@ -65,6 +68,19 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	final public function getPage()
 	{
 		return $this->page;
+	}
+
+
+
+	/**
+	 * Returns language code of current page or NULL if language is unknown.
+	 *
+	 * @author   Jan Tvrdík
+	 * @return   string
+	 */
+	final public function getLanguage()
+	{
+		return $this->lang;
 	}
 
 
@@ -104,7 +120,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 		}
 
 		return $this->getApplication()->getRouter()->constructUrl(
-			new PresenterRequest('StaticPage', 'get', array('page' => $page)),
+			new PresenterRequest('StaticPage', 'get', array('page' => $page, 'lang' => $this->lang)),
 			$this->getHttpRequest()->getUri()
 		);
 	}
@@ -285,7 +301,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 */
 	protected function getTemplatePath()
 	{
-		return $this->getTemplateLocator()->getTemplatePath($this->page);
+		return $this->getTemplateLocator()->getTemplatePath($this->page, $this->lang);
 	}
 
 
@@ -298,7 +314,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 */
 	protected function getLayoutPath()
 	{
-		return $this->getTemplateLocator()->getLayoutPath($this->page);
+		return $this->getTemplateLocator()->getLayoutPath($this->page, $this->lang);
 	}
 
 

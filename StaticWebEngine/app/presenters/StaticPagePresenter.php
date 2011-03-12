@@ -45,6 +45,7 @@ final class StaticPagePresenter extends BaseStaticPresenter
 		if (!Nette\String::match($this->page, self::PAGE_REGEXP)) {
 			throw new BadRequestException('Parameter \'page\' contains illegal characters.');
 		}
+		if (isset($params['lang'])) $this->lang = $params['lang'];
 		$this->sendTemplate();
 	}
 }
