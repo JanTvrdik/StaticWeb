@@ -11,8 +11,6 @@ namespace StaticWeb;
 
 use Nette;
 use Nette\Debug;
-use Nette\Environment as Env;
-use Nette\Templates\LatteException;
 
 
 

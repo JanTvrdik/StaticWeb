@@ -246,7 +246,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 *
 	 * @author   Jan Tvrdík, David Grudl
 	 * @param    string            template file path
-	 * @return   FileTemplate
+	 * @return   Nette\Templates\FileTemplate
 	 */
 	protected function createTemplate($path = NULL)
 	{
