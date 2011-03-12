@@ -256,6 +256,8 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 		$template->baseUri = rtrim(Env::getVariable('baseUri', NULL), '/');
 		$template->basePath = preg_replace('#https?://[^/]+#A', '', $template->baseUri);
 		$template->presenter = $this;
+		$template->page = $this->page;
+		$template->lang = $this->lang;
 
 		// default filters
 		$template->onPrepareFilters[] = function($template) {
