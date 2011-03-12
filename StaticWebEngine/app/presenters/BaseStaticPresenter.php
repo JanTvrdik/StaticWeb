@@ -119,7 +119,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 			}
 		}
 
-		return $this->getApplication()->getRouter()->constructUrl(
+		return $this->getRouter()->constructUrl(
 			new PresenterRequest('StaticPage', 'get', array('page' => $page, 'lang' => $this->lang)),
 			$this->getHttpRequest()->getUri()
 		);
@@ -370,6 +370,19 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	protected function getApplication()
 	{
 		return $this->context->getService('Nette\\Application\\Application');
+	}
+
+
+
+	/**
+	 * Returns application router.
+	 *
+	 * @author   Jan Tvrdík
+	 * @return   Nette\Application\IRouter
+	 */
+	protected function getRouter()
+	{
+		return $this->context->getService('Nette\\Application\\IRouter');
 	}
 
 
