@@ -32,7 +32,7 @@ class LatteMacros extends Nette\Templates\LatteMacros
 	 */
 	public function macroPageLink($page)
 	{
-		return '$presenter->link(' . $this->formatString($page) . ')';
+		return '$presenter->generateLink(' . $this->formatString($page) . ')';
 	}
 
 }

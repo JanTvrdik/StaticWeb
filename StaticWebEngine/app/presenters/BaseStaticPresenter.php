@@ -95,7 +95,7 @@ abstract class BaseStaticPresenter extends Nette\Object implements Nette\Applica
 	 * @param    string
 	 * @return   string
 	 */
-	public function link($page)
+	public function generateLink($page)
 	{
 		if ($page[0] === '/') {
 			$page = substr($page, 1);
